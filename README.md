@@ -14,9 +14,14 @@ pnpm dev
 ```
 
 ## Python backend
+Install dependency
+```bash
+# set chinese PyPI source (unnecessary)
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
+# install
+pip install -r requirements.txt
+```
 ### run
 ```bash
 python app.py
 ```
-
-
