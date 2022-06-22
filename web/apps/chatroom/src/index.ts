@@ -13,7 +13,7 @@ socket.binaryType = 'arraybuffer'
 
 const sendButton = document.getElementById('btn') as HTMLElement
 
-const uploadClipElement = document.getElementById('sendFile') as HTMLInputElement;
+const uploadElement = document.getElementById('sendFile') as HTMLInputElement;
 const downloadElement = document.getElementById("download-file") as HTMLInputElement;
 
 const context = document.getElementById('context') as any;
@@ -70,12 +70,12 @@ function start() {
 }
 
 
-uploadClipElement.onchange = async () => {
-    const dataResList: any = await read_data(uploadClipElement.files!);
+uploadElement.onchange = async () => {
+    const dataResList: any = await read_data(uploadElement.files!);
     // TODO
     const dataRes = dataResList[0];
     if (dataRes['dtype'].startsWith("image")) {
-        const imgInfoList = await read_imgs(uploadClipElement.files!);
+        const imgInfoList = await read_imgs(uploadElement.files!);
         const imgInfo: any = imgInfoList[0];
         imageWidth = imgInfo['width'];
         imageHeight = imgInfo['height'];
@@ -127,17 +127,26 @@ socket.onmessage = async (event: MessageEvent) => {
 
 
     if (new_message.buffer.length !== 0) {
-        const url = arraybuffer2base64(new_message.buffer);
-        let image = new Image();
-        image.src = 'data:image/png;base64,' + url;
-        const imgInfo = new_message.imgInfo
-        if (imgInfo.width / imgInfo.height > 1) {
-            image.width = 300;
-        } else {
-            image.height = 300;
+        if (new_message.dtype.startsWith("image")) {
+            const url = arraybuffer2base64(new_message.buffer);
+            let image = new Image();
+            image.src = 'data:image/png;base64,' + url;
+            const imgInfo = new_message.imgInfo
+            if (imgInfo.width / imgInfo.height > 1) {
+                image.width = 300;
+            } else {
+                image.height = 300;
+            }
+            message_content = document.createElement('span');
+            message_content.appendChild(image);
         }
-        message_content = document.createElement('span');
-        message_content.appendChild(image);
+        if (new_message.dtype.startsWith("video")) {
+            const blob = new Blob([new_message.buffer])
+            message_content = document.createElement('video');
+            message_content.src = URL.createObjectURL(blob);
+            message_content.setAttribute('type', new_message.dtype);
+            message_content.setAttribute('controls', 'true');
+        }
 
     }
     message.appendChild(message_content);
@@ -235,13 +244,15 @@ async function chunkedUpload(file: File, chunkSize: number, url: string) {
     }
 }
 
-downloadElement.onclick = ()=>{
-    download(new_message.name, new_message.buffer, new_message.dtype);
-}
 // const file = new File(['a'.repeat(1000000)], 'test.txt')
 // const chunkSize = 40000
 // const url = 'https://httpbin.org/post'
 // chunkedUpload(file, chunkSize, url)
+
+downloadElement.onclick = ()=>{
+    download(new_message.name, new_message.buffer, new_message.dtype);
+}
+
 
 /**
  *
