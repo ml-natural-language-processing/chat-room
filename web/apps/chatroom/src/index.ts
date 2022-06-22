@@ -11,9 +11,10 @@ if (1) {
 let socket = new WebSocket(websocket_dir);
 socket.binaryType = 'arraybuffer'
 
-const btn = document.getElementById('btn') as HTMLElement
+const sendButton = document.getElementById('btn') as HTMLElement
 
 const uploadClipElement = document.getElementById('sendFile') as HTMLInputElement;
+const downloadElement = document.getElementById("download-file") as HTMLInputElement;
 
 const context = document.getElementById('context') as any;
 const contextUserName = document.getElementById('uName') as any;
@@ -21,6 +22,8 @@ let ChatProto: any;
 let hello_buffer: any;
 let imageWidth: number = 0;
 let imageHeight: number = 0;
+let new_message: any;
+
 
 start()
 
@@ -98,7 +101,7 @@ uploadClipElement.onchange = async () => {
 
 }
 
-btn.onclick = function () {
+sendButton.onclick = function () {
     const new_message = ChatProto.decode(hello_buffer);
     new_message.msg = context.value;
     new_message.name = contextUserName.value;
@@ -111,7 +114,7 @@ socket.onmessage = async (event: MessageEvent) => {
     let chatRoom = document.getElementById('chatRoom')
     let message = document.createElement('li');
     let arraybuffer = new Uint8Array(event.data);
-    const new_message = ChatProto.decode(arraybuffer);
+    new_message = ChatProto.decode(arraybuffer);
 
     let message_content: any;
     // console.log("接收到从python发来的数据：\n", new_message);
@@ -232,7 +235,36 @@ async function chunkedUpload(file: File, chunkSize: number, url: string) {
     }
 }
 
+downloadElement.onclick = ()=>{
+    download(new_message.name, new_message.buffer, new_message.dtype);
+}
 // const file = new File(['a'.repeat(1000000)], 'test.txt')
 // const chunkSize = 40000
 // const url = 'https://httpbin.org/post'
 // chunkedUpload(file, chunkSize, url)
+
+/**
+ *
+ * @param filename
+ * @param data object data
+ * @param type string
+ */
+function download(filename: string, data: any, type: string) {
+    const blob = new Blob([data], {type});
+    const objUrl = URL.createObjectURL(blob);
+    const element = document.createElement('a');
+    element.setAttribute('href', objUrl);
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+function saveArrayBuffer(buffer: any, filename: string) {
+    download(filename, buffer, 'application/octet-stream');
+}
+
+function saveString(text: string, filename: string) {
+    download(filename, text, 'text/plain');
+}
