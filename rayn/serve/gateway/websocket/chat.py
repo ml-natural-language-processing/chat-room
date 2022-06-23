@@ -1,4 +1,4 @@
-from ....proto.python import trainstatus_pb2, trainstatus_pb2_grpc
+# from ....proto.python import trainstatus_pb2, trainstatus_pb2_grpc
 from ....proto.python.sparray_pb2 import ChatProto
 from .manager import ConnectionManager
 from pydantic import BaseModel
