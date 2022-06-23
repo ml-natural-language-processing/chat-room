@@ -4,17 +4,16 @@ import axios from "axios";
 
 let websocket_dir: string;
 if (1) {
-    websocket_dir = "ws://0.0.0.0:8080/ws_chat"
+    websocket_dir = "0.0.0.0:8080"
 } else {
-    websocket_dir = "ws://192.168.61.230:51221/ws_chat"
+    websocket_dir = "192.168.61.230:51221"
 }
-let socket = new WebSocket(websocket_dir);
+let socket = new WebSocket(`ws://${websocket_dir}/ws_chat`);
 socket.binaryType = 'arraybuffer'
 
 const sendButton = document.getElementById('btn') as HTMLElement
 
 const uploadElement = document.getElementById('sendFile') as HTMLInputElement;
-const downloadElement = document.getElementById("download-file") as HTMLInputElement;
 
 const context = document.getElementById('context') as any;
 const contextUserName = document.getElementById('uName') as any;
@@ -35,7 +34,7 @@ $.when($.ready).then(() => {
             const data = {"username": currentUser};
             axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
             try {
-                axios.post("http://0.0.0.0:8080/api/register", data,);
+                axios.post(`${websocket_dir}/api/register`, data,);
             } catch (error) {
                 console.error(error);
             }
@@ -49,8 +48,8 @@ function start() {
     protobuf.load('./proto/sparray.proto').then((root: any) => {
             ChatProto = root.lookupType("sparray.ChatProto");
             let payload = {
-                "name": "k.y",
-                "msg": "Hello, Welcome to my chat room "
+                "name": "master",
+                "msg": "Hello, Welcome to chat room "
             };
             const errMsg = ChatProto.verify(payload);
             if (errMsg) {
@@ -121,12 +120,27 @@ socket.onmessage = async (event: MessageEvent) => {
     // chatRoom!.innerHTML += `<div>${new_message.name}: ${new_message.msg} </div>`;
     if (true) {
         message_content = document.createElement('span');
-        message_content.appendChild(document.createTextNode(`${new_message.name}: ${new_message.msg}`));
+        const name_text_node = document.createTextNode(new_message.name + ": ");
+        const msg_text_node = document.createTextNode(new_message.msg);
+
+        message_content.appendChild(name_text_node);
+        message_content.appendChild(msg_text_node);
         message_content.setAttribute('class', 'comment');
     }
 
 
     if (new_message.buffer.length !== 0) {
+
+        function addDownloadButton(message_content: any, new_message: any) {
+            let downloadButton = document.createElement("button") as HTMLInputElement;
+            const textNode = document.createTextNode("Download");
+            downloadButton.appendChild(textNode);
+            message_content.appendChild(downloadButton);
+            downloadButton.onclick = () => {
+                download(new_message.name, new_message.buffer, new_message.dtype);
+            }
+        }
+
         if (new_message.dtype.startsWith("image")) {
             const url = arraybuffer2base64(new_message.buffer);
             let image = new Image();
@@ -148,10 +162,13 @@ socket.onmessage = async (event: MessageEvent) => {
             message_content.setAttribute('controls', 'true');
         }
 
+        addDownloadButton(message_content, new_message)
+
     }
     message.appendChild(message_content);
     chatRoom!.appendChild(message);
     chatRoom!.scrollTop = chatRoom!.scrollHeight;
+
 };
 
 socket.onclose = function (event: CloseEvent) {
@@ -249,9 +266,7 @@ async function chunkedUpload(file: File, chunkSize: number, url: string) {
 // const url = 'https://httpbin.org/post'
 // chunkedUpload(file, chunkSize, url)
 
-downloadElement.onclick = ()=>{
-    download(new_message.name, new_message.buffer, new_message.dtype);
-}
+
 
 
 /**
