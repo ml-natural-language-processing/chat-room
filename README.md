@@ -25,3 +25,10 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
+
+### Build grpc on MacOs based on M1
+```bash
+export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
+export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1
+pip install grpcio
+```

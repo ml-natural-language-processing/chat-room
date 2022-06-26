@@ -3,26 +3,13 @@
 <meta charset="utf-8">
 <head>
     <title>Chat</title>
-    <!-- Latest compiled and minified CSS -->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--    &lt;!&ndash; jQuery library &ndash;&gt;-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<!--    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
-<!--    <script type="text/javascript"-->
-<!--            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
-<!--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>-->
-<!--    <link rel="stylesheet"-->
-<!--          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>-->
-<!--    <script>-->
-<!--        hljs.initHighlightingOnLoad();-->
 
-<!--        $(document).ready(function () {-->
-<!--            MathJax.Hub.Queue(function () {-->
-<!--                $('#equation').css('visibility', 'visible')-->
-<!--            })-->
-<!--        });-->
-<!--    </script>-->
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script> <!-- https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js -->
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+<!-- <link rel="stylesheet" href="js/default.min.css">-->
+
+
     <style>
         .card {
             position: absolute;
@@ -51,78 +38,68 @@
             margin-left: 2px;
             width: 100%;
         }
+
+        #pwd-form {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #pwd-form input {
+            /*float: bottom;*/
+            width: 400px;
+            padding-right: 30%;
+        }
+        #pwd-form button {
+            position: absolute;
+            left: 75%;
+            margin-left: 2px;
+            width: 100%;
+        }
     </style>
 
 </head>
 
 <body>
-<h1 style="text-align: center;">聊天室 v0.1 </h1>
 
-<!-- <div class="chat-body card">
-  <div class="card-body">
-    <h1 class="card-title text-center"> Chat App </h1>
-    <hr>
-    <form class="form-inline" id="user-form">
-      <div class="row">
-        <div class="col-8">
-          <input type="text" class="form-control" id="user_input" placeholder="Enter your name">
+<!--<div>-->
+<!--    <input type="text" class="form-control" id="user_input" placeholder="Enter your name">-->
+<!--</div>-->
+
+<div class="chat-body card">
+    <div class="card-body">
+        <h1 class="card-title text-center"> Chat Room v0.1.1 </h1>
+        <hr>
+        <form class="form-inline" id="user-form">
+            <div class="row">
+                <div class="col-8">
+                    <input type="text" class="form-control" id="user_input" placeholder="Enter your name">
+                </div>
+                <div class="col-4">
+                    <button id="verify" type="submit" class="btn btn-primary">Check login</button>
+                </div>
+            </div>
+        </form>
+
+        <div>
+            <form class="form-inline" id="pwd-form">
+                <div class="row">
+                    <div class="col-8">
+                        <input type="text" class="form-control" id="pwd_input" placeholder="Enter your password">
+                    </div>
+                    <div class="col-4">
+                        <button id="start" type="submit" class="btn btn-primary">Start Chat</button>
+                    </div>
+
+                </div>
+            </form>
         </div>
-        <div class="col-4">
-          <button id="start" type="submit" class="btn btn-primary">Start Chat</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div> -->
 
-
-    <div id="equation" style="visibility:hidden;height:200px;width:500px;margin:0 auto;float:left;">
-      <p>
-        \[attention({\color{red} q}, {\color{green} k}, {\color{blue} v}) = {softmax({{\color{red} q} {\color{green} k^T} \over \color{grey}{\sqrt{d_{k}}}})} {\color{blue} v}\]
-      </p>
-
-    <div style="min-width:359px; max-width:500px; margin:0 auto;float:left">
-        <pre>
-          <code class="python">def attention(q, k, v):
-    # for pytorch
-    s = q.shape[-2] ** -0.5
-    return (q @ k.t() * s).softmax(dim=-2) @ v</code>
-        </pre>
     </div>
-
 </div>
 
-<div class="chat-message">
-    <label for="uName">昵称：</label><input type="text" id="uName" placeholder="Enter your name">
-    <label for="context">输入消息：</label><input type="text" id="context">
-    <button id="btn"> 点击发送消息</button>
-    <label for="sendFile">发送文件：</label> <input type="file" id="sendFile">
-</div>
-
-<div id="chatRoom" style="float:left;">
-    Let's start
-</div>
-
-<!--    <button-->
-<!--      id="download-file"-->
-<!--      type="button"-->
-<!--      style="color:dodgerblue;-->
-<!--          position: fixed;-->
-<!--          left: 5%;-->
-<!--          top: 80%;-->
-<!--          font-size: 20px;-->
-<!--          border: none;-->
-<!--          background-color: inherit;-->
-<!--          padding: 14px 28px;-->
-<!--          cursor: pointer;-->
-<!--          display: inline-block;-->
-<!--          z-index:100;"-->
-<!--    >-->
-<!--      DownLoad file-->
-<!--    </button>-->
 
 <script src="./index.js"></script>
-
 
 </body>
 

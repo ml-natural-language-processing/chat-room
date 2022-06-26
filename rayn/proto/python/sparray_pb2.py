@@ -3,7 +3,6 @@
 # source: sparray.proto
 """Generated protocol buffer code."""
 from google.protobuf import descriptor as _descriptor
-from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
@@ -15,15 +14,271 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"f\n\tChatProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0b\n\x03msg\x18\x02 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x03 \x01(\x0c\x12\r\n\x05\x64type\x18\x04 \x01(\t\x12\x1f\n\x07imgInfo\x18\x05 \x01(\x0b\x32\x0e.sparray.Image\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\x62\x06proto3')
+DESCRIPTOR = _descriptor.FileDescriptor(
+  name='sparray.proto',
+  package='sparray',
+  syntax='proto3',
+  serialized_options=None,
+  create_key=_descriptor._internal_create_key,
+  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"~\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\x62\x06proto3'
+  ,
+  dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
 
 
-_DENSENDARRAYPROTO = DESCRIPTOR.message_types_by_name['DenseNdArrayProto']
-_DOCPROTO = DESCRIPTOR.message_types_by_name['DocProto']
-_DOCARRAYPROTO = DESCRIPTOR.message_types_by_name['DocArrayProto']
-_CHATPROTO = DESCRIPTOR.message_types_by_name['ChatProto']
-_IMAGE = DESCRIPTOR.message_types_by_name['Image']
+
+_DENSENDARRAYPROTO = _descriptor.Descriptor(
+  name='DenseNdArrayProto',
+  full_name='sparray.DenseNdArrayProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='buffer', full_name='sparray.DenseNdArrayProto.buffer', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='shape', full_name='sparray.DenseNdArrayProto.shape', index=1,
+      number=2, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dtype', full_name='sparray.DenseNdArrayProto.dtype', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=56,
+  serialized_end=121,
+)
+
+
+_DOCPROTO = _descriptor.Descriptor(
+  name='DocProto',
+  full_name='sparray.DocProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='sparray.DocProto.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='buffer', full_name='sparray.DocProto.buffer', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='text', full_name='sparray.DocProto.text', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dtype', full_name='sparray.DocProto.dtype', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=123,
+  serialized_end=190,
+)
+
+
+_DOCARRAYPROTO = _descriptor.Descriptor(
+  name='DocArrayProto',
+  full_name='sparray.DocArrayProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='docs', full_name='sparray.DocArrayProto.docs', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=192,
+  serialized_end=240,
+)
+
+
+_CHATPROTO = _descriptor.Descriptor(
+  name='ChatProto',
+  full_name='sparray.ChatProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='sparray.ChatProto.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='sparray.ChatProto.name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='msg', full_name='sparray.ChatProto.msg', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='buffer', full_name='sparray.ChatProto.buffer', index=3,
+      number=4, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dtype', full_name='sparray.ChatProto.dtype', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='ts', full_name='sparray.ChatProto.ts', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='imgInfo', full_name='sparray.ChatProto.imgInfo', index=6,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=242,
+  serialized_end=368,
+)
+
+
+_IMAGE = _descriptor.Descriptor(
+  name='Image',
+  full_name='sparray.Image',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='width', full_name='sparray.Image.width', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='height', full_name='sparray.Image.height', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=370,
+  serialized_end=408,
+)
+
+_DOCARRAYPROTO.fields_by_name['docs'].message_type = _DOCPROTO
+_CHATPROTO.fields_by_name['imgInfo'].message_type = _IMAGE
+DESCRIPTOR.message_types_by_name['DenseNdArrayProto'] = _DENSENDARRAYPROTO
+DESCRIPTOR.message_types_by_name['DocProto'] = _DOCPROTO
+DESCRIPTOR.message_types_by_name['DocArrayProto'] = _DOCARRAYPROTO
+DESCRIPTOR.message_types_by_name['ChatProto'] = _CHATPROTO
+DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
 DenseNdArrayProto = _reflection.GeneratedProtocolMessageType('DenseNdArrayProto', (_message.Message,), {
   'DESCRIPTOR' : _DENSENDARRAYPROTO,
   '__module__' : 'sparray_pb2'
@@ -59,17 +314,5 @@ Image = _reflection.GeneratedProtocolMessageType('Image', (_message.Message,), {
   })
 _sym_db.RegisterMessage(Image)
 
-if _descriptor._USE_C_DESCRIPTORS == False:
 
-  DESCRIPTOR._options = None
-  _DENSENDARRAYPROTO._serialized_start=56
-  _DENSENDARRAYPROTO._serialized_end=121
-  _DOCPROTO._serialized_start=123
-  _DOCPROTO._serialized_end=190
-  _DOCARRAYPROTO._serialized_start=192
-  _DOCARRAYPROTO._serialized_end=240
-  _CHATPROTO._serialized_start=242
-  _CHATPROTO._serialized_end=344
-  _IMAGE._serialized_start=346
-  _IMAGE._serialized_end=384
 # @@protoc_insertion_point(module_scope)

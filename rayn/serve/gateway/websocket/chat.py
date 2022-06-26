@@ -1,16 +1,17 @@
+import json
 from ....proto.python import trainstatus_pb2, trainstatus_pb2_grpc
 from ....proto.python.sparray_pb2 import ChatProto
 from .manager import ConnectionManager
 from pydantic import BaseModel
-from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse, Response
-from typing import List, Dict
 from google.protobuf.internal import decoder, encoder
 from fastapi import (
     WebSocketDisconnect,
     Request
 )
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Union, Optional
+from fastapi import Cookie, Depends, FastAPI, Query, WebSocket, status
 
 origins = [
     "http://localhost",
@@ -34,31 +35,63 @@ app.add_middleware(
 manager = ConnectionManager()
 
 
-@app.websocket("/ws_chat")
-async def chat(websocket: WebSocket):
-    # sender = websocket.cookies.get("X-Authorization")
-    sender = "emmm"
-    if sender:
-        await manager.connect(websocket, sender)
-        try:
-            while True:
-                byte_data = await websocket.receive_bytes()
-                chatproto.ParseFromString(byte_data)
-                # print("接收到从ts来的数据: ", chatproto)
-                await manager.broadcast(chatproto.SerializeToString())
-        except WebSocketDisconnect:
-            manager.disconnect(websocket, sender)
+async def get_cookie_or_token(
+        websocket: WebSocket,
+        session: Union[str, None] = Cookie(default=None),
+        token: Union[str, None] = Query(default=None),
+):
+    if session is None and token is None:
+        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
+    return session or token
 
 
-@app.get("/api/current_user")
-def get_user(request: Request):
-    return request.cookies.get("X-Authorization")
+@app.websocket("/chat/{item_id}/ws")
+async def chat(websocket: WebSocket,
+               item_id: str,  # not used
+               q: Union[int, None] = None,  # not used
+               cookie_or_token: str = Depends(get_cookie_or_token),  # username
+               ):
+    await manager.connect(websocket, cookie_or_token)
+    try:
+        while True:
+            byte_data = await websocket.receive_bytes()
+            chatproto.ParseFromString(byte_data)
+            manager.save_msg(proro_info=chatproto)
+            # print(manager.userChatDict[chatproto.name])
+            await manager.broadcast(chatproto.SerializeToString())
+    except WebSocketDisconnect:
+
+        leave_info = ChatProto()
+        leave_info.name = "官方广播"
+        leave_info.msg = f"{cookie_or_token} 离开了聊天室"
+        manager.disconnect(cookie_or_token)
+        await manager.broadcast(leave_info.SerializeToString())
 
 
 class RegisterValidator(BaseModel):
     username: str
+    password: Optional[str]
+    is_new: Optional[bool]
 
 
 @app.post("/api/register")
-def register_user(user: RegisterValidator, response: Response):
-    response.set_cookie(key="X-Authorization", value=user.username, httponly=True)
+def register_user(userInfo: RegisterValidator):
+    print(manager.userDict)
+    if userInfo.is_new:
+        manager.userDict[userInfo.username] = userInfo.password
+        return {'code': 0, 'msg': "注册成功"}
+    else:
+        if userInfo.password == manager.userDict[userInfo.username]:
+            return {'code': 0, 'msg': "验证成功"}
+        else:
+            return {'code': 1, 'msg': "密码不匹配，请重新输入"}
+
+
+@app.post("/api/verifyUserName")
+def verify_user_name(userInfo: RegisterValidator):
+    print(userInfo)
+    print(manager.userDict)
+    if userInfo.username in manager.userDict:
+        return {'username': userInfo.username, 'msg': "用户名已注册,请输入密码", 'is_new': False}
+    else:
+        return {'username': userInfo.username, 'msg': "用户名未被注册，请输入注册密码", 'is_new': True}

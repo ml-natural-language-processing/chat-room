@@ -41,12 +41,15 @@ message DocArrayProto {
 }
 
 message ChatProto {
-  string name = 1;
-  string msg = 2;
-  bytes buffer = 3;
-  string dtype = 4;
-  Image imgInfo = 5;
+  int32 id = 1;
+  string name = 2;
+  string msg = 3;
+  bytes buffer = 4;
+  string dtype = 5;
+  string ts = 6; // timestamp
+  Image imgInfo = 7;
 }
+
 message Image {
   float width=1;
   float height=2;
