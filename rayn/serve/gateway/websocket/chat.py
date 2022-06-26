@@ -1,5 +1,4 @@
-import json
-from ....proto.python import trainstatus_pb2, trainstatus_pb2_grpc
+# from ....proto.python import trainstatus_pb2, trainstatus_pb2_grpc
 from ....proto.python.sparray_pb2 import ChatProto
 from .manager import ConnectionManager
 from pydantic import BaseModel
@@ -60,7 +59,6 @@ async def chat(websocket: WebSocket,
             # print(manager.userChatDict[chatproto.name])
             await manager.broadcast(chatproto.SerializeToString())
     except WebSocketDisconnect:
-
         leave_info = ChatProto()
         leave_info.name = "官方广播"
         leave_info.msg = f"{cookie_or_token} 离开了聊天室"
