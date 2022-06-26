@@ -1,5 +1,15 @@
 # Chat Room
 
+## Run frontend && backend
+```bash
+./run-frontend.sh
+```
+```bash
+./run-backend.sh
+```
+
+---
+
 ## Develop web client
 ### build
 ```bash
@@ -30,5 +40,6 @@ python app.py
 ```bash
 export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
 export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1
-pip install grpcio
+#pip install grpcio
+pip install -r requrements.txt
 ```
