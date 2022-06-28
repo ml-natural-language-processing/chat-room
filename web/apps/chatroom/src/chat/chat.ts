@@ -181,7 +181,7 @@ uploadElement.onchange = async () => {
 
 sendButton.onclick = function () {
     const new_message = ChatProto.decode(chat_buffer);
-     if (new_message.ms !== "") {
+     if (new_message.msg !== "") {
         new_message.msg = context.value;
         new_message.name = contextUserName;
         context.value = "";
