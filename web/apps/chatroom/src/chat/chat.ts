@@ -181,12 +181,26 @@ uploadElement.onchange = async () => {
 
 sendButton.onclick = function () {
     const new_message = ChatProto.decode(chat_buffer);
-    new_message.msg = context.value;
-    new_message.name = contextUserName;
-    context.value = "";
-    chat_buffer = ChatProto.encode(new_message).finish();
-    socket.send(chat_buffer);
+     if (new_message.ms !== "") {
+        new_message.msg = context.value;
+        new_message.name = contextUserName;
+        context.value = "";
+        chat_buffer = ChatProto.encode(new_message).finish();
+        socket.send(chat_buffer);
+        }
 }
+
+
+// Execute a function when the user presses a key on the keyboard
+context.addEventListener("keypress", function(event:any) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    sendButton.click();
+  }
+});
 
 
 // async function chunkedUpload(file: File, chunkSize: number, url: string) {
