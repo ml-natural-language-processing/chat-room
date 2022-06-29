@@ -181,12 +181,22 @@ uploadElement.onchange = async () => {
 
 sendButton.onclick = function () {
     const new_message = ChatProto.decode(chat_buffer);
-    new_message.msg = context.value;
-    new_message.name = contextUserName;
-    context.value = "";
-    chat_buffer = ChatProto.encode(new_message).finish();
-    socket.send(chat_buffer);
+     if (new_message.msg !== "") {
+        new_message.msg = context.value;
+        new_message.name = contextUserName;
+        context.value = "";
+        chat_buffer = ChatProto.encode(new_message).finish();
+        socket.send(chat_buffer);
+        }
 }
+
+
+context.addEventListener("keydown", function(e:any) {
+  const keyCode = e.which || e.keyCode;
+  if (keyCode === 13 && e.shiftKey) {
+  sendButton.click();
+  }
+});
 
 
 // async function chunkedUpload(file: File, chunkSize: number, url: string) {
