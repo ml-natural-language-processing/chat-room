@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-python app.py
+python backend.py
