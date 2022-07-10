@@ -4,7 +4,9 @@ ifeq ($(OS),Windows_NT)
 else
 	ifeq ($(shell uname),Darwin)
   		PLATFORM="MacOS"
-		MinicondaInstaller="Miniconda3-py39_4.12.0-MacOSX-arm64.sh"
+#		MinicondaInstaller="Miniconda3-py39_4.12.0-MacOSX-arm64.sh"
+#		MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-aarch64.sh"
+		MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
  	else
   		PLATFORM="Linux"
 		MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
