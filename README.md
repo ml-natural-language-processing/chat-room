@@ -44,16 +44,17 @@ export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1
 pip install -r requrements.txt
 ```
 ## Docker
-### Build docker image
+### Run
+Move to project root dir:
 ```bash
-cd docker
-make build-frontend
-make build-backend
+make start
 ```
 
-### Run
+### Build docker image manually
+Move to `docker/` dir
 ```bash
+cd docker
 make download
-make start-backend-dev
-make start-frontend-dev
+make build-frontend
+make build-backend
 ```
