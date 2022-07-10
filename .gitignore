@@ -1,5 +1,6 @@
 ignored-folder/
 node_modules/
+.pnpm-store/
 
 AUTHORS
 

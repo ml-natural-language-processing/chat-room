@@ -10,7 +10,7 @@ import {getCookie} from "../utils";
 
 let websocket_dir: string;
 if (1) {
-    websocket_dir = "0.0.0.0:8081"
+    websocket_dir = "0.0.0.0:51221"
 } else {
     websocket_dir = "192.168.61.230:51221"
 }

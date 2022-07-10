@@ -43,3 +43,17 @@ export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1
 #pip install grpcio
 pip install -r requrements.txt
 ```
+## Docker
+### Build docker image
+```bash
+cd docker
+make build-frontend
+make build-backend
+```
+
+### Run
+```bash
+make download
+make start-backend-dev
+make start-frontend-dev
+```
