@@ -40,3 +40,12 @@ RUN conda install -y python=$PYTHON_VERSION
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 WORKDIR /home
+
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
+RUN pip install "opencv-python-headless" \
+                "opencv-contrib-python" \
+                fastapi>=0.78.0 \
+                uvicorn[standard]>=0.17.6 \
+                sparrow-tool>=0.5.9
+RUN pip install protobuf==3.20.1
+RUN pip install pymilvus==2.0.2

@@ -9,7 +9,7 @@ else
 		MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
  	else
   		PLATFORM="Linux"
-		MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
+		 MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
 	endif
 endif
 

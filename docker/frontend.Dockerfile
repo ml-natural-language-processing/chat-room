@@ -15,7 +15,6 @@ RUN sudo apt update && sudo apt install curl -y
 # there are 2 ways to install nodejs, the first is recommended.
 ENV NODE_VERSION=16.16.0
 RUN wget -qO- https://mirror.ghproxy.com/https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-# RUN wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
 ENV NVM_DIR=/root/.nvm
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
@@ -41,8 +40,6 @@ RUN mkdir -p /root/.local/share/pnpm/global/5 && \
 # ENV PNPM_HOME="/root/.local/share/pnpm"
 # ENV PATH="${PNPM_HOME}:${PATH}"
 WORKDIR /home
-#RUN pnpm install -g
-
 
 RUN mkdir ~/.npm-global && \
     npm config set prefix '~/.npm-global'
