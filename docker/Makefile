@@ -62,5 +62,8 @@ ifneq ($(shell docker images|grep $(backend_cuda_image)), )
 endif
 	docker build -t $(backend_cuda_image_full) -f "./backend-cuda.Dockerfile" .
 
+
+build: build-backend build-frontend
+
 clean-dangling-image:
 	@docker rmi $$(docker images -q -f dangling=true)
