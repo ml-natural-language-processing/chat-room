@@ -1,11 +1,11 @@
 # Chat Room
 
-## Docker
-### Run
+## Run in Docker
 Move to project root dir:
 ```bash
 make start
 ```
+That's all.
 
 ### Build docker image manually
 Move to `docker/` dir
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ```
 ### run
 ```bash
-python app.py
+python backend.py
 ```
 
 ### Build grpc on MacOs based on M1
