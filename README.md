@@ -1,11 +1,19 @@
 # Chat Room
 
-## Run frontend && backend
+## Docker
+### Run
+Move to project root dir:
 ```bash
-./run-frontend.sh
+make start
 ```
+
+### Build docker image manually
+Move to `docker/` dir
 ```bash
-./run-backend.sh
+cd docker
+make download
+make build-frontend
+make build-backend
 ```
 
 ---
@@ -13,11 +21,10 @@
 ## Develop web client
 ### build
 ```bash
-cd web
-make setup-development-environment
-cd apps/chatroom
+cd web/apps/chatroom
 pnpm install 
 ```
+
 ### run
 ```bash
 pnpm dev 
@@ -42,19 +49,4 @@ export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
 export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1
 #pip install grpcio
 pip install -r requrements.txt
-```
-## Docker
-### Run
-Move to project root dir:
-```bash
-make start
-```
-
-### Build docker image manually
-Move to `docker/` dir
-```bash
-cd docker
-make download
-make build-frontend
-make build-backend
 ```

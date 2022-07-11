@@ -31,10 +31,10 @@ function start() {
                         const data = res.data;
                         userStatus.set('username', data.username)
                         userStatus.set('is_new', data.is_new);
-                        // console.log("userStatus", userStatus);
-                        userPwdInput!.setAttribute('placeholder', data.msg)
-                        userPwdButton!.style.visibility = 'visible'
-                        userPwdInput!.style.visibility = 'visible'
+                        userPwdInput!.setAttribute('placeholder', data.msg);
+                        userPwdButton!.style.visibility = 'visible';
+                        userPwdInput!.style.visibility = 'visible';
+
                     });
                     // $(".chat-body").removeClass("hide");
                     // $(".chat-register").addClass("hide");
