@@ -1,6 +1,7 @@
 ifeq ($(OS),Windows_NT)
  	PLATFORM="Windows"
-	MinicondaInstaller="Miniconda3-py39_4.12.0-Windows-x86_64.exe"
+#	MinicondaInstaller="Miniconda3-py39_4.12.0-Windows-x86_64.exe"
+	MinicondaInstaller="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
 else
 	ifeq ($(shell uname),Darwin)
   		PLATFORM="MacOS"
@@ -30,7 +31,8 @@ endif
 
 download-sourse-list:
 ifeq ($(wildcard ./$(sources_list)), )
-	@wget https://gist.githubusercontent.com/beidongjiedeguang/ef1f91ef5a0c23438d2c4624188d3335/raw/d745892ed95452264ccb18e9602f7209af63632d/sources.list -O $(sources_list)
+	@wget https://gist.githubusercontent.com/beidongjiedeguang/ef1f91ef5a0c23438d2c4624188d3335/raw/d745892ed95452264ccb18e9602f7209af63632d/sources.list \
+	-O $(sources_list)
 else
 	@echo "file: sources.list already exists, skip download"
 endif
