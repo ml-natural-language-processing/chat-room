@@ -28,6 +28,8 @@ let chat_buffer: any;
 let imageWidth: number = 0;
 let imageHeight: number = 0;
 let new_message: any;
+let media_element: any;
+let isSelfCtrlTrig = true;
 
 start()
 
@@ -109,22 +111,64 @@ function start() {
                             }
                             message_content = document.createElement('span');
                             message_content.appendChild(image);
-                        }
-                        if (new_message.dtype.startsWith("video")) {
+                        } else if (new_message.dtype.startsWith("video")) {
                             const blob = new Blob([new_message.buffer])
                             message_content = document.createElement('video');
                             message_content.src = URL.createObjectURL(blob);
                             message_content.setAttribute('type', new_message.dtype);
                             message_content.setAttribute('controls', 'true');
+                        } else if (new_message.dtype.startsWith('audio')) {
+                            const blob = new Blob([new_message.buffer])
+                            message_content = document.createElement('audio');
+                            message_content.src = URL.createObjectURL(blob);
+                            // message_content.play();
+                            message_content.setAttribute('type', new_message.dtype);
+                            message_content.setAttribute('controls', 'true');
+                            media_element = message_content;
+                            media_element.ontimeupdate = (event: any) => {
+                                if (message_content.paused && (new_message.name === contextUserName || new_message.dtype.startsWith("audio"))) {
+                                    console.log(message_content.played);
+                                    console.log(message_content.paused);
+                                    console.log(message_content.controller);
+
+                                    const payload = {
+                                        'msg': "MediaControl",
+                                        'name': contextUserName,
+                                        'dtype': "protoMediaControl",
+                                        'imgInfo': {'width': imageWidth, 'height': imageHeight},
+                                        'mediaControl': {
+                                            'currentTime': message_content.currentTime
+                                        },
+                                    };
+                                    const errMsg = ChatProto.verify(payload);
+                                    if (errMsg) {
+                                        throw Error(errMsg);
+                                    }
+                                    let mediaControlMessage = ChatProto.create(payload);
+                                    const controlBuffer = ChatProto.encode(mediaControlMessage).finish();
+                                    socket.send(controlBuffer);
+                                }
+                                // else{
+                                //     if (!isSelfCtrlTrig){
+                                //         isPaused = false;
+                                //     }
+                                // }
+                            }
                         }
 
                         addDownloadButton(message_content, new_message)
 
+                    } else if (new_message.name !== contextUserName &&
+                        new_message.dtype === "protoMediaControl"
+                    ){
+                        console.log(contextUserName);
+                        console.log(new_message);
+                        media_element.currentTime = new_message.mediaControl.currentTime;
+                        // isSelfCtrlTrig = true;
                     }
                     message.appendChild(message_content);
                     chatRoom!.appendChild(message);
                     chatRoom!.scrollTop = chatRoom!.scrollHeight;
-
                 };
 
                 socket.onclose = function (event: CloseEvent) {
@@ -146,6 +190,15 @@ function start() {
     )
 }
 
+function sendMessage(payload: any) {
+    let errMsg = ChatProto.verify(payload);
+    if (errMsg) {
+        throw Error(errMsg);
+    }
+    const message = ChatProto.create(payload);
+    const buffer = ChatProto.encode(message).finish();
+    socket.send(buffer);
+}
 
 uploadElement.onchange = async () => {
     const dataResList: any = await read_data(uploadElement.files!);
@@ -156,7 +209,6 @@ uploadElement.onchange = async () => {
         const imgInfo: any = imgInfoList[0];
         imageWidth = imgInfo['width'];
         imageHeight = imgInfo['height'];
-
     }
     const payload = {
         'id': 0,
@@ -166,36 +218,30 @@ uploadElement.onchange = async () => {
         'dtype': dataRes['dtype'],
         'imgInfo': {'width': imageWidth, 'height': imageHeight}
     };
-    imageHeight = 0;
-    imageWidth = 0;
-    let errMsg = ChatProto.verify(payload);
-    if (errMsg) {
-        throw Error(errMsg);
-    }
-    const message = ChatProto.create(payload);
-    // console.log(message);
-    const buffer = ChatProto.encode(message).finish();
-    socket.send(buffer);
+    // imageHeight = 0;
+    // imageWidth = 0;
+
+    sendMessage(payload);
 
 }
 
 sendButton.onclick = function () {
     const new_message = ChatProto.decode(chat_buffer);
-     if (new_message.msg !== "") {
+    if (new_message.msg !== "") {
         new_message.msg = context.value;
         new_message.name = contextUserName;
         context.value = "";
         chat_buffer = ChatProto.encode(new_message).finish();
         socket.send(chat_buffer);
-        }
+    }
 }
 
 
-context.addEventListener("keydown", function(e:any) {
-  const keyCode = e.which || e.keyCode;
-  if (keyCode === 13 && e.shiftKey) {
-  sendButton.click();
-  }
+context.addEventListener("keydown", function (e: any) {
+    const keyCode = e.which || e.keyCode;
+    if (keyCode === 13 && e.shiftKey) {
+        sendButton.click();
+    }
 });
 
 
