@@ -4,7 +4,7 @@ import {setCookie} from "./utils";
 
 let websocket_dir: string;
 if (1) {
-    websocket_dir = "0.0.0.0:8081"
+    websocket_dir = "0.0.0.0:51221"
 } else {
     websocket_dir = "192.168.61.230:51221"
 }
@@ -31,10 +31,10 @@ function start() {
                         const data = res.data;
                         userStatus.set('username', data.username)
                         userStatus.set('is_new', data.is_new);
-                        // console.log("userStatus", userStatus);
-                        userPwdInput!.setAttribute('placeholder', data.msg)
-                        userPwdButton!.style.visibility = 'visible'
-                        userPwdInput!.style.visibility = 'visible'
+                        userPwdInput!.setAttribute('placeholder', data.msg);
+                        userPwdButton!.style.visibility = 'visible';
+                        userPwdInput!.style.visibility = 'visible';
+
                     });
                     // $(".chat-body").removeClass("hide");
                     // $(".chat-register").addClass("hide");

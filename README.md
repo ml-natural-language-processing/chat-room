@@ -1,11 +1,19 @@
 # Chat Room
 
-## Run frontend && backend
+## Run in Docker
+Move to project root dir:
 ```bash
-./run-frontend.sh
+make start
 ```
+That's all.
+
+### Build docker image manually
+Move to `docker/` dir
 ```bash
-./run-backend.sh
+cd docker
+make download
+make build-frontend
+make build-backend
 ```
 
 ---
@@ -13,11 +21,10 @@
 ## Develop web client
 ### build
 ```bash
-cd web
-make setup-development-environment
-cd apps/chatroom
+cd web/apps/chatroom
 pnpm install 
 ```
+
 ### run
 ```bash
 pnpm dev 
@@ -33,7 +40,7 @@ pip install -r requirements.txt
 ```
 ### run
 ```bash
-python app.py
+python backend.py
 ```
 
 ### Build grpc on MacOs based on M1

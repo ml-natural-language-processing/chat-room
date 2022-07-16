@@ -10,7 +10,7 @@ import {getCookie} from "../utils";
 
 let websocket_dir: string;
 if (1) {
-    websocket_dir = "0.0.0.0:8081"
+    websocket_dir = "0.0.0.0:51221"
 } else {
     websocket_dir = "192.168.61.230:51221"
 }
@@ -72,7 +72,7 @@ function start() {
                     new_message = parseData(event.data);
 
                     let message_content: any;
-                    console.log("接收到protobuf：\n", new_message);
+                    // console.log("接收到protobuf：\n", new_message);
                     // chatRoom!.innerHTML += `<div>${new_message.name}: ${new_message.msg} </div>`;
                     if (1) {
                         message_content = document.createElement('span');
@@ -173,7 +173,7 @@ uploadElement.onchange = async () => {
         throw Error(errMsg);
     }
     const message = ChatProto.create(payload);
-    console.log(message);
+    // console.log(message);
     const buffer = ChatProto.encode(message).finish();
     socket.send(buffer);
 
