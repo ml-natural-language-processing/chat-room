@@ -48,9 +48,15 @@ message ChatProto {
   string dtype = 5;
   string ts = 6; // timestamp
   Image imgInfo = 7;
+  MediaControl mediaControl = 8;
 }
 
 message Image {
   float width=1;
   float height=2;
+}
+
+message MediaControl {
+  float currentTime = 1;
+  bool paused = 2;
 }

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"~\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\x62\x06proto3'
+  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xab\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"3\n\x0cMediaControl\x12\x13\n\x0b\x63urrentTime\x18\x01 \x01(\x02\x12\x0e\n\x06paused\x18\x02 \x01(\x08\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
@@ -215,6 +215,13 @@ _CHATPROTO = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='mediaControl', full_name='sparray.ChatProto.mediaControl', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -227,8 +234,8 @@ _CHATPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=242,
-  serialized_end=368,
+  serialized_start=243,
+  serialized_end=414,
 )
 
 
@@ -266,17 +273,58 @@ _IMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=370,
-  serialized_end=408,
+  serialized_start=416,
+  serialized_end=454,
+)
+
+
+_MEDIACONTROL = _descriptor.Descriptor(
+  name='MediaControl',
+  full_name='sparray.MediaControl',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='currentTime', full_name='sparray.MediaControl.currentTime', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='paused', full_name='sparray.MediaControl.paused', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=456,
+  serialized_end=507,
 )
 
 _DOCARRAYPROTO.fields_by_name['docs'].message_type = _DOCPROTO
 _CHATPROTO.fields_by_name['imgInfo'].message_type = _IMAGE
+_CHATPROTO.fields_by_name['mediaControl'].message_type = _MEDIACONTROL
 DESCRIPTOR.message_types_by_name['DenseNdArrayProto'] = _DENSENDARRAYPROTO
 DESCRIPTOR.message_types_by_name['DocProto'] = _DOCPROTO
 DESCRIPTOR.message_types_by_name['DocArrayProto'] = _DOCARRAYPROTO
 DESCRIPTOR.message_types_by_name['ChatProto'] = _CHATPROTO
 DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
+DESCRIPTOR.message_types_by_name['MediaControl'] = _MEDIACONTROL
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 DenseNdArrayProto = _reflection.GeneratedProtocolMessageType('DenseNdArrayProto', (_message.Message,), {
@@ -313,6 +361,13 @@ Image = _reflection.GeneratedProtocolMessageType('Image', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:sparray.Image)
   })
 _sym_db.RegisterMessage(Image)
+
+MediaControl = _reflection.GeneratedProtocolMessageType('MediaControl', (_message.Message,), {
+  'DESCRIPTOR' : _MEDIACONTROL,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.MediaControl)
+  })
+_sym_db.RegisterMessage(MediaControl)
 
 
 # @@protoc_insertion_point(module_scope)
