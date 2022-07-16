@@ -1,13 +1,12 @@
 import axios from "axios";
-import {setCookie} from "./utils";
+import {setCookie, UserConfig} from "./utils";
 
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+// axios.defaults.headers.post['Access-Control-Request-Method'] = '*';
+// axios.defaults.headers.post['Access-Control-Allow-Headers'] = '*';
+// axios.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
 
-let websocket_dir: string;
-if (1) {
-    websocket_dir = "0.0.0.0:51221"
-} else {
-    websocket_dir = "192.168.61.230:51221"
-}
+const websocket_dir = UserConfig.websocketDir;
 
 start()
 
@@ -25,9 +24,9 @@ function start() {
             const currentUser = $("#user_input").val();
             if (currentUser) {
                 const data = {"username": currentUser};
-                axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
                 try {
-                    axios.post(`http://${websocket_dir}/api/verifyUserName`, data).then(res => {
+                    axios.post(`http://${websocket_dir}/api/verifyUserName`, data,
+                        ).then(res => {
                         const data = res.data;
                         userStatus.set('username', data.username)
                         userStatus.set('is_new', data.is_new);
@@ -51,7 +50,6 @@ function start() {
             if (currentUser == userStatus.get('username')) {
                 if (currentPwd) {
                     const data = {"username": currentUser, "password": currentPwd, 'is_new': userStatus.get('is_new')};
-                    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
                     try {
                         axios.post(`http://${websocket_dir}/api/register`, data).then(res => {
                             // console.log(res.data);
