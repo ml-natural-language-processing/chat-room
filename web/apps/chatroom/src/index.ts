@@ -1,6 +1,12 @@
 import axios from "axios";
 import {setCookie} from "./utils";
 
+// @ts-ignore
+// axios.defaults.headers["content-type"] = "application/json";
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+// axios.defaults.headers.post['Access-Control-Request-Method'] = '*';
+// axios.defaults.headers.post['Access-Control-Allow-Headers'] = '*';
+// axios.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
 
 let websocket_dir: string;
 if (1) {
@@ -25,10 +31,7 @@ function start() {
             const currentUser = $("#user_input").val();
             if (currentUser) {
                 const data = {"username": currentUser};
-                axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-                axios.defaults.headers.post['Access-Control-Request-Method'] = '*';
-                axios.defaults.headers.post['Access-Control-Allow-Headers'] = '*';
-                axios.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
+
                 try {
                     axios.post(`http://${websocket_dir}/api/verifyUserName`, data).then(res => {
                         const data = res.data;
@@ -54,10 +57,7 @@ function start() {
             if (currentUser == userStatus.get('username')) {
                 if (currentPwd) {
                     const data = {"username": currentUser, "password": currentPwd, 'is_new': userStatus.get('is_new')};
-                    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-                    axios.defaults.headers.post['Access-Control-Request-Method'] = '*';
-                    axios.defaults.headers.post['Access-Control-Allow-Headers'] = '*';
-                    axios.defaults.headers.post['Access-Control-Allow-Credentials'] = 'true';
+
                     try {
                         axios.post(`http://${websocket_dir}/api/register`, data).then(res => {
                             // console.log(res.data);
