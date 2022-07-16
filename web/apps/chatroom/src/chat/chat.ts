@@ -5,15 +5,10 @@ import {
     read_imgs, read_img_simgle, read_data, read_single_data,
     arraybuffer2base64
 } from "./utils";
-import {getCookie} from "../utils";
+import {getCookie, UserConfig} from "../utils";
 
 
-let websocket_dir: string;
-if (1) {
-    websocket_dir = "0.0.0.0:51221"
-} else {
-    websocket_dir = "192.168.61.230:51221"
-}
+const websocket_dir = UserConfig.websocketDir;
 
 let socket: any
 

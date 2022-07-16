@@ -1,3 +1,8 @@
+export const UserConfig = {
+    // websocketDir: "121.5.13.101:51221",
+    websocketDir : "0.0.0.0:51221",
+}
+
 export function getCookie(key: string) {
     const cookieList = document.cookie ? document.cookie.split(';') : []
     let value = '';
