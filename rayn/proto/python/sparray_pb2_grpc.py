@@ -2,3 +2,168 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+import sparray_pb2 as sparray__pb2
+
+
+class SparrayStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.GetFeature = channel.unary_unary(
+                '/sparray.Sparray/GetFeature',
+                request_serializer=sparray__pb2.Point.SerializeToString,
+                response_deserializer=sparray__pb2.Feature.FromString,
+                )
+        self.ListFeatures = channel.unary_stream(
+                '/sparray.Sparray/ListFeatures',
+                request_serializer=sparray__pb2.Rectangle.SerializeToString,
+                response_deserializer=sparray__pb2.Feature.FromString,
+                )
+        self.RecordRoute = channel.stream_unary(
+                '/sparray.Sparray/RecordRoute',
+                request_serializer=sparray__pb2.Point.SerializeToString,
+                response_deserializer=sparray__pb2.RouteSummary.FromString,
+                )
+        self.RouteChat = channel.stream_stream(
+                '/sparray.Sparray/RouteChat',
+                request_serializer=sparray__pb2.RouteNote.SerializeToString,
+                response_deserializer=sparray__pb2.RouteNote.FromString,
+                )
+
+
+class SparrayServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def GetFeature(self, request, context):
+        """simple rpc
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListFeatures(self, request, context):
+        """server2client stream rpc
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RecordRoute(self, request_iterator, context):
+        """client2server stream rpc
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RouteChat(self, request_iterator, context):
+        """stream rpc
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_SparrayServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'GetFeature': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetFeature,
+                    request_deserializer=sparray__pb2.Point.FromString,
+                    response_serializer=sparray__pb2.Feature.SerializeToString,
+            ),
+            'ListFeatures': grpc.unary_stream_rpc_method_handler(
+                    servicer.ListFeatures,
+                    request_deserializer=sparray__pb2.Rectangle.FromString,
+                    response_serializer=sparray__pb2.Feature.SerializeToString,
+            ),
+            'RecordRoute': grpc.stream_unary_rpc_method_handler(
+                    servicer.RecordRoute,
+                    request_deserializer=sparray__pb2.Point.FromString,
+                    response_serializer=sparray__pb2.RouteSummary.SerializeToString,
+            ),
+            'RouteChat': grpc.stream_stream_rpc_method_handler(
+                    servicer.RouteChat,
+                    request_deserializer=sparray__pb2.RouteNote.FromString,
+                    response_serializer=sparray__pb2.RouteNote.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'sparray.Sparray', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class Sparray(object):
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def GetFeature(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sparray.Sparray/GetFeature',
+            sparray__pb2.Point.SerializeToString,
+            sparray__pb2.Feature.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ListFeatures(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/sparray.Sparray/ListFeatures',
+            sparray__pb2.Rectangle.SerializeToString,
+            sparray__pb2.Feature.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RecordRoute(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/sparray.Sparray/RecordRoute',
+            sparray__pb2.Point.SerializeToString,
+            sparray__pb2.RouteSummary.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RouteChat(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/sparray.Sparray/RouteChat',
+            sparray__pb2.RouteNote.SerializeToString,
+            sparray__pb2.RouteNote.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xab\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"3\n\x0cMediaControl\x12\x13\n\x0b\x63urrentTime\x18\x01 \x01(\x02\x12\x0e\n\x06paused\x18\x02 \x01(\x08\x62\x06proto3'
+  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xab\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"C\n\x0cMediaControl\x12\x0e\n\x06paused\x18\x01 \x01(\x08\x12\x13\n\x0b\x63urrentTime\x18\x02 \x01(\x02\x12\x0e\n\x06\x62uffer\x18\x03 \x01(\x0c\"\x1e\n\x0b\x43hatMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\"1\n\x0c\x43hatResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08received\x18\x02 \x01(\x08\",\n\x05Point\x12\x10\n\x08latitude\x18\x01 \x01(\x05\x12\x11\n\tlongitude\x18\x02 \x01(\x05\"C\n\tRectangle\x12\x1a\n\x02lo\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x1a\n\x02hi\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\"9\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x08location\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\">\n\tRouteNote\x12 \n\x08location\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x0cRouteSummary\x12\x13\n\x0bpoint_count\x18\x01 \x01(\x05\x12\x15\n\rfeature_count\x18\x02 \x01(\x05\x12\x10\n\x08\x64istance\x18\x03 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x04 \x01(\x05\x32\xea\x01\n\x07Sparray\x12\x30\n\nGetFeature\x12\x0e.sparray.Point\x1a\x10.sparray.Feature\"\x00\x12\x38\n\x0cListFeatures\x12\x12.sparray.Rectangle\x1a\x10.sparray.Feature\"\x00\x30\x01\x12\x38\n\x0bRecordRoute\x12\x0e.sparray.Point\x1a\x15.sparray.RouteSummary\"\x00(\x01\x12\x39\n\tRouteChat\x12\x12.sparray.RouteNote\x1a\x12.sparray.RouteNote\"\x00(\x01\x30\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
@@ -287,14 +287,92 @@ _MEDIACONTROL = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='currentTime', full_name='sparray.MediaControl.currentTime', index=0,
-      number=1, type=2, cpp_type=6, label=1,
+      name='paused', full_name='sparray.MediaControl.paused', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='currentTime', full_name='sparray.MediaControl.currentTime', index=1,
+      number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='paused', full_name='sparray.MediaControl.paused', index=1,
+      name='buffer', full_name='sparray.MediaControl.buffer', index=2,
+      number=3, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=456,
+  serialized_end=523,
+)
+
+
+_CHATMESSAGE = _descriptor.Descriptor(
+  name='ChatMessage',
+  full_name='sparray.ChatMessage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='message', full_name='sparray.ChatMessage.message', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=525,
+  serialized_end=555,
+)
+
+
+_CHATRESPONSE = _descriptor.Descriptor(
+  name='ChatResponse',
+  full_name='sparray.ChatResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='message', full_name='sparray.ChatResponse.message', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='received', full_name='sparray.ChatResponse.received', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -312,19 +390,239 @@ _MEDIACONTROL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=456,
-  serialized_end=507,
+  serialized_start=557,
+  serialized_end=606,
+)
+
+
+_POINT = _descriptor.Descriptor(
+  name='Point',
+  full_name='sparray.Point',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='latitude', full_name='sparray.Point.latitude', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='longitude', full_name='sparray.Point.longitude', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=608,
+  serialized_end=652,
+)
+
+
+_RECTANGLE = _descriptor.Descriptor(
+  name='Rectangle',
+  full_name='sparray.Rectangle',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='lo', full_name='sparray.Rectangle.lo', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='hi', full_name='sparray.Rectangle.hi', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=654,
+  serialized_end=721,
+)
+
+
+_FEATURE = _descriptor.Descriptor(
+  name='Feature',
+  full_name='sparray.Feature',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='sparray.Feature.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='location', full_name='sparray.Feature.location', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=723,
+  serialized_end=780,
+)
+
+
+_ROUTENOTE = _descriptor.Descriptor(
+  name='RouteNote',
+  full_name='sparray.RouteNote',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='location', full_name='sparray.RouteNote.location', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='message', full_name='sparray.RouteNote.message', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=782,
+  serialized_end=844,
+)
+
+
+_ROUTESUMMARY = _descriptor.Descriptor(
+  name='RouteSummary',
+  full_name='sparray.RouteSummary',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='point_count', full_name='sparray.RouteSummary.point_count', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='feature_count', full_name='sparray.RouteSummary.feature_count', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='distance', full_name='sparray.RouteSummary.distance', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='elapsed_time', full_name='sparray.RouteSummary.elapsed_time', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=846,
+  serialized_end=944,
 )
 
 _DOCARRAYPROTO.fields_by_name['docs'].message_type = _DOCPROTO
 _CHATPROTO.fields_by_name['imgInfo'].message_type = _IMAGE
 _CHATPROTO.fields_by_name['mediaControl'].message_type = _MEDIACONTROL
+_RECTANGLE.fields_by_name['lo'].message_type = _POINT
+_RECTANGLE.fields_by_name['hi'].message_type = _POINT
+_FEATURE.fields_by_name['location'].message_type = _POINT
+_ROUTENOTE.fields_by_name['location'].message_type = _POINT
 DESCRIPTOR.message_types_by_name['DenseNdArrayProto'] = _DENSENDARRAYPROTO
 DESCRIPTOR.message_types_by_name['DocProto'] = _DOCPROTO
 DESCRIPTOR.message_types_by_name['DocArrayProto'] = _DOCARRAYPROTO
 DESCRIPTOR.message_types_by_name['ChatProto'] = _CHATPROTO
 DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
 DESCRIPTOR.message_types_by_name['MediaControl'] = _MEDIACONTROL
+DESCRIPTOR.message_types_by_name['ChatMessage'] = _CHATMESSAGE
+DESCRIPTOR.message_types_by_name['ChatResponse'] = _CHATRESPONSE
+DESCRIPTOR.message_types_by_name['Point'] = _POINT
+DESCRIPTOR.message_types_by_name['Rectangle'] = _RECTANGLE
+DESCRIPTOR.message_types_by_name['Feature'] = _FEATURE
+DESCRIPTOR.message_types_by_name['RouteNote'] = _ROUTENOTE
+DESCRIPTOR.message_types_by_name['RouteSummary'] = _ROUTESUMMARY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 DenseNdArrayProto = _reflection.GeneratedProtocolMessageType('DenseNdArrayProto', (_message.Message,), {
@@ -369,5 +667,110 @@ MediaControl = _reflection.GeneratedProtocolMessageType('MediaControl', (_messag
   })
 _sym_db.RegisterMessage(MediaControl)
 
+ChatMessage = _reflection.GeneratedProtocolMessageType('ChatMessage', (_message.Message,), {
+  'DESCRIPTOR' : _CHATMESSAGE,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.ChatMessage)
+  })
+_sym_db.RegisterMessage(ChatMessage)
+
+ChatResponse = _reflection.GeneratedProtocolMessageType('ChatResponse', (_message.Message,), {
+  'DESCRIPTOR' : _CHATRESPONSE,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.ChatResponse)
+  })
+_sym_db.RegisterMessage(ChatResponse)
+
+Point = _reflection.GeneratedProtocolMessageType('Point', (_message.Message,), {
+  'DESCRIPTOR' : _POINT,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.Point)
+  })
+_sym_db.RegisterMessage(Point)
+
+Rectangle = _reflection.GeneratedProtocolMessageType('Rectangle', (_message.Message,), {
+  'DESCRIPTOR' : _RECTANGLE,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.Rectangle)
+  })
+_sym_db.RegisterMessage(Rectangle)
+
+Feature = _reflection.GeneratedProtocolMessageType('Feature', (_message.Message,), {
+  'DESCRIPTOR' : _FEATURE,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.Feature)
+  })
+_sym_db.RegisterMessage(Feature)
+
+RouteNote = _reflection.GeneratedProtocolMessageType('RouteNote', (_message.Message,), {
+  'DESCRIPTOR' : _ROUTENOTE,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.RouteNote)
+  })
+_sym_db.RegisterMessage(RouteNote)
+
+RouteSummary = _reflection.GeneratedProtocolMessageType('RouteSummary', (_message.Message,), {
+  'DESCRIPTOR' : _ROUTESUMMARY,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.RouteSummary)
+  })
+_sym_db.RegisterMessage(RouteSummary)
+
+
+
+_SPARRAY = _descriptor.ServiceDescriptor(
+  name='Sparray',
+  full_name='sparray.Sparray',
+  file=DESCRIPTOR,
+  index=0,
+  serialized_options=None,
+  create_key=_descriptor._internal_create_key,
+  serialized_start=947,
+  serialized_end=1181,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='GetFeature',
+    full_name='sparray.Sparray.GetFeature',
+    index=0,
+    containing_service=None,
+    input_type=_POINT,
+    output_type=_FEATURE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ListFeatures',
+    full_name='sparray.Sparray.ListFeatures',
+    index=1,
+    containing_service=None,
+    input_type=_RECTANGLE,
+    output_type=_FEATURE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RecordRoute',
+    full_name='sparray.Sparray.RecordRoute',
+    index=2,
+    containing_service=None,
+    input_type=_POINT,
+    output_type=_ROUTESUMMARY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RouteChat',
+    full_name='sparray.Sparray.RouteChat',
+    index=3,
+    containing_service=None,
+    input_type=_ROUTENOTE,
+    output_type=_ROUTENOTE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_SPARRAY)
+
+DESCRIPTOR.services_by_name['Sparray'] = _SPARRAY
 
 # @@protoc_insertion_point(module_scope)
