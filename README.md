@@ -3,6 +3,7 @@
 ## Run in Docker
 Move to project root dir:
 ```bash
+python template/build.py
 make start
 ```
 That's all.

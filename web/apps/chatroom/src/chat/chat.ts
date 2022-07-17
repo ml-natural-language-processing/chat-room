@@ -5,7 +5,8 @@ import {
     read_imgs, read_img_simgle, read_data, read_single_data,
     arraybuffer2base64
 } from "./utils";
-import {getCookie, UserConfig} from "../utils";
+import {getCookie} from "../utils";
+import {UserConfig} from "../config_gen";
 
 
 const websocket_dir = UserConfig.websocketDir;
