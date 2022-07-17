@@ -42,6 +42,6 @@ stop-backend-dev:
 rm-backend-dev:
 	@docker rm -f $(backend_container_name)
 
-rm-dev: rm-frontend-dev rm-backend-dev
+rm: rm-frontend-dev rm-backend-dev
 start: start-backend-dev start-frontend-dev
 restart: restart-backend-dev restart-frontend-dev
