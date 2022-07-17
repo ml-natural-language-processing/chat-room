@@ -56,7 +56,7 @@ function start() {
                     socket.send(chat_buffer);
                 };
 
-                let media_event_send = (event: any) => {
+                const media_event_send = (event: any) => {
 
                     const payload = {
                         'msg': "MediaControl",
@@ -87,6 +87,21 @@ function start() {
                         return ChatProto.decode(arraybuffer);
                     }
                     new_message = parseData(event.data);
+
+                    const add_media_element = (media_type: string)=>{
+                        const blob = new Blob([new_message.buffer])
+                        media_element = document.createElement(media_type);
+                        media_element.src = URL.createObjectURL(blob);
+                        // media_element.play();
+                        media_element.setAttribute('type', new_message.dtype);
+                        media_element.setAttribute('controls', 'true');
+                        message.appendChild(media_element);
+                        chatRoom!.appendChild(message);
+                        chatRoom!.scrollTop = chatRoom!.scrollHeight;
+                        // media_element.ontimeupdate = media_ele_ontimeupdate;
+                        media_element.onplay = media_event_send;
+                        media_element.onpause = media_event_send;
+                    }
 
                     let message_content: any;
 
@@ -128,25 +143,9 @@ function start() {
                             message_content = document.createElement('span');
                             message_content.appendChild(image);
                         } else if (new_message.dtype.startsWith("video")) {
-                            const blob = new Blob([new_message.buffer])
-                            message_content = document.createElement('video');
-                            message_content.src = URL.createObjectURL(blob);
-                            message_content.setAttribute('type', new_message.dtype);
-                            message_content.setAttribute('controls', 'true');
+                            add_media_element('video')
                         } else if (new_message.dtype.startsWith('audio')) {
-                            const blob = new Blob([new_message.buffer])
-                            media_element = document.createElement('audio');
-                            media_element.src = URL.createObjectURL(blob);
-                            // media_element.play();
-                            media_element.setAttribute('type', new_message.dtype);
-                            media_element.setAttribute('controls', 'true');
-                            message.appendChild(media_element);
-                            chatRoom!.appendChild(message);
-                            chatRoom!.scrollTop = chatRoom!.scrollHeight;
-                            // media_element.ontimeupdate = media_ele_ontimeupdate;
-                            media_element.onplay = media_event_send;
-                            media_element.onpause = media_event_send;
-
+                            add_media_element('audio')
                         }
 
                         addDownloadButton(message_content, new_message)
