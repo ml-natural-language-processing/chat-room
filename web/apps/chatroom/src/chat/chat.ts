@@ -24,7 +24,6 @@ let imageWidth: number = 0;
 let imageHeight: number = 0;
 let new_message: any;
 let media_element: any;
-let isSelfCtrlTrig = true;
 
 start()
 
@@ -57,6 +56,27 @@ function start() {
                     socket.send(chat_buffer);
                 };
 
+                let media_event_send = (event: any) => {
+
+                    const payload = {
+                        'msg': "MediaControl",
+                        'name': contextUserName,
+                        'dtype': "protoMediaControl",
+                        'imgInfo': {'width': imageWidth, 'height': imageHeight},
+                        'mediaControl': {
+                            'currentTime': media_element.currentTime,
+                            'paused': media_element.paused,
+                        },
+                    };
+                    const errMsg = ChatProto.verify(payload);
+                    if (errMsg) {
+                        throw Error(errMsg);
+                    }
+                    let mediaControlMessage = ChatProto.create(payload);
+                    const controlBuffer = ChatProto.encode(mediaControlMessage).finish();
+                    socket.send(controlBuffer);
+                }
+
                 socket.onmessage = async (event: MessageEvent) => {
 
                     let chatRoom = document.getElementById('chatRoom')
@@ -69,9 +89,10 @@ function start() {
                     new_message = parseData(event.data);
 
                     let message_content: any;
+
                     // console.log("接收到protobuf：\n", new_message);
                     // chatRoom!.innerHTML += `<div>${new_message.name}: ${new_message.msg} </div>`;
-                    if (1) {
+                    if (new_message.dtype !== "protoMediaControl") {
                         message_content = document.createElement('span');
                         const name_text_node = document.createTextNode(new_message.name + ": ");
                         const msg_text_node = document.createTextNode(new_message.msg);
@@ -114,56 +135,47 @@ function start() {
                             message_content.setAttribute('controls', 'true');
                         } else if (new_message.dtype.startsWith('audio')) {
                             const blob = new Blob([new_message.buffer])
-                            message_content = document.createElement('audio');
-                            message_content.src = URL.createObjectURL(blob);
-                            // message_content.play();
-                            message_content.setAttribute('type', new_message.dtype);
-                            message_content.setAttribute('controls', 'true');
-                            media_element = message_content;
-                            media_element.ontimeupdate = (event: any) => {
-                                if (message_content.paused && (new_message.name === contextUserName || new_message.dtype.startsWith("audio"))) {
-                                    console.log(message_content.played);
-                                    console.log(message_content.paused);
-                                    console.log(message_content.controller);
+                            media_element = document.createElement('audio');
+                            media_element.src = URL.createObjectURL(blob);
+                            // media_element.play();
+                            media_element.setAttribute('type', new_message.dtype);
+                            media_element.setAttribute('controls', 'true');
+                            message.appendChild(media_element);
+                            chatRoom!.appendChild(message);
+                            chatRoom!.scrollTop = chatRoom!.scrollHeight;
+                            // media_element.ontimeupdate = media_ele_ontimeupdate;
+                            media_element.onplay = media_event_send;
+                            media_element.onpause = media_event_send;
 
-                                    const payload = {
-                                        'msg': "MediaControl",
-                                        'name': contextUserName,
-                                        'dtype': "protoMediaControl",
-                                        'imgInfo': {'width': imageWidth, 'height': imageHeight},
-                                        'mediaControl': {
-                                            'currentTime': message_content.currentTime
-                                        },
-                                    };
-                                    const errMsg = ChatProto.verify(payload);
-                                    if (errMsg) {
-                                        throw Error(errMsg);
-                                    }
-                                    let mediaControlMessage = ChatProto.create(payload);
-                                    const controlBuffer = ChatProto.encode(mediaControlMessage).finish();
-                                    socket.send(controlBuffer);
-                                }
-                                // else{
-                                //     if (!isSelfCtrlTrig){
-                                //         isPaused = false;
-                                //     }
-                                // }
-                            }
                         }
 
                         addDownloadButton(message_content, new_message)
 
-                    } else if (new_message.name !== contextUserName &&
+                    }
+                    if (new_message.name !== contextUserName &&
                         new_message.dtype === "protoMediaControl"
-                    ){
+                    ) {
                         console.log(contextUserName);
                         console.log(new_message);
+                        // media_element.ontimeupdate = null;
+                        media_element.onplay = null;
+                        media_element.onpause = null;
                         media_element.currentTime = new_message.mediaControl.currentTime;
-                        // isSelfCtrlTrig = true;
+                        if (new_message.mediaControl.paused) {
+                            media_element.pause();
+                        } else {
+                            media_element.play();
+                        }
+                        // media_element.ontimeupdate = media_event_send;
+                        media_element.onplay = media_event_send;
+                        media_element.onpause = media_event_send;
+                    } else {
+                        if (typeof message_content !=='undefined') {
+                            message.appendChild(message_content);
+                            chatRoom!.appendChild(message);
+                            chatRoom!.scrollTop = chatRoom!.scrollHeight;
+                        }
                     }
-                    message.appendChild(message_content);
-                    chatRoom!.appendChild(message);
-                    chatRoom!.scrollTop = chatRoom!.scrollHeight;
                 };
 
                 socket.onclose = function (event: CloseEvent) {
