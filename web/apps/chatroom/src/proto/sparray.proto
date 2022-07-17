@@ -48,7 +48,7 @@ message ChatProto {
   string dtype = 5;
   string ts = 6; // timestamp
   Image imgInfo = 7;
-  MediaControl mediaControl = 8;
+  MediaControl mediaControl =8;
 }
 
 message Image {
@@ -56,7 +56,56 @@ message Image {
   float height=2;
 }
 
-message MediaControl {
-  float currentTime = 1;
-  bool paused = 2;
+message MediaControl{
+  bool paused = 1;
+  float currentTime = 2;
+  bytes buffer = 3;
+}
+
+service Sparray{
+    // simple rpc
+    rpc GetFeature(Point) returns (Feature) {}
+    // server2client stream rpc
+    rpc ListFeatures(Rectangle) returns (stream Feature) {}
+    // client2server stream rpc
+    rpc RecordRoute(stream Point) returns (RouteSummary) {}
+    // stream rpc
+    rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
+}
+
+message ChatMessage{
+  string message = 1;
+}
+
+message ChatResponse {
+  string message = 1;
+  bool received = 2;
+}
+
+
+message Point {
+    int32 latitude = 1;
+    int32 longitude = 2;
+}
+
+message Rectangle {
+    Point lo = 1;
+    Point hi = 2;
+}
+
+message Feature {
+    string name = 1;
+    Point location = 2;
+}
+
+message RouteNote {
+    Point location = 1;
+    string message = 2;
+}
+
+message RouteSummary {
+    int32 point_count = 1;
+    int32 feature_count = 2;
+    int32 distance = 3;
+    int32 elapsed_time = 4;
 }
