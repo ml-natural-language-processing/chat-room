@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xab\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"C\n\x0cMediaControl\x12\x0e\n\x06paused\x18\x01 \x01(\x08\x12\x13\n\x0b\x63urrentTime\x18\x02 \x01(\x02\x12\x0e\n\x06\x62uffer\x18\x03 \x01(\x0c\"\x1e\n\x0b\x43hatMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\"1\n\x0c\x43hatResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08received\x18\x02 \x01(\x08\",\n\x05Point\x12\x10\n\x08latitude\x18\x01 \x01(\x05\x12\x11\n\tlongitude\x18\x02 \x01(\x05\"C\n\tRectangle\x12\x1a\n\x02lo\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x1a\n\x02hi\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\"9\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x08location\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\">\n\tRouteNote\x12 \n\x08location\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x0cRouteSummary\x12\x13\n\x0bpoint_count\x18\x01 \x01(\x05\x12\x15\n\rfeature_count\x18\x02 \x01(\x05\x12\x10\n\x08\x64istance\x18\x03 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x04 \x01(\x05\x32\xea\x01\n\x07Sparray\x12\x30\n\nGetFeature\x12\x0e.sparray.Point\x1a\x10.sparray.Feature\"\x00\x12\x38\n\x0cListFeatures\x12\x12.sparray.Rectangle\x1a\x10.sparray.Feature\"\x00\x30\x01\x12\x38\n\x0bRecordRoute\x12\x0e.sparray.Point\x1a\x15.sparray.RouteSummary\"\x00(\x01\x12\x39\n\tRouteChat\x12\x12.sparray.RouteNote\x1a\x12.sparray.RouteNote\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xce\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\x12!\n\x07\x62igFile\x18\t \x01(\x0b\x32\x10.sparray.BigFile\"4\n\x07\x42igFile\x12\x0b\n\x03idx\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\r\n\x05\x63hunk\x18\x03 \x01(\x0c\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"C\n\x0cMediaControl\x12\x0e\n\x06paused\x18\x01 \x01(\x08\x12\x13\n\x0b\x63urrentTime\x18\x02 \x01(\x02\x12\x0e\n\x06\x62uffer\x18\x03 \x01(\x0c\"\x1e\n\x0b\x43hatMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\"1\n\x0c\x43hatResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08received\x18\x02 \x01(\x08\",\n\x05Point\x12\x10\n\x08latitude\x18\x01 \x01(\x05\x12\x11\n\tlongitude\x18\x02 \x01(\x05\"C\n\tRectangle\x12\x1a\n\x02lo\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x1a\n\x02hi\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\"9\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x08location\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\">\n\tRouteNote\x12 \n\x08location\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x0cRouteSummary\x12\x13\n\x0bpoint_count\x18\x01 \x01(\x05\x12\x15\n\rfeature_count\x18\x02 \x01(\x05\x12\x10\n\x08\x64istance\x18\x03 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x04 \x01(\x05\x32\xea\x01\n\x07Sparray\x12\x30\n\nGetFeature\x12\x0e.sparray.Point\x1a\x10.sparray.Feature\"\x00\x12\x38\n\x0cListFeatures\x12\x12.sparray.Rectangle\x1a\x10.sparray.Feature\"\x00\x30\x01\x12\x38\n\x0bRecordRoute\x12\x0e.sparray.Point\x1a\x15.sparray.RouteSummary\"\x00(\x01\x12\x39\n\tRouteChat\x12\x12.sparray.RouteNote\x1a\x12.sparray.RouteNote\"\x00(\x01\x30\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
@@ -222,6 +222,13 @@ _CHATPROTO = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='bigFile', full_name='sparray.ChatProto.bigFile', index=8,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -235,7 +242,53 @@ _CHATPROTO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=243,
-  serialized_end=414,
+  serialized_end=449,
+)
+
+
+_BIGFILE = _descriptor.Descriptor(
+  name='BigFile',
+  full_name='sparray.BigFile',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='idx', full_name='sparray.BigFile.idx', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='total', full_name='sparray.BigFile.total', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='chunk', full_name='sparray.BigFile.chunk', index=2,
+      number=3, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=451,
+  serialized_end=503,
 )
 
 
@@ -273,8 +326,8 @@ _IMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=416,
-  serialized_end=454,
+  serialized_start=505,
+  serialized_end=543,
 )
 
 
@@ -319,8 +372,8 @@ _MEDIACONTROL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=456,
-  serialized_end=523,
+  serialized_start=545,
+  serialized_end=612,
 )
 
 
@@ -351,8 +404,8 @@ _CHATMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=525,
-  serialized_end=555,
+  serialized_start=614,
+  serialized_end=644,
 )
 
 
@@ -390,8 +443,8 @@ _CHATRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=557,
-  serialized_end=606,
+  serialized_start=646,
+  serialized_end=695,
 )
 
 
@@ -429,8 +482,8 @@ _POINT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=608,
-  serialized_end=652,
+  serialized_start=697,
+  serialized_end=741,
 )
 
 
@@ -468,8 +521,8 @@ _RECTANGLE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=654,
-  serialized_end=721,
+  serialized_start=743,
+  serialized_end=810,
 )
 
 
@@ -507,8 +560,8 @@ _FEATURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=723,
-  serialized_end=780,
+  serialized_start=812,
+  serialized_end=869,
 )
 
 
@@ -546,8 +599,8 @@ _ROUTENOTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=782,
-  serialized_end=844,
+  serialized_start=871,
+  serialized_end=933,
 )
 
 
@@ -599,13 +652,14 @@ _ROUTESUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=846,
-  serialized_end=944,
+  serialized_start=935,
+  serialized_end=1033,
 )
 
 _DOCARRAYPROTO.fields_by_name['docs'].message_type = _DOCPROTO
 _CHATPROTO.fields_by_name['imgInfo'].message_type = _IMAGE
 _CHATPROTO.fields_by_name['mediaControl'].message_type = _MEDIACONTROL
+_CHATPROTO.fields_by_name['bigFile'].message_type = _BIGFILE
 _RECTANGLE.fields_by_name['lo'].message_type = _POINT
 _RECTANGLE.fields_by_name['hi'].message_type = _POINT
 _FEATURE.fields_by_name['location'].message_type = _POINT
@@ -614,6 +668,7 @@ DESCRIPTOR.message_types_by_name['DenseNdArrayProto'] = _DENSENDARRAYPROTO
 DESCRIPTOR.message_types_by_name['DocProto'] = _DOCPROTO
 DESCRIPTOR.message_types_by_name['DocArrayProto'] = _DOCARRAYPROTO
 DESCRIPTOR.message_types_by_name['ChatProto'] = _CHATPROTO
+DESCRIPTOR.message_types_by_name['BigFile'] = _BIGFILE
 DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
 DESCRIPTOR.message_types_by_name['MediaControl'] = _MEDIACONTROL
 DESCRIPTOR.message_types_by_name['ChatMessage'] = _CHATMESSAGE
@@ -652,6 +707,13 @@ ChatProto = _reflection.GeneratedProtocolMessageType('ChatProto', (_message.Mess
   # @@protoc_insertion_point(class_scope:sparray.ChatProto)
   })
 _sym_db.RegisterMessage(ChatProto)
+
+BigFile = _reflection.GeneratedProtocolMessageType('BigFile', (_message.Message,), {
+  'DESCRIPTOR' : _BIGFILE,
+  '__module__' : 'sparray_pb2'
+  # @@protoc_insertion_point(class_scope:sparray.BigFile)
+  })
+_sym_db.RegisterMessage(BigFile)
 
 Image = _reflection.GeneratedProtocolMessageType('Image', (_message.Message,), {
   'DESCRIPTOR' : _IMAGE,
@@ -725,8 +787,8 @@ _SPARRAY = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=947,
-  serialized_end=1181,
+  serialized_start=1036,
+  serialized_end=1270,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetFeature',

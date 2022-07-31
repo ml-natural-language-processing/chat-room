@@ -3,18 +3,21 @@ import axios from "axios";
 import {
     download, saveArrayBuffer, saveString,
     read_imgs, read_img_simgle, read_data, read_single_data,
-    arraybuffer2base64
+    arraybuffer2base64, concatenate
 } from "./utils";
 import {getCookie} from "../utils";
 import {UserConfig} from "../config_gen";
+import {Status} from "./state";
 
 
 const websocket_dir = UserConfig.websocketDir;
 
-let socket: any
+let socket: WebSocket;
+let showMessage = true;
 
 const sendButton = document.getElementById('btn') as HTMLElement
 const uploadElement = document.getElementById('sendFile') as HTMLInputElement;
+const uploadSliceElement = document.getElementById('sendSliceFile') as HTMLInputElement;
 
 const context = document.getElementById('context') as any;
 let contextUserName: string;
@@ -89,7 +92,24 @@ function start() {
                     }
                     new_message = parseData(event.data);
 
-                    const add_media_element = (media_type: string)=>{
+                    if (new_message.bigFile !== null) {
+                        Status.file.bigFileMap[new_message.bigFile.idx] = new_message.bigFile.chunk;
+                        Status.file.chunkFileCounts += 1;
+                        showMessage = false;
+                        if (Status.file.chunkFileCounts == new_message.bigFile.total) {
+                            Status.file.chunkFileCounts = 0;
+                            let totalBuffer = new Uint8Array();
+                            for (let idx = 0; idx < new_message.bigFile.total; idx++) {
+                                totalBuffer = concatenate(Uint8Array, totalBuffer, Status.file.bigFileMap[idx]);
+                            }
+                            new_message.buffer = totalBuffer;
+                            Status.file.bigFileMap = {};
+                            showMessage = true;
+                        }
+                    }
+
+
+                    const add_media_element = (media_type: string) => {
                         const blob = new Blob([new_message.buffer])
                         media_element = document.createElement(media_type);
                         media_element.src = URL.createObjectURL(blob);
@@ -170,7 +190,7 @@ function start() {
                         media_element.onplay = media_event_send;
                         media_element.onpause = media_event_send;
                     } else {
-                        if (typeof message_content !=='undefined') {
+                        if (showMessage && typeof message_content !== 'undefined') {
                             message.appendChild(message_content);
                             chatRoom!.appendChild(message);
                             chatRoom!.scrollTop = chatRoom!.scrollHeight;
@@ -227,20 +247,25 @@ uploadElement.onchange = async () => {
     };
     // imageHeight = 0;
     // imageWidth = 0;
-
     sendMessage(payload);
+
+}
+
+uploadSliceElement.onchange = async () => {
+    const dataResList: any = await read_data(uploadSliceElement.files!);
+    // TODO
+    const dataRes = dataResList[0];
+    await uploadBigFile(dataRes, socket);
 
 }
 
 sendButton.onclick = function () {
     const new_message = ChatProto.decode(chat_buffer);
-    if (new_message.msg !== "") {
-        new_message.msg = context.value;
-        new_message.name = contextUserName;
-        context.value = "";
-        chat_buffer = ChatProto.encode(new_message).finish();
-        socket.send(chat_buffer);
-    }
+    new_message.msg = context.value;
+    new_message.name = contextUserName;
+    context.value = "";
+    chat_buffer = ChatProto.encode(new_message).finish();
+    socket.send(chat_buffer);
 }
 
 
@@ -287,4 +312,50 @@ function createFileChunk(file: File, Size: number) {
 }
 
 function calcHash(fileChunkList: Blob[]) {
+}
+
+
+async function uploadBigFile(dataRes: any, socket: WebSocket) {
+    if (dataRes['dtype'].startsWith("image")) {
+        const imgInfoList = await read_imgs(uploadSliceElement.files!);
+        const imgInfo: any = imgInfoList[0];
+        imageWidth = imgInfo['width'];
+        imageHeight = imgInfo['height'];
+    }
+
+    const buffer = new Uint8Array(dataRes['buffer'])
+
+    const totalSize = buffer.length;
+    const chunkSize = 1024 * 1024 / 4;
+    const totalChunks = Math.ceil(totalSize / chunkSize);
+    // const spark = new SparkMD5.ArrayBuffer();
+    let endIdx: number;
+    let currentChunk: number;
+
+    for (currentChunk = 0; currentChunk < totalChunks; currentChunk++) {
+        endIdx = chunkSize * (currentChunk + 1);
+        if (endIdx >= totalSize) {
+            endIdx = totalSize;
+        }
+        const chunk = buffer.slice(chunkSize * currentChunk, endIdx);
+        // spark.append(chunk);
+        const chunkPayload = {
+            'msg': dataRes['msg'],
+            'name': dataRes['name'],
+            'dtype': dataRes['dtype'],
+            'imgInfo': {'width': imageWidth, 'height': imageHeight},
+            'bigFile': {
+                'idx': currentChunk,
+                'total': totalChunks,
+                'chunk': chunk,
+            }
+        }
+
+        const errMsg = ChatProto.verify(chunkPayload);
+        if (errMsg) {
+            throw Error(errMsg);
+        }
+        const chunkmessage = ChatProto.create(chunkPayload);
+        socket.send(ChatProto.encode(chunkmessage).finish());
+    }
 }

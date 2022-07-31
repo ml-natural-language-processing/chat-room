@@ -11,7 +11,8 @@ PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts"
 # Path to the grpc_node_plugin
 PROTOC_GEN_GRPC_PATH="./node_modules/protoc-gen-grpc/bin/grpc_node_plugin"
 
-OUT_DIR="./src/proto/modules"
+PROTO_DIR="src/proto"
+OUT_DIR="../protojs/"
 #protoc \
 #    --plugin="protoc-gen-ts=${PROTOC_GEN_TS_PATH}" \
 #    --plugin="protoc-gen-grpc=${PROTOC_GEN_GRPC_PATH}" \
@@ -21,11 +22,16 @@ OUT_DIR="./src/proto/modules"
 #    ./src/proto/*.proto
 
 # another option
-protoc-gen-grpc \
---js_out="import_style=commonjs,binary:${OUT_DIR}" \
---grpc_out="${OUT_DIR}" \
-./src/proto/*.proto
+#protoc-gen-grpc \
+#--js_out="import_style=commonjs,binary:${OUT_DIR}" \
+#--grpc_out="${OUT_DIR}" \
+#./src/proto/*.proto
+#
+#protoc-gen-grpc-ts \
+#--ts_out=grpc_js:${OUT_DIR} \
+#./src/proto/*.proto
 
-protoc-gen-grpc-ts \
---ts_out=grpc_js:${OUT_DIR} \
-./src/proto/*.proto
+protoc -I=$PROTO_DIR sparray.proto\
+  --js_out=import_style=commonjs:${PROTO_DIR} \
+  --grpc-web_out=import_style=typescript,mode=grpcwebtext:${PROTO_DIR}
+#  --grpc-web_out=import_style=commonjs,mode=grpcwebtext:${PROTO_DIR}
