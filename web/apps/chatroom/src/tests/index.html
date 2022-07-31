@@ -71,35 +71,14 @@
 </head>
 
 <body>
-<h1 style="text-align: center;">聊天室 v0.3 </h1>
-
-
-<div id="equation" style="visibility: visible;height:200px;width:500px;margin:0 auto;float:left;">
-    <p>
-        \[attention({\color{red} q}, {\color{green} k}, {\color{blue} v}) = {softmax({{\color{red} q} {\color{green}
-        k^T} \over \color{grey}{\sqrt{d_{k}}}})} {\color{blue} v}\]
-
-    </p>
-
-    <div style="min-width:359px; max-width:500px; margin:0 auto;float:left">
-        <pre>
-          <code class="python">
-    def attention(q, k, v):
-        # for pytorch
-        s = q.shape[-2] ** -0.5
-        return (q @ k.t() * s).softmax(dim=-2) @ v</code>
-        </pre>
-    </div>
-
-</div>
-
+<h1 style="text-align: center;">聊天室 v0.21 </h1>
 
 <link rel="stylesheet" href="../js/bootstrap.min.css">
 <div class="chat-body card">
 
 <div class="chat-message card-body">
     <div> 
-        <label for="context">输入消息：</label><textarea id="context"></textarea>
+        <label for="context">输入消息：</label><textarea rows="3" cols="50" spellcheck="true"  maxlength="160" style="font-size:1em" id="context"></textarea>
         <button id="btn"> 点击发送消息</button>
     </div>
     <div>
@@ -118,7 +97,7 @@
 
 
 
-<script src="./chat.js"></script>
+<script src="./tests.js"></script>
 
 <!--<div class="chat-body card">-->
 <!--    <div class="card-body">-->

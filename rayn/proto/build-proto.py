@@ -43,7 +43,7 @@ def build_web():
         # 可
         command = f"protoc --proto_path={proto_dir} \
         --js_out=import_style=commonjs:{javascript_out} \
-        --grpc-web_out=import_style=typescript,mode=grpcweb:{javascript_out} \
+        --grpc-web_out=import_style=typescript,mode=grpcwebtext:{javascript_out} \
         {proto_path}"
         os.system(command)
 
@@ -68,6 +68,6 @@ def copy_proto_to_web():
         #     shutil.copy(proto_path, web_proto_path)
 
 
-build_python()
+# build_python()
 # build_web()
 copy_proto_to_web()

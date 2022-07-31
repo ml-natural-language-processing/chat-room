@@ -44,6 +44,21 @@ async def get_cookie_or_token(
     return session or token
 
 
+@app.websocket("/tests/ws")
+async def tests(websocket: WebSocket):
+    await websocket.accept()
+    testproto = ChatProto()
+    try:
+        while True:
+            data = await websocket.receive_bytes()
+            testproto.ParseFromString(data)
+            # print(f"{testproto.name}: {testproto.msg}")
+            # await websocket.send_bytes(testproto.SerializeToString())
+            await websocket.send_bytes(data)
+    except WebSocketDisconnect:
+        ...
+
+
 @app.websocket("/chat/{item_id}/ws")
 async def chat(websocket: WebSocket,
                item_id: str,  # not used
@@ -54,10 +69,11 @@ async def chat(websocket: WebSocket,
     try:
         while True:
             byte_data = await websocket.receive_bytes()
-            chatproto.ParseFromString(byte_data)
-            manager.save_msg(proro_info=chatproto)
+            # chatproto.ParseFromString(byte_data)
+            # manager.save_msg(proro_info=chatproto)
             # print(manager.userChatDict[chatproto.name])
-            await manager.broadcast(chatproto.SerializeToString())
+            # await manager.broadcast(chatproto.SerializeToString())
+            await manager.broadcast(byte_data)
     except WebSocketDisconnect:
         leave_info = ChatProto()
         leave_info.name = "官方广播"

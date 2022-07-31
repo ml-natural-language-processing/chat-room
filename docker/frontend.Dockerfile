@@ -68,3 +68,29 @@ npm install "webpack-cli@~4.9.2"             --location=global && \
 npm install "webpack-dev-server@~4.9.0"      --location=global && \
 npm install "http-proxy-middleware@~2.0.6"   --location=global && \
 npm install "axios@~0.27.2"                  --location=global
+
+LABEL maintainer="kunyuan.yao@gmail.com"
+# Install miniconda
+ARG PYTHON_VERSION=3.9
+ARG CONDA_DIR=/opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+COPY ./docker/Miniconda3-*.sh /tmp/miniconda.sh
+RUN apt install -y --no-install-recommends ca-certificates && \
+    echo 'export PATH=$CONDA_DIR/bin:$PATH' > /etc/profile.d/conda.sh && \
+    /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR && \
+    rm -rf /tmp/* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main/ && \
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free/ && \
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/ && \
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/msys2/ && \
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda/ && \
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/menpo/ && \
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/ && \
+conda config --set show_channel_urls yes
+RUN conda install -y python=$PYTHON_VERSION
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
+RUN npm install "zeromq@~6.0.0-beta.6"       --location=global

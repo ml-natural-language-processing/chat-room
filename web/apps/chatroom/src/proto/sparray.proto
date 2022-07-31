@@ -48,7 +48,13 @@ message ChatProto {
   string dtype = 5;
   string ts = 6; // timestamp
   Image imgInfo = 7;
-  MediaControl mediaControl =8;
+  MediaControl mediaControl = 8;
+  BigFile bigFile = 9;
+}
+message BigFile{
+  int32 idx = 1;
+  int32 total = 2;
+  bytes chunk = 3;
 }
 
 message Image {

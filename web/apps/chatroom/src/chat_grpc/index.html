@@ -71,28 +71,7 @@
 </head>
 
 <body>
-<h1 style="text-align: center;">聊天室 v0.3 </h1>
-
-
-<div id="equation" style="visibility: visible;height:200px;width:500px;margin:0 auto;float:left;">
-    <p>
-        \[attention({\color{red} q}, {\color{green} k}, {\color{blue} v}) = {softmax({{\color{red} q} {\color{green}
-        k^T} \over \color{grey}{\sqrt{d_{k}}}})} {\color{blue} v}\]
-
-    </p>
-
-    <div style="min-width:359px; max-width:500px; margin:0 auto;float:left">
-        <pre>
-          <code class="python">
-    def attention(q, k, v):
-        # for pytorch
-        s = q.shape[-2] ** -0.5
-        return (q @ k.t() * s).softmax(dim=-2) @ v</code>
-        </pre>
-    </div>
-
-</div>
-
+<h1 style="text-align: center;">聊天室 v0.21 </h1>
 
 <link rel="stylesheet" href="../js/bootstrap.min.css">
 <div class="chat-body card">
@@ -105,9 +84,6 @@
     <div>
         <label for="sendFile">发送文件：</label> <input type="file" id="sendFile">
     </div>
-    <div>
-        <label for="sendSliceFile">发送分片文件：</label> <input type="file" id="sendSliceFile">
-    </div>
 </div>
 
     <div id="chatRoom" style="float:left;">
@@ -118,7 +94,7 @@
 
 
 
-<script src="./chat.js"></script>
+<script src="./chat_grpc.js"></script>
 
 <!--<div class="chat-body card">-->
 <!--    <div class="card-body">-->

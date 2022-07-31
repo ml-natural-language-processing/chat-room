@@ -1,5 +1,6 @@
 import axios from "axios";
-import {setCookie, UserConfig} from "./utils";
+import {setCookie} from "./utils";
+import {UserConfig} from "./config_gen";
 
 // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 // axios.defaults.headers.post['Access-Control-Request-Method'] = '*';
