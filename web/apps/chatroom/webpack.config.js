@@ -49,7 +49,7 @@ module.exports = {
         static: path.join(__dirname, 'dist'),
         host: "0.0.0.0",
         allowedHosts: "all",
-        port: 80,
+        port: 9090,
         open: true,
     },
     plugins: [
