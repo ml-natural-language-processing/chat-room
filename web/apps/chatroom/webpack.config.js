@@ -48,7 +48,8 @@ module.exports = {
         // contentBase: path.join(__dirname, 'dist'),
         static: path.join(__dirname, 'dist'),
         host: "0.0.0.0",
-        port: 9090,
+        allowedHosts: "all",
+        port: 80,
         open: true,
     },
     plugins: [
