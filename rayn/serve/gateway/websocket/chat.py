@@ -74,10 +74,13 @@ async def chat(websocket: WebSocket,
             # print(manager.userChatDict[chatproto.name])
             # await manager.broadcast(chatproto.SerializeToString())
             await manager.broadcast(byte_data)
-    except WebSocketDisconnect:
+    # except WebSocketDisconnect:
+    except Exception as e:
+        print(e)
         leave_info = ChatProto()
         leave_info.name = "官方广播"
         leave_info.msg = f"{cookie_or_token} 离开了聊天室"
+        # await manager.connect(websocket, cookie_or_token)
         manager.disconnect(cookie_or_token)
         await manager.broadcast(leave_info.SerializeToString())
 
