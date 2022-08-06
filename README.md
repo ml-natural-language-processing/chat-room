@@ -3,7 +3,6 @@
 ## Run in Docker
 Move to project root dir:
 ```bash
-python template/build.py
 make start
 ```
 That's all.
@@ -51,3 +50,6 @@ export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1
 #pip install grpcio
 pip install -r requrements.txt
 ```
+
+### Deep learning
+- webonnx: https://github.com/webonnx/wonnx

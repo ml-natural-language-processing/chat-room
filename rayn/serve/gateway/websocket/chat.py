@@ -11,6 +11,8 @@ from fastapi import (
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Union, Optional
 from fastapi import Cookie, Depends, FastAPI, Query, WebSocket, status
+import asyncio
+import websockets
 
 origins = [
     "http://localhost",
@@ -45,18 +47,20 @@ async def get_cookie_or_token(
 
 
 @app.websocket("/tests/ws")
-async def tests(websocket: WebSocket):
-    await websocket.accept()
-    testproto = ChatProto()
+async def tests(websocket: WebSocket,
+                cookie_or_token: str = Depends(get_cookie_or_token)):
+    await manager.connect(websocket, cookie_or_token, ws_type='file')
+    # testproto = ChatProto()
     try:
         while True:
             data = await websocket.receive_bytes()
-            testproto.ParseFromString(data)
+            # testproto.ParseFromString(data)
             # print(f"{testproto.name}: {testproto.msg}")
             # await websocket.send_bytes(testproto.SerializeToString())
-            await websocket.send_bytes(data)
+            # await websocket.send_bytes(data)
+            await manager.broadcast(data, 'file')
     except WebSocketDisconnect:
-        ...
+        manager.disconnect(cookie_or_token)
 
 
 @app.websocket("/chat/{item_id}/ws")
@@ -65,7 +69,7 @@ async def chat(websocket: WebSocket,
                q: Union[int, None] = None,  # not used
                cookie_or_token: str = Depends(get_cookie_or_token),  # username
                ):
-    await manager.connect(websocket, cookie_or_token)
+    await manager.connect(websocket, cookie_or_token, ws_type='chat')
     try:
         while True:
             byte_data = await websocket.receive_bytes()
@@ -73,13 +77,16 @@ async def chat(websocket: WebSocket,
             # manager.save_msg(proro_info=chatproto)
             # print(manager.userChatDict[chatproto.name])
             # await manager.broadcast(chatproto.SerializeToString())
-            await manager.broadcast(byte_data)
-    except WebSocketDisconnect:
+            await manager.broadcast(byte_data, ws_type='chat')
+    # except WebSocketDisconnect:
+    except Exception as e:
+        print(e)
         leave_info = ChatProto()
         leave_info.name = "官方广播"
         leave_info.msg = f"{cookie_or_token} 离开了聊天室"
+        # await manager.connect(websocket, cookie_or_token)
         manager.disconnect(cookie_or_token)
-        await manager.broadcast(leave_info.SerializeToString())
+        await manager.broadcast(leave_info.SerializeToString(), ws_type='chat')
 
 
 class RegisterValidator(BaseModel):

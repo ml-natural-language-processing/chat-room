@@ -11,16 +11,18 @@ class ConnectionManager:
         self.userAudioDict = {}
         self.userVideoDict = {}
 
-    async def connect(self, ws: WebSocket, token: str):
+    async def connect(self, ws: WebSocket, token: str, ws_type: str = 'chat'):
         await ws.accept()
-        self.active_connections[token] = ws
+        if token not in self.active_connections:
+            self.active_connections.setdefault(token, {})
+            self.active_connections[token][ws_type] = ws
 
     def disconnect(self, token: str):
         self.active_connections.pop(token)
 
-    async def broadcast(self, data: bytes):
-        for connection in self.active_connections.values():
-            await connection.send_bytes(data)
+    async def broadcast(self, data: bytes, ws_type='chat'):
+        for connection_dict in self.active_connections.values():
+            await connection_dict[ws_type].send_bytes(data)
 
     def save_msg(self, proro_info):
         name, msg = proro_info.name, proro_info.msg

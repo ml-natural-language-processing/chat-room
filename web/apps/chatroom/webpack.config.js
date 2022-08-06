@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader')
 module.exports = {
     entry: {
         "index": './src/index.ts',
@@ -17,14 +18,28 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                loader: 'ts-loader', // use 和 loader区别是 user后面可以跟多个loader.
+                options: {
+                    appendTsSuffixTo: [/\.vue$/]
+                },
                 exclude: /node_modules/,
             },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader'
+                ]
+            }
         ],
     },
 
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.tsx', '.ts', '.js', '.json', '.vue'],
         fallback: {
             "fs": false,
             // "os": false,
@@ -48,10 +63,12 @@ module.exports = {
         // contentBase: path.join(__dirname, 'dist'),
         static: path.join(__dirname, 'dist'),
         host: "0.0.0.0",
+        allowedHosts: "all",
         port: 9090,
         open: true,
     },
     plugins: [
+        new VueLoaderPlugin(),
         new CopyPlugin({
                 patterns: [
                     {from: './src', to: './'},

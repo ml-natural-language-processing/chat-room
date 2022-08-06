@@ -14,7 +14,7 @@ const websocket_dir = UserConfig.websocketDir;
 
 let socket: WebSocket;
 let showMessage = true;
-
+let percent_message_content = document.createElement('span');
 const sendButton = document.getElementById('btn') as HTMLElement
 const uploadElement = document.getElementById('sendFile') as HTMLInputElement;
 const uploadSliceElement = document.getElementById('sendSliceFile') as HTMLInputElement;
@@ -94,7 +94,12 @@ function start() {
 
                     if (new_message.bigFile !== null) {
                         Status.file.bigFileMap[new_message.bigFile.idx] = new_message.bigFile.chunk;
+                        if (Status.file.chunkFileCounts == 0){
+                            chatRoom!.appendChild(percent_message_content);
+                        }
                         Status.file.chunkFileCounts += 1;
+                        const percentNum = Status.file.chunkFileCounts/new_message.bigFile.total * 100;
+                        percent_message_content.innerHTML = `Downloading... ${percentNum.toFixed(2)} %`;
                         showMessage = false;
                         if (Status.file.chunkFileCounts == new_message.bigFile.total) {
                             Status.file.chunkFileCounts = 0;
@@ -175,8 +180,8 @@ function start() {
                     if (new_message.name !== contextUserName &&
                         new_message.dtype === "protoMediaControl"
                     ) {
-                        console.log(contextUserName);
-                        console.log(new_message);
+                        // console.log(contextUserName);
+                        // console.log(new_message);
                         // media_element.ontimeupdate = null;
                         media_element.onplay = null;
                         media_element.onpause = null;
@@ -248,15 +253,17 @@ uploadElement.onchange = async () => {
     // imageHeight = 0;
     // imageWidth = 0;
     sendMessage(payload);
-
 }
 
 uploadSliceElement.onchange = async () => {
-    const dataResList: any = await read_data(uploadSliceElement.files!);
-    // TODO
-    const dataRes = dataResList[0];
-    await uploadBigFile(dataRes, socket);
-
+    // const dataResList: any = await read_data(uploadSliceElement.files!);
+    // let bigFileSocket = new WebSocket(`ws://${websocket_dir}/tests/ws?token=${contextUserName}`);
+    // bigFileSocket.binaryType = 'arraybuffer'
+    read_data(uploadSliceElement.files!).then(dataResList =>{
+        // TODO
+        const dataRes = dataResList[0];
+        uploadBigFile(dataRes, socket).then();
+    });
 }
 
 sendButton.onclick = function () {
@@ -326,13 +333,22 @@ async function uploadBigFile(dataRes: any, socket: WebSocket) {
     const buffer = new Uint8Array(dataRes['buffer'])
 
     const totalSize = buffer.length;
-    const chunkSize = 1024 * 1024 / 4;
+    const chunkSize = 1024 * 1024;
     const totalChunks = Math.ceil(totalSize / chunkSize);
     // const spark = new SparkMD5.ArrayBuffer();
     let endIdx: number;
     let currentChunk: number;
 
+    let chatRoom = document.getElementById('chatRoom')
+
+    let uploadPercentSpan = document.createElement('span');
+    let message = document.createElement('li');
+    message.appendChild(uploadPercentSpan);
+    chatRoom!.appendChild(message);
+
     for (currentChunk = 0; currentChunk < totalChunks; currentChunk++) {
+        const percentNum = (currentChunk+1)/totalChunks * 100;
+        uploadPercentSpan.innerHTML = `Uploading...${percentNum.toFixed(2)} %`;
         endIdx = chunkSize * (currentChunk + 1);
         if (endIdx >= totalSize) {
             endIdx = totalSize;
@@ -356,6 +372,6 @@ async function uploadBigFile(dataRes: any, socket: WebSocket) {
             throw Error(errMsg);
         }
         const chunkmessage = ChatProto.create(chunkPayload);
-        socket.send(ChatProto.encode(chunkmessage).finish());
+            socket.send(ChatProto.encode(chunkmessage).finish());
     }
 }
