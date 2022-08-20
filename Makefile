@@ -8,7 +8,7 @@ cpu-tag = ":ubunt2004"
 cuda-tag= ":cuda11.3-cudnn8-ubunt2004"
 
 backend_port = 51221# in: 8080
-frontend_port = 80# in: 9090
+frontend_port = 9090# in: 9090
 currentdir = $(shell pwd)
 frontend_container_name = "frontend-container-name"
 
@@ -39,3 +39,7 @@ rm-backend:
 
 rm: rm-frontend rm-backend
 start: rm-backend start-backend-dev rm-frontend start-frontend-dev
+
+gen-cert:
+	python template/gen_cert.py
+

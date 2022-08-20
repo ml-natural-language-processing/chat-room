@@ -7,4 +7,8 @@ if __name__ == "__main__":
     uvicorn.run("rayn.serve.gateway.websocket.chat:app",
                 host=host,
                 port=port,
-                reload=reload)
+                reload=reload,
+                # workers=2,
+                ssl_keyfile="./web/apps/chatroom/ca/key.pem",
+                ssl_certfile="./web/apps/chatroom/ca/cert.pem",
+                )
