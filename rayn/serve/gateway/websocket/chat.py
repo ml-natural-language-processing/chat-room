@@ -27,7 +27,7 @@ from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 chatproto = ChatProto()
 app = FastAPI()
 
-app.add_middleware(HTTPSRedirectMiddleware)
+# app.add_middleware(HTTPSRedirectMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # origins

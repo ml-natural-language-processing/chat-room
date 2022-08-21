@@ -8,6 +8,7 @@ AUTHORS
 
 .idea
 .vscode/
+grpc-web/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

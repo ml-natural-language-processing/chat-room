@@ -66,11 +66,11 @@ module.exports = {
         host: "0.0.0.0",
         allowedHosts: "all",
         port: 9090,
-        open: true,
-        https: {
-            key: fs.readFileSync(path.join(__dirname, "./ca/key.pem")),
-            cert: fs.readFileSync(path.join(__dirname, "./ca/cert.pem")),
-        }
+        // open: true,
+        // https: {
+        //     key: fs.readFileSync(path.join(__dirname, "./ca/key.pem")),
+        //     cert: fs.readFileSync(path.join(__dirname, "./ca/cert.pem")),
+        // }
     },
     plugins: [
         new VueLoaderPlugin(),

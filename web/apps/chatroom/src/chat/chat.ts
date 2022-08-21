@@ -53,7 +53,7 @@ function start() {
                 // const user_id = userStatus.get("username");
                 // console.log(userStatus);
                 const user_id = "placeholder";
-                socket = new WebSocket(`wss://${websocket_dir}/chat/${user_id}/ws?token=${contextUserName}`);
+                socket = new WebSocket(`ws://${websocket_dir}/chat/${user_id}/ws?token=${contextUserName}`);
                 socket.binaryType = 'arraybuffer'
 
                 socket.onopen = (e: Event) => {

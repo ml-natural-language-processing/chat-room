@@ -8,7 +8,7 @@ from concurrent import futures
 import logging
 import math
 import time
-
+from sparrow import rel_to_abs
 import grpc
 import json
 
@@ -20,7 +20,7 @@ def read_route_guide_database():
       pb2.Features.
   """
     feature_list = []
-    with open("route_guide_db.json") as route_guide_db_file:
+    with open(rel_to_abs("route_guide_db.json", return_str=True)) as route_guide_db_file:
         for item in json.load(route_guide_db_file):
             feature = pb2.Feature(
                 name=item["name"],
@@ -123,6 +123,6 @@ def serve():
     server.wait_for_termination()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig()
     serve()

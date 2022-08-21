@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import sparray_pb2 as sparray__pb2
+from . import sparray_pb2 as sparray__pb2
 
 
 class SparrayStub(object):

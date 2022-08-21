@@ -26,7 +26,7 @@ function start() {
             if (currentUser) {
                 const data = {"username": currentUser};
                 try {
-                    axios.post(`https://${websocket_dir}/api/verifyUserName`, data,
+                    axios.post(`http://${websocket_dir}/api/verifyUserName`, data,
                         ).then(res => {
                         const data = res.data;
                         userStatus.set('username', data.username)
@@ -52,7 +52,7 @@ function start() {
                 if (currentPwd) {
                     const data = {"username": currentUser, "password": currentPwd, 'is_new': userStatus.get('is_new')};
                     try {
-                        axios.post(`https://${websocket_dir}/api/register`, data).then(res => {
+                        axios.post(`http://${websocket_dir}/api/register`, data).then(res => {
                             // console.log(res.data);
                             const resp_data = res.data;
                             if (resp_data.code == 0) {

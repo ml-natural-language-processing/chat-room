@@ -1,21 +1,18 @@
-// import * as zmq from '@types/zeromq';
-// import * as zmq from 'zeromq';
-// const zmq = require("zeromq")
 // import * as protobuf from 'protobufjs';
 import {SparrayClient} from '../proto/module/SparrayServiceClientPb'
 import * as pb2 from '../proto/module/sparray_pb'
 // import {CodeGeneratorResponse} from "google-protobuf/google/protobuf/compiler/plugin_pb";
 // import Feature = CodeGeneratorResponse.Feature;
 
-
 //tutorial https://github.com/grpc/grpc/blob/v1.46.3/examples/node/dynamic_codegen/route_guide/route_guide_client.js
 // grpc-web https://grpc.io/blog/grpc-web-ga/
 // grpc-web 才是可以运行在浏览器上的
 
-const client = new SparrayClient("http://0.0.0.0:50051");
+// const client = new SparrayClient("http://localhost:50050");
+const client = new SparrayClient('http://' + window.location.hostname + ':50050',
+    null, null);
 const request = new pb2.Feature()
 
-console.log("emmmmmmmmmmmmmmmmmmmmmmm")
 request.setName("emmmm")
 
 // const point2 = {
@@ -28,8 +25,14 @@ point2.setLatitude(20);
 point2.setLongitude(234);
 request.setLocation(point2)
 
-console.log('aaaaaaaaaaaaaaaa')
 client.getFeature(point2, {}, function(err, response) {
+    if (err){
+        console.log(err.code);
+    }else {
+        alert("in alert")
+        console.log("aaaaaaaaaa")
+        console.log(response.getLocation());
+    }
     // ...
 });
 
