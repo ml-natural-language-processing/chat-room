@@ -114,11 +114,11 @@ class SparrayServicer(pb2_grpc.SparrayServicer):
             prev_notes.append(new_note)
 
 
-def serve():
+def serve(hostname="[::]:50051"):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     pb2_grpc.add_SparrayServicer_to_server(
         SparrayServicer(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(hostname)
     server.start()
     server.wait_for_termination()
 

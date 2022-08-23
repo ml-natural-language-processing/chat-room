@@ -5,4 +5,4 @@ import logging
 
 if __name__ == "__main__":
     logging.basicConfig()
-    serve()
+    serve("[::]:50051")

@@ -46,7 +46,7 @@ RUN pip install opencv-python-headless \
                 opencv-contrib-python-headless \
                 fastapi>=0.78.0 \
                 uvicorn[standard]>=0.17.6 \
-                sparrow-tool>=0.5.9
+                sparrow-tool>=0.6.3
 RUN pip install protobuf==3.20.1
 RUN pip install pymilvus==2.0.2
 
