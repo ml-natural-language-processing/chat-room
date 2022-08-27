@@ -121,7 +121,8 @@ function start() {
                         // media_element = new Audio(URL.createObjectURL(blob))
                         // media_element.setAttribute('type', new_message.dtype);
                         console.log(new_message.dtype);
-                        media_element.setAttribute('controls', 'true');
+                        // media_element.setAttribute('controls', 'true');
+                        media_element.controls = 'true'
                         message.appendChild(media_element);
                         chatRoom!.appendChild(message);
                         chatRoom!.scrollTop = chatRoom!.scrollHeight;

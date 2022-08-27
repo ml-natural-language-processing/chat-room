@@ -24,6 +24,7 @@ def read_route_guide_database():
             feature_list.append(feature)
     return feature_list
 
+
 def make_route_note(message, latitude, longitude):
     return pb2.RouteNote(
         message=message,
@@ -45,7 +46,7 @@ def guide_get_one_feature(stub, point):
 def guide_get_feature(stub):
     guide_get_one_feature(
         stub, pb2.Point(latitude=409146138, longitude=-746188906))
-    guide_get_one_feature(stub, pb2.Point(latitude=0, longitude=0))
+    # guide_get_one_feature(stub, pb2.Point(latitude=0, longitude=0))
 
 
 def guide_list_features(stub):
@@ -98,20 +99,44 @@ def guide_route_chat(stub):
               (response.message, response.location))
 
 
+def big_data_chat(stub):
+
+    def get_iter():
+        messages = [
+            pb2.BigFile(idx=1, total=100,),
+            pb2.BigFile(idx=2, total=100,),
+            pb2.BigFile(idx=3, total=100,),
+            pb2.BigFile(idx=4, total=100,),
+            pb2.BigFile(idx=5, total=100,),
+            pb2.BigFile(idx=6, total=100,),
+        ]
+        for msg in messages:
+            print(f"Sending big file id: {msg.idx}")
+            yield msg
+    responses = stub.GetBigFile(get_iter())
+    for response in responses:
+        print(f"received:", type(response))
+        print(response)
+
+
+
 def run():
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = pb2_grpc.SparrayStub(channel)
-        print("-------------- GetFeature --------------")
-        guide_get_feature(stub)
+        # print("-------------- GetFeature --------------")
+        # guide_get_feature(stub)
         # print("-------------- ListFeatures --------------")
         # guide_list_features(stub)
         # print("-------------- RecordRoute --------------")
         # guide_record_route(stub)
-        print("-------------- RouteChat --------------")
-        guide_route_chat(stub)
+        # print("-------------- RouteChat --------------")
+        # guide_route_chat(stub)
+
+        print("-------------- BigFile --------------")
+        big_data_chat(stub)
 
 
 if __name__ == '__main__':

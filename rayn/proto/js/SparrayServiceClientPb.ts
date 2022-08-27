@@ -27,12 +27,98 @@ export class SparrayClient {
                options?: null | { [index: string]: any; }) {
     if (!options) options = {};
     if (!credentials) credentials = {};
-    options['format'] = 'binary';
+    options['format'] = 'text';
 
     this.client_ = new grpcWeb.GrpcWebClientBase(options);
     this.hostname_ = hostname;
     this.credentials_ = credentials;
     this.options_ = options;
+  }
+
+  methodDescriptorGetChat = new grpcWeb.MethodDescriptor(
+    '/sparray.Sparray/GetChat',
+    grpcWeb.MethodType.UNARY,
+    sparray_pb.ChatMessage,
+    sparray_pb.ChatResponse,
+    (request: sparray_pb.ChatMessage) => {
+      return request.serializeBinary();
+    },
+    sparray_pb.ChatResponse.deserializeBinary
+  );
+
+  getChat(
+    request: sparray_pb.ChatMessage,
+    metadata: grpcWeb.Metadata | null): Promise<sparray_pb.ChatResponse>;
+
+  getChat(
+    request: sparray_pb.ChatMessage,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: sparray_pb.ChatResponse) => void): grpcWeb.ClientReadableStream<sparray_pb.ChatResponse>;
+
+  getChat(
+    request: sparray_pb.ChatMessage,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: sparray_pb.ChatResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/sparray.Sparray/GetChat',
+        request,
+        metadata || {},
+        this.methodDescriptorGetChat,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/sparray.Sparray/GetChat',
+    request,
+    metadata || {},
+    this.methodDescriptorGetChat);
+  }
+
+  methodDescriptorIdentityMapping = new grpcWeb.MethodDescriptor(
+    '/sparray.Sparray/IdentityMapping',
+    grpcWeb.MethodType.UNARY,
+    sparray_pb.ChatProto,
+    sparray_pb.ChatProto,
+    (request: sparray_pb.ChatProto) => {
+      return request.serializeBinary();
+    },
+    sparray_pb.ChatProto.deserializeBinary
+  );
+
+  identityMapping(
+    request: sparray_pb.ChatProto,
+    metadata: grpcWeb.Metadata | null): Promise<sparray_pb.ChatProto>;
+
+  identityMapping(
+    request: sparray_pb.ChatProto,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: sparray_pb.ChatProto) => void): grpcWeb.ClientReadableStream<sparray_pb.ChatProto>;
+
+  identityMapping(
+    request: sparray_pb.ChatProto,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: sparray_pb.ChatProto) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/sparray.Sparray/IdentityMapping',
+        request,
+        metadata || {},
+        this.methodDescriptorIdentityMapping,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/sparray.Sparray/IdentityMapping',
+    request,
+    metadata || {},
+    this.methodDescriptorIdentityMapping);
   }
 
   methodDescriptorGetFeature = new grpcWeb.MethodDescriptor(

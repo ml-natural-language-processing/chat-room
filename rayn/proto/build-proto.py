@@ -64,10 +64,8 @@ def copy_proto_to_web():
     web_proto_path_list = glob(rel_to_abs('../../web/apps/*/src/proto', return_str=True))
     for proto_path in proto_list:
         [shutil.copy(proto_path, web_proto_path) for web_proto_path in web_proto_path_list]
-        # for web_proto_path in web_proto_path_list:
-        #     shutil.copy(proto_path, web_proto_path)
 
 
-# build_python()
-# build_web()
+build_python()
+build_web()
 copy_proto_to_web()

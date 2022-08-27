@@ -1,9 +1,6 @@
-// import * as protobuf from 'protobufjs';
 import {UserConfig} from '../config_gen'
 import {SparrayClient} from '../proto/module/SparrayServiceClientPb'
 import * as pb2 from '../proto/module/sparray_pb'
-// import {CodeGeneratorResponse} from "google-protobuf/google/protobuf/compiler/plugin_pb";
-// import Feature = CodeGeneratorResponse.Feature;
 
 //tutorial https://github.com/grpc/grpc/blob/v1.46.3/examples/node/dynamic_codegen/route_guide/route_guide_client.js
 // grpc-web https://grpc.io/blog/grpc-web-ga/
@@ -11,27 +8,35 @@ import * as pb2 from '../proto/module/sparray_pb'
 const hostname = 'http://' + UserConfig.grpcDir;
 console.log(hostname)
 const client = new SparrayClient(hostname);
-const request = new pb2.Feature()
+const request = new pb2.ChatMessage()
+request.setMessage("hellow");
 
-request.setName("emmmm")
-
-// const point2 = {
-//     latitude: 0,
-//     longitude: 0
-// };
-
-const point2 = new pb2.Point()
-point2.setLatitude(20);
-point2.setLongitude(234);
-request.setLocation(point2)
-
-client.getFeature(point2, {}, function(err, response) {
+const chat = new pb2.ChatProto();
+chat.setId(1);
+chat.setName('ky')
+chat.setMsg("你好鸭")
+let answers: any;
+client.identityMapping(chat, {},  (err, response)=>{
     if (err){
-        console.log(err.code);
+        console.log(err);
     }else {
-        alert("in alert")
+        answers = response;
+        console.log(answers);
+    }
+})
+
+if (typeof(answers) == "undefined"){
+    console.log("bbb")
+
+    console.log(answers);
+}
+
+client.getChat(request, {}, function(err, response) {
+    if (err){
+        console.log(err);
+    }else {
         console.log("aaaaaaaaaa")
-        console.log(response.getLocation());
+        console.log(response);
     }
     // ...
 });

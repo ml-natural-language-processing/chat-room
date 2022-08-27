@@ -116,10 +116,12 @@ install-docker-compose:
 	sudo curl -L https://download.fastgit.org/docker/compose/releases/download/v2.10.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
 
+restart: stop start
+
 start: # use docker compose
 	@python template/build.py
 	@docker compose up -d
 	docker compose logs -f
 
 stop:
-	@docker compose down
+	@docker compose kill

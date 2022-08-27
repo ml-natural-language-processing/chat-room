@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xce\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\x12!\n\x07\x62igFile\x18\t \x01(\x0b\x32\x10.sparray.BigFile\"4\n\x07\x42igFile\x12\x0b\n\x03idx\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\r\n\x05\x63hunk\x18\x03 \x01(\x0c\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"C\n\x0cMediaControl\x12\x0e\n\x06paused\x18\x01 \x01(\x08\x12\x13\n\x0b\x63urrentTime\x18\x02 \x01(\x02\x12\x0e\n\x06\x62uffer\x18\x03 \x01(\x0c\"\x1e\n\x0b\x43hatMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\"1\n\x0c\x43hatResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08received\x18\x02 \x01(\x08\",\n\x05Point\x12\x10\n\x08latitude\x18\x01 \x01(\x05\x12\x11\n\tlongitude\x18\x02 \x01(\x05\"C\n\tRectangle\x12\x1a\n\x02lo\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x1a\n\x02hi\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\"9\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x08location\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\">\n\tRouteNote\x12 \n\x08location\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x0cRouteSummary\x12\x13\n\x0bpoint_count\x18\x01 \x01(\x05\x12\x15\n\rfeature_count\x18\x02 \x01(\x05\x12\x10\n\x08\x64istance\x18\x03 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x04 \x01(\x05\x32\xea\x01\n\x07Sparray\x12\x30\n\nGetFeature\x12\x0e.sparray.Point\x1a\x10.sparray.Feature\"\x00\x12\x38\n\x0cListFeatures\x12\x12.sparray.Rectangle\x1a\x10.sparray.Feature\"\x00\x30\x01\x12\x38\n\x0bRecordRoute\x12\x0e.sparray.Point\x1a\x15.sparray.RouteSummary\"\x00(\x01\x12\x39\n\tRouteChat\x12\x12.sparray.RouteNote\x1a\x12.sparray.RouteNote\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\rsparray.proto\x12\x07sparray\x1a\x1cgoogle/protobuf/struct.proto\"A\n\x11\x44\x65nseNdArrayProto\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x12\r\n\x05shape\x18\x02 \x03(\r\x12\r\n\x05\x64type\x18\x03 \x01(\t\"C\n\x08\x44ocProto\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x02 \x01(\x0c\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\r\n\x05\x64type\x18\x04 \x01(\t\"0\n\rDocArrayProto\x12\x1f\n\x04\x64ocs\x18\x01 \x03(\x0b\x32\x11.sparray.DocProto\"\xce\x01\n\tChatProto\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03msg\x18\x03 \x01(\t\x12\x0e\n\x06\x62uffer\x18\x04 \x01(\x0c\x12\r\n\x05\x64type\x18\x05 \x01(\t\x12\n\n\x02ts\x18\x06 \x01(\t\x12\x1f\n\x07imgInfo\x18\x07 \x01(\x0b\x32\x0e.sparray.Image\x12+\n\x0cmediaControl\x18\x08 \x01(\x0b\x32\x15.sparray.MediaControl\x12!\n\x07\x62igFile\x18\t \x01(\x0b\x32\x10.sparray.BigFile\"4\n\x07\x42igFile\x12\x0b\n\x03idx\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\r\n\x05\x63hunk\x18\x03 \x01(\x0c\"&\n\x05Image\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\"C\n\x0cMediaControl\x12\x0e\n\x06paused\x18\x01 \x01(\x08\x12\x13\n\x0b\x63urrentTime\x18\x02 \x01(\x02\x12\x0e\n\x06\x62uffer\x18\x03 \x01(\x0c\"\x1e\n\x0b\x43hatMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\"1\n\x0c\x43hatResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08received\x18\x02 \x01(\x08\",\n\x05Point\x12\x10\n\x08latitude\x18\x01 \x01(\x05\x12\x11\n\tlongitude\x18\x02 \x01(\x05\"C\n\tRectangle\x12\x1a\n\x02lo\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x1a\n\x02hi\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\"9\n\x07\x46\x65\x61ture\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x08location\x18\x02 \x01(\x0b\x32\x0e.sparray.Point\">\n\tRouteNote\x12 \n\x08location\x18\x01 \x01(\x0b\x32\x0e.sparray.Point\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x0cRouteSummary\x12\x13\n\x0bpoint_count\x18\x01 \x01(\x05\x12\x15\n\rfeature_count\x18\x02 \x01(\x05\x12\x10\n\x08\x64istance\x18\x03 \x01(\x05\x12\x14\n\x0c\x65lapsed_time\x18\x04 \x01(\x05\x32\x99\x03\n\x07Sparray\x12\x38\n\x07GetChat\x12\x14.sparray.ChatMessage\x1a\x15.sparray.ChatResponse\"\x00\x12;\n\x0fIdentityMapping\x12\x12.sparray.ChatProto\x1a\x12.sparray.ChatProto\"\x00\x12\x36\n\nGetBigFile\x12\x10.sparray.BigFile\x1a\x10.sparray.BigFile\"\x00(\x01\x30\x01\x12\x30\n\nGetFeature\x12\x0e.sparray.Point\x1a\x10.sparray.Feature\"\x00\x12\x38\n\x0cListFeatures\x12\x12.sparray.Rectangle\x1a\x10.sparray.Feature\"\x00\x30\x01\x12\x38\n\x0bRecordRoute\x12\x0e.sparray.Point\x1a\x15.sparray.RouteSummary\"\x00(\x01\x12\x39\n\tRouteChat\x12\x12.sparray.RouteNote\x1a\x12.sparray.RouteNote\"\x00(\x01\x30\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
@@ -788,12 +788,42 @@ _SPARRAY = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=1036,
-  serialized_end=1270,
+  serialized_end=1445,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='GetChat',
+    full_name='sparray.Sparray.GetChat',
+    index=0,
+    containing_service=None,
+    input_type=_CHATMESSAGE,
+    output_type=_CHATRESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='IdentityMapping',
+    full_name='sparray.Sparray.IdentityMapping',
+    index=1,
+    containing_service=None,
+    input_type=_CHATPROTO,
+    output_type=_CHATPROTO,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetBigFile',
+    full_name='sparray.Sparray.GetBigFile',
+    index=2,
+    containing_service=None,
+    input_type=_BIGFILE,
+    output_type=_BIGFILE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
   _descriptor.MethodDescriptor(
     name='GetFeature',
     full_name='sparray.Sparray.GetFeature',
-    index=0,
+    index=3,
     containing_service=None,
     input_type=_POINT,
     output_type=_FEATURE,
@@ -803,7 +833,7 @@ _SPARRAY = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ListFeatures',
     full_name='sparray.Sparray.ListFeatures',
-    index=1,
+    index=4,
     containing_service=None,
     input_type=_RECTANGLE,
     output_type=_FEATURE,
@@ -813,7 +843,7 @@ _SPARRAY = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='RecordRoute',
     full_name='sparray.Sparray.RecordRoute',
-    index=2,
+    index=5,
     containing_service=None,
     input_type=_POINT,
     output_type=_ROUTESUMMARY,
@@ -823,7 +853,7 @@ _SPARRAY = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='RouteChat',
     full_name='sparray.Sparray.RouteChat',
-    index=3,
+    index=6,
     containing_service=None,
     input_type=_ROUTENOTE,
     output_type=_ROUTENOTE,

@@ -14,6 +14,21 @@ class SparrayStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.GetChat = channel.unary_unary(
+                '/sparray.Sparray/GetChat',
+                request_serializer=sparray__pb2.ChatMessage.SerializeToString,
+                response_deserializer=sparray__pb2.ChatResponse.FromString,
+                )
+        self.IdentityMapping = channel.unary_unary(
+                '/sparray.Sparray/IdentityMapping',
+                request_serializer=sparray__pb2.ChatProto.SerializeToString,
+                response_deserializer=sparray__pb2.ChatProto.FromString,
+                )
+        self.GetBigFile = channel.stream_stream(
+                '/sparray.Sparray/GetBigFile',
+                request_serializer=sparray__pb2.BigFile.SerializeToString,
+                response_deserializer=sparray__pb2.BigFile.FromString,
+                )
         self.GetFeature = channel.unary_unary(
                 '/sparray.Sparray/GetFeature',
                 request_serializer=sparray__pb2.Point.SerializeToString,
@@ -38,6 +53,24 @@ class SparrayStub(object):
 
 class SparrayServicer(object):
     """Missing associated documentation comment in .proto file."""
+
+    def GetChat(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def IdentityMapping(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetBigFile(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def GetFeature(self, request, context):
         """simple rpc
@@ -70,6 +103,21 @@ class SparrayServicer(object):
 
 def add_SparrayServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'GetChat': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetChat,
+                    request_deserializer=sparray__pb2.ChatMessage.FromString,
+                    response_serializer=sparray__pb2.ChatResponse.SerializeToString,
+            ),
+            'IdentityMapping': grpc.unary_unary_rpc_method_handler(
+                    servicer.IdentityMapping,
+                    request_deserializer=sparray__pb2.ChatProto.FromString,
+                    response_serializer=sparray__pb2.ChatProto.SerializeToString,
+            ),
+            'GetBigFile': grpc.stream_stream_rpc_method_handler(
+                    servicer.GetBigFile,
+                    request_deserializer=sparray__pb2.BigFile.FromString,
+                    response_serializer=sparray__pb2.BigFile.SerializeToString,
+            ),
             'GetFeature': grpc.unary_unary_rpc_method_handler(
                     servicer.GetFeature,
                     request_deserializer=sparray__pb2.Point.FromString,
@@ -99,6 +147,57 @@ def add_SparrayServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class Sparray(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def GetChat(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sparray.Sparray/GetChat',
+            sparray__pb2.ChatMessage.SerializeToString,
+            sparray__pb2.ChatResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def IdentityMapping(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sparray.Sparray/IdentityMapping',
+            sparray__pb2.ChatProto.SerializeToString,
+            sparray__pb2.ChatProto.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetBigFile(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/sparray.Sparray/GetBigFile',
+            sparray__pb2.BigFile.SerializeToString,
+            sparray__pb2.BigFile.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def GetFeature(request,

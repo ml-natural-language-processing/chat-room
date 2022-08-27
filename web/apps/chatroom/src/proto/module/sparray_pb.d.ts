@@ -116,6 +116,11 @@ export class ChatProto extends jspb.Message {
   hasMediacontrol(): boolean;
   clearMediacontrol(): ChatProto;
 
+  getBigfile(): BigFile | undefined;
+  setBigfile(value?: BigFile): ChatProto;
+  hasBigfile(): boolean;
+  clearBigfile(): ChatProto;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ChatProto.AsObject;
   static toObject(includeInstance: boolean, msg: ChatProto): ChatProto.AsObject;
@@ -134,6 +139,35 @@ export namespace ChatProto {
     ts: string,
     imginfo?: Image.AsObject,
     mediacontrol?: MediaControl.AsObject,
+    bigfile?: BigFile.AsObject,
+  }
+}
+
+export class BigFile extends jspb.Message {
+  getIdx(): number;
+  setIdx(value: number): BigFile;
+
+  getTotal(): number;
+  setTotal(value: number): BigFile;
+
+  getChunk(): Uint8Array | string;
+  getChunk_asU8(): Uint8Array;
+  getChunk_asB64(): string;
+  setChunk(value: Uint8Array | string): BigFile;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BigFile.AsObject;
+  static toObject(includeInstance: boolean, msg: BigFile): BigFile.AsObject;
+  static serializeBinaryToWriter(message: BigFile, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BigFile;
+  static deserializeBinaryFromReader(message: BigFile, reader: jspb.BinaryReader): BigFile;
+}
+
+export namespace BigFile {
+  export type AsObject = {
+    idx: number,
+    total: number,
+    chunk: Uint8Array | string,
   }
 }
 

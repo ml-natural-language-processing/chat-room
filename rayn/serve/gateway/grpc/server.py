@@ -1,16 +1,16 @@
 import grpc
-from rayn.serve.gateway.websocket.manager import WebSocket
 from rayn.proto.python import sparray_pb2 as pb2
 from rayn.proto.python import sparray_pb2_grpc as pb2_grpc
-from concurrent import futures
 import time
 from concurrent import futures
 import logging
 import math
-import time
-from sparrow import rel_to_abs
-import grpc
 import json
+from sparrow.log import SimpleLogger
+from sparrow import rel_to_abs
+
+
+logger = SimpleLogger('grpc-server', log_dir=rel_to_abs('../../../../grpc_server_log'))
 
 
 def read_route_guide_database():
@@ -74,6 +74,15 @@ class SparrayServicer(pb2_grpc.SparrayServicer):
         else:
             return feature
 
+    def GetChat(self, request, context):
+        logger.info(request)
+        return pb2.ChatResponse(
+            message=request.message,
+            received=True)
+
+    def IdentityMapping(self, request, context):
+        return request
+
     def ListFeatures(self, request, context):
         left = min(request.lo.longitude, request.hi.longitude)
         right = max(request.lo.longitude, request.hi.longitude)
@@ -109,13 +118,18 @@ class SparrayServicer(pb2_grpc.SparrayServicer):
         prev_notes = []
         for new_note in request_iterator:
             for prev_note in prev_notes:
-                if prev_note.location == new_note.location:
+                if prev_note.location != new_note.location:
+                    time.sleep(1)
                     yield prev_note
             prev_notes.append(new_note)
 
+    def GetBigFile(self, request_iterator, context):
+        for cur_data in request_iterator:
+            yield cur_data
+
 
 def serve(hostname="[::]:50051"):
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=8))
     pb2_grpc.add_SparrayServicer_to_server(
         SparrayServicer(), server)
     server.add_insecure_port(hostname)
@@ -125,4 +139,4 @@ def serve(hostname="[::]:50051"):
 
 if __name__ == "__main__":
     logging.basicConfig()
-    serve()
+    serve(hostname="[::]:50051")
