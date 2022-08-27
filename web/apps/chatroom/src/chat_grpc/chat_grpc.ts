@@ -7,11 +7,8 @@ import * as pb2 from '../proto/module/sparray_pb'
 
 //tutorial https://github.com/grpc/grpc/blob/v1.46.3/examples/node/dynamic_codegen/route_guide/route_guide_client.js
 // grpc-web https://grpc.io/blog/grpc-web-ga/
-// grpc-web 才是可以运行在浏览器上的
 
-// const hostname = 'http://' + window.location.hostname + ':50050'
 const hostname = 'http://' + UserConfig.grpcDir;
-
 console.log(hostname)
 const client = new SparrayClient(hostname);
 const request = new pb2.Feature()

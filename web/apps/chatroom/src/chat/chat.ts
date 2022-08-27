@@ -115,11 +115,12 @@ function start() {
 
 
                     const add_media_element = (media_type: string) => {
-                        const blob = new Blob([new_message.buffer])
+                        const blob = new Blob([new_message.buffer], {type: new_message.dtype})
                         media_element = document.createElement(media_type);
                         media_element.src = URL.createObjectURL(blob);
-                        // media_element.play();
-                        media_element.setAttribute('type', new_message.dtype);
+                        // media_element = new Audio(URL.createObjectURL(blob))
+                        // media_element.setAttribute('type', new_message.dtype);
+                        console.log(new_message.dtype);
                         media_element.setAttribute('controls', 'true');
                         message.appendChild(media_element);
                         chatRoom!.appendChild(message);
@@ -127,6 +128,7 @@ function start() {
                         // media_element.ontimeupdate = media_ele_ontimeupdate;
                         media_element.onplay = media_event_send;
                         media_element.onpause = media_event_send;
+                        // media_element.play();
                     }
 
                     let message_content: any;
