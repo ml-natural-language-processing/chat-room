@@ -117,6 +117,7 @@ install-docker-compose:
 	sudo chmod +x /usr/local/bin/docker-compose
 
 start: # use docker compose
+	@python template/build.py
 	@docker compose up -d
 	docker compose logs -f
 

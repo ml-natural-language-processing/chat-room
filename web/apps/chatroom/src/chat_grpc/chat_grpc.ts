@@ -1,4 +1,5 @@
 // import * as protobuf from 'protobufjs';
+import {UserConfig} from '../config_gen'
 import {SparrayClient} from '../proto/module/SparrayServiceClientPb'
 import * as pb2 from '../proto/module/sparray_pb'
 // import {CodeGeneratorResponse} from "google-protobuf/google/protobuf/compiler/plugin_pb";
@@ -8,9 +9,11 @@ import * as pb2 from '../proto/module/sparray_pb'
 // grpc-web https://grpc.io/blog/grpc-web-ga/
 // grpc-web 才是可以运行在浏览器上的
 
-// const client = new SparrayClient("http://localhost:50050");
-const client = new SparrayClient('http://' + window.location.hostname + ':50050',
-    null, null);
+// const hostname = 'http://' + window.location.hostname + ':50050'
+const hostname = 'http://' + UserConfig.grpcDir;
+
+console.log(hostname)
+const client = new SparrayClient(hostname);
 const request = new pb2.Feature()
 
 request.setName("emmmm")
