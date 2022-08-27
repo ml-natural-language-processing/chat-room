@@ -7,7 +7,7 @@ module.exports = {
         "index": './src/index.ts',
         "chat": './src/chat/chat.ts',
         "chat_grpc": './src/chat_grpc/chat_grpc.ts',
-        "tests": './src/tests/tests.ts'
+        "tests": './src/tests/tests.ts',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

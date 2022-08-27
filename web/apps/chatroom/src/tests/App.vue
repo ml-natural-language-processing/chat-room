@@ -1,28 +1,15 @@
-<template>
-  <div class="progress-bar">
-    <span class="progress-fill" ref="fill" :style="[{'background-color':color}]"></span>
-  </div>
-</template>
-<script>
-export default {
-  name: "loading",
-  props: {
-    color: {
-      type: String,
-      default: "hsl(260, 90%, 70%)"
-    },
-    value: {
-      type: [String, Number],
-      default: 0
-    }
-  },
-  mounted() {
-    setTimeout(()=>this.render())
-  },
-  methods: {
-    render(){
-      this.$refs.fill.style.width = this.value + "%";
-    }
-  },
-};
+<script setup>
+import { ref } from 'vue'
+
+const awesome = ref(true)
+
+function toggle() {
+  awesome.value = !awesome.value
+}
 </script>
+
+<template>
+  <button @click="toggle">toggle</button>
+  <h1 v-if="awesome">Vue is awesome!</h1>
+  <h1 v-else>Oh no 😢</h1>
+</template>

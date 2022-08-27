@@ -39,7 +39,7 @@ static_resources:
                   typed_config:
                     "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
-    - name: greeter_service
+    - name: grpc_service
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
@@ -51,5 +51,6 @@ static_resources:
             - endpoint:
                 address:
                   socket_address:
-                    address: 172.25.0.3
+#                    address: 172.25.0.3
+                    address: 0.0.0.0
                     port_value: 50051

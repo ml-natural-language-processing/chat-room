@@ -1,0 +1,33 @@
+services:
+  frontend:
+    image: beidongjiedeguang/chatroom-frontend:ubunt2004
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./web:/home
+    depends_on:
+      - backend
+    container_name: frontend-container
+    working_dir: /home
+    command:
+      - ./run-frontend.sh
+
+  backend:
+    image: beidongjiedeguang/chatroom-backend:ubunt2004
+    container_name: backend-container
+    network_mode: host
+    depends_on:
+      - grpc-proxy
+    volumes:
+      - .:/home
+    working_dir: /home
+    command:
+      - ./run-backend.sh
+
+  grpc-proxy:
+    image: envoyproxy/envoy:v1.22.0
+    container_name: grpc-envoy-container
+    volumes:
+      - ./backend/envoy.yaml:/etc/envoy/envoy.yaml:ro
+    network_mode: host
+

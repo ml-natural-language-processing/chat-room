@@ -87,14 +87,16 @@ log-grpc:
 
 rm: rm-frontend rm-backend rm-grpc-server
 
-start: rm start-backend-dev start-frontend-dev start-grpc-server
-ifeq ($(firstword $(log)), "f")
-	docker logs -f $(frontend_container)
-else ifeq ($(firstword $(log)), "b")
-	docker logs -f $(backend_container)
-endif
+# should modified socket_adress from 172.25.0.3 to 0.0.0.0  in envoy.yaml
+#start: rm start-backend-dev start-frontend-dev start-grpc-server
+#ifeq ($(firstword $(log)), "f")
+#	docker logs -f $(frontend_container)
+#else ifeq ($(firstword $(log)), "b")
+#	docker logs -f $(backend_container)
+#endif
 
-start1: rm start-grpc-server-bridge start-backend-dev-bridge  start-frontend-dev
+# make create-net first
+start_option: rm start-grpc-server-bridge start-backend-dev-bridge  start-frontend-dev
 ifeq ($(firstword $(log)), "f")
 	docker logs -f $(frontend_container)
 else ifeq ($(firstword $(log)), "b")
@@ -107,3 +109,16 @@ create-net:
 rm-net:
 	@docker network rm backend-net
 
+gitproxy = "https://ghproxy.com/"
+install-docker-compose:
+	# 已过时： 新版docker 可以直接使用docker compose 执行，无需安装docker-compose
+	#sudo curl -L $(gitproxy)https://github.com/docker/compose/releases/download/v2.10.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+	sudo curl -L https://download.fastgit.org/docker/compose/releases/download/v2.10.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+
+start: # use docker compose
+	@docker compose up -d
+	docker compose logs -f
+
+stop:
+	@docker compose down
