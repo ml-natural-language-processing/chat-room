@@ -2,7 +2,7 @@ services:
   frontend:
     image: beidongjiedeguang/chatroom-frontend:ubunt2004
     ports:
-      - "9090:9090"
+      - "80:80"
     volumes:
       - ./web:/home
     depends_on:

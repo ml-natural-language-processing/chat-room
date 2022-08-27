@@ -65,7 +65,7 @@ module.exports = {
         static: path.join(__dirname, 'dist'),
         host: "0.0.0.0",
         allowedHosts: "all",
-        port: 9090,
+        port: 80,
         // open: true,
         // https: {
         //     key: fs.readFileSync(path.join(__dirname, "./ca/key.pem")),
