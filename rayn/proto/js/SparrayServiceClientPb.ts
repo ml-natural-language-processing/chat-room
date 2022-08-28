@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as sparray_pb from './sparray_pb';
 
 
-export class SparrayClient {
+export class SparrayServiceClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -36,7 +36,7 @@ export class SparrayClient {
   }
 
   methodDescriptorGetChat = new grpcWeb.MethodDescriptor(
-    '/sparray.Sparray/GetChat',
+    '/sparray.SparrayService/GetChat',
     grpcWeb.MethodType.UNARY,
     sparray_pb.ChatMessage,
     sparray_pb.ChatResponse,
@@ -64,7 +64,7 @@ export class SparrayClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/sparray.Sparray/GetChat',
+          '/sparray.SparrayService/GetChat',
         request,
         metadata || {},
         this.methodDescriptorGetChat,
@@ -72,14 +72,14 @@ export class SparrayClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/sparray.Sparray/GetChat',
+      '/sparray.SparrayService/GetChat',
     request,
     metadata || {},
     this.methodDescriptorGetChat);
   }
 
   methodDescriptorIdentityMapping = new grpcWeb.MethodDescriptor(
-    '/sparray.Sparray/IdentityMapping',
+    '/sparray.SparrayService/IdentityMapping',
     grpcWeb.MethodType.UNARY,
     sparray_pb.ChatProto,
     sparray_pb.ChatProto,
@@ -107,7 +107,7 @@ export class SparrayClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/sparray.Sparray/IdentityMapping',
+          '/sparray.SparrayService/IdentityMapping',
         request,
         metadata || {},
         this.methodDescriptorIdentityMapping,
@@ -115,14 +115,36 @@ export class SparrayClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/sparray.Sparray/IdentityMapping',
+      '/sparray.SparrayService/IdentityMapping',
     request,
     metadata || {},
     this.methodDescriptorIdentityMapping);
   }
 
+  methodDescriptorGetSingleToStream = new grpcWeb.MethodDescriptor(
+    '/sparray.SparrayService/GetSingleToStream',
+    grpcWeb.MethodType.SERVER_STREAMING,
+    sparray_pb.SingleBigFile,
+    sparray_pb.StreamFile,
+    (request: sparray_pb.SingleBigFile) => {
+      return request.serializeBinary();
+    },
+    sparray_pb.StreamFile.deserializeBinary
+  );
+
+  getSingleToStream(
+    request: sparray_pb.SingleBigFile,
+    metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<sparray_pb.StreamFile> {
+    return this.client_.serverStreaming(
+      this.hostname_ +
+        '/sparray.SparrayService/GetSingleToStream',
+      request,
+      metadata || {},
+      this.methodDescriptorGetSingleToStream);
+  }
+
   methodDescriptorGetFeature = new grpcWeb.MethodDescriptor(
-    '/sparray.Sparray/GetFeature',
+    '/sparray.SparrayService/GetFeature',
     grpcWeb.MethodType.UNARY,
     sparray_pb.Point,
     sparray_pb.Feature,
@@ -150,7 +172,7 @@ export class SparrayClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/sparray.Sparray/GetFeature',
+          '/sparray.SparrayService/GetFeature',
         request,
         metadata || {},
         this.methodDescriptorGetFeature,
@@ -158,14 +180,14 @@ export class SparrayClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/sparray.Sparray/GetFeature',
+      '/sparray.SparrayService/GetFeature',
     request,
     metadata || {},
     this.methodDescriptorGetFeature);
   }
 
   methodDescriptorListFeatures = new grpcWeb.MethodDescriptor(
-    '/sparray.Sparray/ListFeatures',
+    '/sparray.SparrayService/ListFeatures',
     grpcWeb.MethodType.SERVER_STREAMING,
     sparray_pb.Rectangle,
     sparray_pb.Feature,
@@ -180,7 +202,7 @@ export class SparrayClient {
     metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<sparray_pb.Feature> {
     return this.client_.serverStreaming(
       this.hostname_ +
-        '/sparray.Sparray/ListFeatures',
+        '/sparray.SparrayService/ListFeatures',
       request,
       metadata || {},
       this.methodDescriptorListFeatures);

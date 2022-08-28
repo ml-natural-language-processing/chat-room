@@ -5,6 +5,7 @@ import json
 import logging
 import random
 import grpc
+import time
 
 
 def read_route_guide_database():
@@ -99,25 +100,33 @@ def guide_route_chat(stub):
               (response.message, response.location))
 
 
-def big_data_chat(stub):
-
+def interactive_stream_data(stub):
     def get_iter():
         messages = [
-            pb2.BigFile(idx=1, total=100,),
-            pb2.BigFile(idx=2, total=100,),
-            pb2.BigFile(idx=3, total=100,),
-            pb2.BigFile(idx=4, total=100,),
-            pb2.BigFile(idx=5, total=100,),
-            pb2.BigFile(idx=6, total=100,),
+            pb2.StreamFile(idx=i + 1, total=10, ) for i in range(10)
         ]
         for msg in messages:
+            # time.sleep(0.01)
             print(f"Sending big file id: {msg.idx}")
             yield msg
-    responses = stub.GetBigFile(get_iter())
+
+    responses = stub.GetStreamToStream(get_iter())
     for response in responses:
         print(f"received:", type(response))
         print(response)
 
+
+def post_single_get_stream(stub: pb2_grpc.SparrayServiceStub):
+    data = b"0123456789"
+    responses = stub.GetSingleToStream(
+        pb2.SingleBigFile(
+            buffer=data,
+            dtype="bytes"
+        )
+    )
+    for resp in responses:
+        print(f"received:", type(resp))
+        print(resp)
 
 
 def run():
@@ -125,7 +134,7 @@ def run():
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
     with grpc.insecure_channel('localhost:50051') as channel:
-        stub = pb2_grpc.SparrayStub(channel)
+        stub = pb2_grpc.SparrayServiceStub(channel)
         # print("-------------- GetFeature --------------")
         # guide_get_feature(stub)
         # print("-------------- ListFeatures --------------")
@@ -135,8 +144,10 @@ def run():
         # print("-------------- RouteChat --------------")
         # guide_route_chat(stub)
 
-        print("-------------- BigFile --------------")
-        big_data_chat(stub)
+        print("-------------- StreamToStreamFile --------------")
+        interactive_stream_data(stub)
+        print("-------------- SimgleToStreamFile --------------")
+        post_single_get_stream(stub)
 
 
 if __name__ == '__main__':

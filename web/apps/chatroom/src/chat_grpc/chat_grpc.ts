@@ -1,5 +1,5 @@
 import {UserConfig} from '../config_gen'
-import {SparrayClient} from '../proto/module/SparrayServiceClientPb'
+import {SparrayServiceClient} from '../proto/module/SparrayServiceClientPb'
 import * as pb2 from '../proto/module/sparray_pb'
 
 //tutorial https://github.com/grpc/grpc/blob/v1.46.3/examples/node/dynamic_codegen/route_guide/route_guide_client.js
@@ -7,7 +7,7 @@ import * as pb2 from '../proto/module/sparray_pb'
 
 const hostname = 'http://' + UserConfig.grpcDir;
 console.log(hostname)
-const client = new SparrayClient(hostname);
+const client = new SparrayServiceClient(hostname);
 const request = new pb2.ChatMessage()
 request.setMessage("hellow");
 

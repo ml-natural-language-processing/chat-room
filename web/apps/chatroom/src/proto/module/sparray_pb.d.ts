@@ -3,29 +3,29 @@ import * as jspb from 'google-protobuf'
 import * as google_protobuf_struct_pb from 'google-protobuf/google/protobuf/struct_pb';
 
 
-export class DenseNdArrayProto extends jspb.Message {
+export class DenseArrayProto extends jspb.Message {
   getBuffer(): Uint8Array | string;
   getBuffer_asU8(): Uint8Array;
   getBuffer_asB64(): string;
-  setBuffer(value: Uint8Array | string): DenseNdArrayProto;
+  setBuffer(value: Uint8Array | string): DenseArrayProto;
 
   getShapeList(): Array<number>;
-  setShapeList(value: Array<number>): DenseNdArrayProto;
-  clearShapeList(): DenseNdArrayProto;
-  addShape(value: number, index?: number): DenseNdArrayProto;
+  setShapeList(value: Array<number>): DenseArrayProto;
+  clearShapeList(): DenseArrayProto;
+  addShape(value: number, index?: number): DenseArrayProto;
 
   getDtype(): string;
-  setDtype(value: string): DenseNdArrayProto;
+  setDtype(value: string): DenseArrayProto;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DenseNdArrayProto.AsObject;
-  static toObject(includeInstance: boolean, msg: DenseNdArrayProto): DenseNdArrayProto.AsObject;
-  static serializeBinaryToWriter(message: DenseNdArrayProto, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DenseNdArrayProto;
-  static deserializeBinaryFromReader(message: DenseNdArrayProto, reader: jspb.BinaryReader): DenseNdArrayProto;
+  toObject(includeInstance?: boolean): DenseArrayProto.AsObject;
+  static toObject(includeInstance: boolean, msg: DenseArrayProto): DenseArrayProto.AsObject;
+  static serializeBinaryToWriter(message: DenseArrayProto, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DenseArrayProto;
+  static deserializeBinaryFromReader(message: DenseArrayProto, reader: jspb.BinaryReader): DenseArrayProto;
 }
 
-export namespace DenseNdArrayProto {
+export namespace DenseArrayProto {
   export type AsObject = {
     buffer: Uint8Array | string,
     shapeList: Array<number>,
@@ -33,55 +33,166 @@ export namespace DenseNdArrayProto {
   }
 }
 
-export class DocProto extends jspb.Message {
+export class SparseArrayProto extends jspb.Message {
+  getIndices(): DenseArrayProto | undefined;
+  setIndices(value?: DenseArrayProto): SparseArrayProto;
+  hasIndices(): boolean;
+  clearIndices(): SparseArrayProto;
+
+  getValues(): DenseArrayProto | undefined;
+  setValues(value?: DenseArrayProto): SparseArrayProto;
+  hasValues(): boolean;
+  clearValues(): SparseArrayProto;
+
+  getShapeList(): Array<number>;
+  setShapeList(value: Array<number>): SparseArrayProto;
+  clearShapeList(): SparseArrayProto;
+  addShape(value: number, index?: number): SparseArrayProto;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SparseArrayProto.AsObject;
+  static toObject(includeInstance: boolean, msg: SparseArrayProto): SparseArrayProto.AsObject;
+  static serializeBinaryToWriter(message: SparseArrayProto, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SparseArrayProto;
+  static deserializeBinaryFromReader(message: SparseArrayProto, reader: jspb.BinaryReader): SparseArrayProto;
+}
+
+export namespace SparseArrayProto {
+  export type AsObject = {
+    indices?: DenseArrayProto.AsObject,
+    values?: DenseArrayProto.AsObject,
+    shapeList: Array<number>,
+  }
+}
+
+export class NdArrayProto extends jspb.Message {
+  getDense(): DenseArrayProto | undefined;
+  setDense(value?: DenseArrayProto): NdArrayProto;
+  hasDense(): boolean;
+  clearDense(): NdArrayProto;
+
+  getSparse(): SparseArrayProto | undefined;
+  setSparse(value?: SparseArrayProto): NdArrayProto;
+  hasSparse(): boolean;
+  clearSparse(): NdArrayProto;
+
+  getClsName(): string;
+  setClsName(value: string): NdArrayProto;
+
+  getParameters(): google_protobuf_struct_pb.Struct | undefined;
+  setParameters(value?: google_protobuf_struct_pb.Struct): NdArrayProto;
+  hasParameters(): boolean;
+  clearParameters(): NdArrayProto;
+
+  getNdarrayCase(): NdArrayProto.NdarrayCase;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): NdArrayProto.AsObject;
+  static toObject(includeInstance: boolean, msg: NdArrayProto): NdArrayProto.AsObject;
+  static serializeBinaryToWriter(message: NdArrayProto, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): NdArrayProto;
+  static deserializeBinaryFromReader(message: NdArrayProto, reader: jspb.BinaryReader): NdArrayProto;
+}
+
+export namespace NdArrayProto {
+  export type AsObject = {
+    dense?: DenseArrayProto.AsObject,
+    sparse?: SparseArrayProto.AsObject,
+    clsName: string,
+    parameters?: google_protobuf_struct_pb.Struct.AsObject,
+  }
+
+  export enum NdarrayCase { 
+    NDARRAY_NOT_SET = 0,
+    DENSE = 1,
+    SPARSE = 2,
+  }
+}
+
+export class SparrayProro extends jspb.Message {
   getId(): string;
-  setId(value: string): DocProto;
+  setId(value: string): SparrayProro;
 
   getBuffer(): Uint8Array | string;
   getBuffer_asU8(): Uint8Array;
   getBuffer_asB64(): string;
-  setBuffer(value: Uint8Array | string): DocProto;
+  setBuffer(value: Uint8Array | string): SparrayProro;
+
+  getTensor(): NdArrayProto | undefined;
+  setTensor(value?: NdArrayProto): SparrayProro;
+  hasTensor(): boolean;
+  clearTensor(): SparrayProro;
 
   getText(): string;
-  setText(value: string): DocProto;
+  setText(value: string): SparrayProro;
 
-  getDtype(): string;
-  setDtype(value: string): DocProto;
+  getEmbedding(): NdArrayProto | undefined;
+  setEmbedding(value?: NdArrayProto): SparrayProro;
+  hasEmbedding(): boolean;
+  clearEmbedding(): SparrayProro;
+
+  getUri(): string;
+  setUri(value: string): SparrayProro;
+
+  getMimeType(): string;
+  setMimeType(value: string): SparrayProro;
+
+  getMapMap(): jspb.Map<string, string>;
+  clearMapMap(): SparrayProro;
+
+  getMetadata(): google_protobuf_struct_pb.Struct | undefined;
+  setMetadata(value?: google_protobuf_struct_pb.Struct): SparrayProro;
+  hasMetadata(): boolean;
+  clearMetadata(): SparrayProro;
+
+  getDataCase(): SparrayProro.DataCase;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DocProto.AsObject;
-  static toObject(includeInstance: boolean, msg: DocProto): DocProto.AsObject;
-  static serializeBinaryToWriter(message: DocProto, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DocProto;
-  static deserializeBinaryFromReader(message: DocProto, reader: jspb.BinaryReader): DocProto;
+  toObject(includeInstance?: boolean): SparrayProro.AsObject;
+  static toObject(includeInstance: boolean, msg: SparrayProro): SparrayProro.AsObject;
+  static serializeBinaryToWriter(message: SparrayProro, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SparrayProro;
+  static deserializeBinaryFromReader(message: SparrayProro, reader: jspb.BinaryReader): SparrayProro;
 }
 
-export namespace DocProto {
+export namespace SparrayProro {
   export type AsObject = {
     id: string,
     buffer: Uint8Array | string,
+    tensor?: NdArrayProto.AsObject,
     text: string,
-    dtype: string,
+    embedding?: NdArrayProto.AsObject,
+    uri: string,
+    mimeType: string,
+    mapMap: Array<[string, string]>,
+    metadata?: google_protobuf_struct_pb.Struct.AsObject,
+  }
+
+  export enum DataCase { 
+    DATA_NOT_SET = 0,
+    BUFFER = 2,
+    TENSOR = 3,
+    TEXT = 4,
   }
 }
 
-export class DocArrayProto extends jspb.Message {
-  getDocsList(): Array<DocProto>;
-  setDocsList(value: Array<DocProto>): DocArrayProto;
-  clearDocsList(): DocArrayProto;
-  addDocs(value?: DocProto, index?: number): DocProto;
+export class Sparray extends jspb.Message {
+  getSparraysList(): Array<SparrayProro>;
+  setSparraysList(value: Array<SparrayProro>): Sparray;
+  clearSparraysList(): Sparray;
+  addSparrays(value?: SparrayProro, index?: number): SparrayProro;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DocArrayProto.AsObject;
-  static toObject(includeInstance: boolean, msg: DocArrayProto): DocArrayProto.AsObject;
-  static serializeBinaryToWriter(message: DocArrayProto, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DocArrayProto;
-  static deserializeBinaryFromReader(message: DocArrayProto, reader: jspb.BinaryReader): DocArrayProto;
+  toObject(includeInstance?: boolean): Sparray.AsObject;
+  static toObject(includeInstance: boolean, msg: Sparray): Sparray.AsObject;
+  static serializeBinaryToWriter(message: Sparray, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Sparray;
+  static deserializeBinaryFromReader(message: Sparray, reader: jspb.BinaryReader): Sparray;
 }
 
-export namespace DocArrayProto {
+export namespace Sparray {
   export type AsObject = {
-    docsList: Array<DocProto.AsObject>,
+    sparraysList: Array<SparrayProro.AsObject>,
   }
 }
 
@@ -116,8 +227,8 @@ export class ChatProto extends jspb.Message {
   hasMediacontrol(): boolean;
   clearMediacontrol(): ChatProto;
 
-  getBigfile(): BigFile | undefined;
-  setBigfile(value?: BigFile): ChatProto;
+  getBigfile(): StreamFile | undefined;
+  setBigfile(value?: StreamFile): ChatProto;
   hasBigfile(): boolean;
   clearBigfile(): ChatProto;
 
@@ -139,35 +250,71 @@ export namespace ChatProto {
     ts: string,
     imginfo?: Image.AsObject,
     mediacontrol?: MediaControl.AsObject,
-    bigfile?: BigFile.AsObject,
+    bigfile?: StreamFile.AsObject,
   }
 }
 
-export class BigFile extends jspb.Message {
+export class StreamFile extends jspb.Message {
   getIdx(): number;
-  setIdx(value: number): BigFile;
+  setIdx(value: number): StreamFile;
 
   getTotal(): number;
-  setTotal(value: number): BigFile;
+  setTotal(value: number): StreamFile;
 
   getChunk(): Uint8Array | string;
   getChunk_asU8(): Uint8Array;
   getChunk_asB64(): string;
-  setChunk(value: Uint8Array | string): BigFile;
+  setChunk(value: Uint8Array | string): StreamFile;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BigFile.AsObject;
-  static toObject(includeInstance: boolean, msg: BigFile): BigFile.AsObject;
-  static serializeBinaryToWriter(message: BigFile, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BigFile;
-  static deserializeBinaryFromReader(message: BigFile, reader: jspb.BinaryReader): BigFile;
+  toObject(includeInstance?: boolean): StreamFile.AsObject;
+  static toObject(includeInstance: boolean, msg: StreamFile): StreamFile.AsObject;
+  static serializeBinaryToWriter(message: StreamFile, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): StreamFile;
+  static deserializeBinaryFromReader(message: StreamFile, reader: jspb.BinaryReader): StreamFile;
 }
 
-export namespace BigFile {
+export namespace StreamFile {
   export type AsObject = {
     idx: number,
     total: number,
     chunk: Uint8Array | string,
+  }
+}
+
+export class SingleBigFile extends jspb.Message {
+  getBuffer(): Uint8Array | string;
+  getBuffer_asU8(): Uint8Array;
+  getBuffer_asB64(): string;
+  setBuffer(value: Uint8Array | string): SingleBigFile;
+
+  getText(): string;
+  setText(value: string): SingleBigFile;
+
+  getDtype(): string;
+  setDtype(value: string): SingleBigFile;
+
+  getDataCase(): SingleBigFile.DataCase;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SingleBigFile.AsObject;
+  static toObject(includeInstance: boolean, msg: SingleBigFile): SingleBigFile.AsObject;
+  static serializeBinaryToWriter(message: SingleBigFile, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SingleBigFile;
+  static deserializeBinaryFromReader(message: SingleBigFile, reader: jspb.BinaryReader): SingleBigFile;
+}
+
+export namespace SingleBigFile {
+  export type AsObject = {
+    buffer: Uint8Array | string,
+    text: string,
+    dtype: string,
+  }
+
+  export enum DataCase { 
+    DATA_NOT_SET = 0,
+    BUFFER = 1,
+    TEXT = 2,
   }
 }
 

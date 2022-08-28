@@ -14,7 +14,7 @@ if __name__ == "__main__":
                 host=host,
                 port=port,
                 reload=reload,
-                # workers=2,
+                workers=3,
                 ssl_keyfile=ssl_keyfile,
                 ssl_certfile=ssl_certfile,
                 )

@@ -9,7 +9,6 @@ import json
 from sparrow.log import SimpleLogger
 from sparrow import rel_to_abs
 
-
 logger = SimpleLogger('grpc-server', log_dir=rel_to_abs('../../../../grpc_server_log'))
 
 
@@ -61,7 +60,7 @@ def get_distance(start, end):
     return R * c
 
 
-class SparrayServicer(pb2_grpc.SparrayServicer):
+class SparrayServicer(pb2_grpc.SparrayServiceServicer):
     """Provides methods that implement functionality of route guide server."""
 
     def __init__(self):
@@ -123,14 +122,31 @@ class SparrayServicer(pb2_grpc.SparrayServicer):
                     yield prev_note
             prev_notes.append(new_note)
 
-    def GetBigFile(self, request_iterator, context):
+    def GetStreamToStream(self, request_iterator, context):
         for cur_data in request_iterator:
             yield cur_data
+
+    def GetSingleToStream(self, request, context):
+        if request.dtype == 'string':
+            for cur_data in [1, 2, 3, 4, 5]:
+                yield pb2.StreamFile(
+                    idx=cur_data,
+                    total=5,
+                    chunk=b'emmm'
+                )
+        else:
+            for idx, cur_data in enumerate(request.buffer):
+                print(cur_data)
+                yield pb2.StreamFile(
+                    idx=idx,
+                    total=len(request.buffer),
+                    chunk=bytes(cur_data),
+                )
 
 
 def serve(hostname="[::]:50051"):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=8))
-    pb2_grpc.add_SparrayServicer_to_server(
+    pb2_grpc.add_SparrayServiceServicer_to_server(
         SparrayServicer(), server)
     server.add_insecure_port(hostname)
     server.start()
