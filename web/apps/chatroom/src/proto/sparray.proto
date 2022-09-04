@@ -7,37 +7,43 @@ package sparray;
 /**
  * Represents a (quantized) dense n-dim array
  */
-message DenseNdArrayProto {
-  // the actual array data, in bytes
+message DenseArrayProto {
   bytes buffer = 1;
-
-  // the shape (dimensions) of the array
   repeated uint32 shape = 2;
-
-  // the data type of the array
   string dtype = 3;
 }
 
-
-message DocProto{
-  string id = 1;
-  bytes buffer = 2;
-  string text = 3;
-  string dtype = 4;
-//  oneof content {
-//    // the raw binary content of this document
-//    bytes blob = 2;
-//
-//    // the ndarray of the image/audio/video document
-//    DenseNdArrayProto tensor = 3;
-//
-//    // a text document
-//    string text = 4;
-//  }
+message SparseArrayProto {
+  DenseArrayProto indices = 1;
+  DenseArrayProto values = 2;
+  repeated uint32 shape = 3;
+}
+message NdArrayProto {
+  oneof ndarray {
+    DenseArrayProto dense = 1;
+    SparseArrayProto sparse = 2;
+  }
+  // the name of the ndarray class
+  string cls_name = 3;
+  google.protobuf.Struct parameters = 4;
 }
 
-message DocArrayProto {
-    repeated DocProto docs = 1;
+message SparrayProro{
+  string id = 1;
+  oneof data {
+    bytes buffer = 2;
+    NdArrayProto tensor = 3;
+    string text = 4;
+  }
+  NdArrayProto embedding = 5;
+  string uri = 6;
+  string mime_type = 7;
+  map<string, string> map = 8;
+  google.protobuf.Struct _metadata = 9;
+}
+
+message Sparray{
+  repeated SparrayProro sparrays = 1;
 }
 
 message ChatProto {
@@ -49,17 +55,26 @@ message ChatProto {
   string ts = 6; // timestamp
   Image imgInfo = 7;
   MediaControl mediaControl = 8;
-  BigFile bigFile = 9;
+  StreamFile bigFile = 9;
 }
-message BigFile{
+
+message StreamFile{
   int32 idx = 1;
   int32 total = 2;
   bytes chunk = 3;
 }
 
+message SingleBigFile{
+  oneof data {
+    bytes buffer = 1;
+    string text = 2;
+  }
+  string dtype = 3;
+}
+
 message Image {
-  float width=1;
-  float height=2;
+  float width = 1;
+  float height = 2;
 }
 
 message MediaControl{
@@ -68,15 +83,20 @@ message MediaControl{
   bytes buffer = 3;
 }
 
-service Sparray{
-    // simple rpc
-    rpc GetFeature(Point) returns (Feature) {}
-    // server2client stream rpc
-    rpc ListFeatures(Rectangle) returns (stream Feature) {}
-    // client2server stream rpc
-    rpc RecordRoute(stream Point) returns (RouteSummary) {}
-    // stream rpc
-    rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
+service SparrayService{
+  rpc GetChat(ChatMessage) returns (ChatResponse) {}
+  rpc IdentityMapping(ChatProto) returns (ChatProto) {}
+  rpc GetStreamToStream(stream StreamFile) returns (stream StreamFile) {}
+  rpc GetSingleToStream(SingleBigFile) returns (stream StreamFile) {}
+
+  // simple rpc
+  rpc GetFeature(Point) returns (Feature) {}
+  // server2client stream rpc
+  rpc ListFeatures(Rectangle) returns (stream Feature) {}
+  // client2server stream rpc
+  rpc RecordRoute(stream Point) returns (RouteSummary) {}
+  // stream rpc
+  rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
 }
 
 message ChatMessage{
@@ -90,28 +110,28 @@ message ChatResponse {
 
 
 message Point {
-    int32 latitude = 1;
-    int32 longitude = 2;
+  int32 latitude = 1;
+  int32 longitude = 2;
 }
 
 message Rectangle {
-    Point lo = 1;
-    Point hi = 2;
+  Point lo = 1;
+  Point hi = 2;
 }
 
 message Feature {
-    string name = 1;
-    Point location = 2;
+  string name = 1;
+  Point location = 2;
 }
 
 message RouteNote {
-    Point location = 1;
-    string message = 2;
+  Point location = 1;
+  string message = 2;
 }
 
 message RouteSummary {
-    int32 point_count = 1;
-    int32 feature_count = 2;
-    int32 distance = 3;
-    int32 elapsed_time = 4;
+  int32 point_count = 1;
+  int32 feature_count = 2;
+  int32 distance = 3;
+  int32 elapsed_time = 4;
 }

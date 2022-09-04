@@ -1,20 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
-// 响应式状态
-const count = ref(0)
+const awesome = ref(true)
 
-// 用来修改状态、触发更新的函数
-function increment() {
-  count.value++
+function toggle() {
+  awesome.value = !awesome.value
 }
-
-// 生命周期钩子
-onMounted(() => {
-  console.log(`The initial count is ${count.value}.`)
-})
 </script>
 
 <template>
-  <button @click="increment">Count is: {{ count }}</button>
+  <button @click="toggle">toggle</button>
+  <h1 v-if="awesome">Vue is awesome!</h1>
+  <h1 v-else>Oh no 😢</h1>
 </template>

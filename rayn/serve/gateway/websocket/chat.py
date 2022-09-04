@@ -13,18 +13,21 @@ from typing import Union, Optional
 from fastapi import Cookie, Depends, FastAPI, Query, WebSocket, status
 import asyncio
 import websockets
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:9090",
-    "http://0.0.0.0:8080",
-    "http://0.0.0.0:9090",
-]
+# origins = [
+#     "http://localhost",
+#     "http://localhost:80",
+#     "http://localhost:8080",
+#     "http://localhost:9090",
+#     "http://0.0.0.0:8080",
+#     "http://0.0.0.0:9090",
+# ]
 
 chatproto = ChatProto()
 app = FastAPI()
 
+# app.add_middleware(HTTPSRedirectMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # origins

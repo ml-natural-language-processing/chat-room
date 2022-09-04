@@ -8,9 +8,14 @@ import {
 import {getCookie} from "../utils";
 import {UserConfig} from "../config_gen";
 import {Status} from "./state";
+import {SparrayServiceClient} from '../proto/module/SparrayServiceClientPb'
+import * as pb2 from '../proto/module/sparray_pb'
 
 
 const websocket_dir = UserConfig.websocketDir;
+const grpcHostname = 'http://' + UserConfig.grpcDir;
+const grpcClient = new SparrayServiceClient(grpcHostname);
+const grpcChat = new pb2.ChatProto();
 
 let socket: WebSocket;
 let showMessage = true;
@@ -115,18 +120,21 @@ function start() {
 
 
                     const add_media_element = (media_type: string) => {
-                        const blob = new Blob([new_message.buffer])
+                        const blob = new Blob([new_message.buffer], {type: new_message.dtype})
                         media_element = document.createElement(media_type);
                         media_element.src = URL.createObjectURL(blob);
-                        // media_element.play();
-                        media_element.setAttribute('type', new_message.dtype);
-                        media_element.setAttribute('controls', 'true');
+                        // media_element = new Audio(URL.createObjectURL(blob))
+                        // media_element.setAttribute('type', new_message.dtype);
+                        console.log(new_message.dtype);
+                        // media_element.setAttribute('controls', 'true');
+                        media_element.controls = 'true'
                         message.appendChild(media_element);
                         chatRoom!.appendChild(message);
                         chatRoom!.scrollTop = chatRoom!.scrollHeight;
                         // media_element.ontimeupdate = media_ele_ontimeupdate;
                         media_element.onplay = media_event_send;
                         media_element.onpause = media_event_send;
+                        // media_element.play();
                     }
 
                     let message_content: any;
@@ -252,6 +260,7 @@ uploadElement.onchange = async () => {
     };
     // imageHeight = 0;
     // imageWidth = 0;
+    sendGrpcMessage(payload);
     sendMessage(payload);
 }
 
@@ -284,6 +293,25 @@ context.addEventListener("keydown", function (e: any) {
 });
 
 
+function sendGrpcMessage(payload: any){
+    grpcChat.setId(payload.id);
+    grpcChat.setName(payload.name);
+    grpcChat.setMsg(payload.msg);
+    grpcChat.setDtype(payload.dtype);
+    grpcChat.setBuffer(payload.buffer);
+    const imageInfo =new pb2.Image();
+    imageInfo.setWidth(imageWidth);
+    imageInfo.setHeight(imageHeight);
+    grpcChat.setImginfo(imageInfo);
+    grpcClient.identityMapping(grpcChat, {}, (err, response)=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("in grpc response");
+            console.log(response);
+        }
+    })
+}
 // async function chunkedUpload(file: File, chunkSize: number, url: string) {
 //     for (let start = 0; start < file.size; start += chunkSize) {
 //         const chunk = file.slice(start, start + chunkSize + 1)

@@ -1,16 +1,15 @@
 import grpc
-from rayn.serve.gateway.websocket.manager import WebSocket
 from rayn.proto.python import sparray_pb2 as pb2
 from rayn.proto.python import sparray_pb2_grpc as pb2_grpc
-from concurrent import futures
 import time
 from concurrent import futures
 import logging
 import math
-import time
-
-import grpc
 import json
+from sparrow.log import SimpleLogger
+from sparrow import rel_to_abs
+
+logger = SimpleLogger('grpc-server', log_dir=rel_to_abs('../../../../grpc_server_log'))
 
 
 def read_route_guide_database():
@@ -20,7 +19,7 @@ def read_route_guide_database():
       pb2.Features.
   """
     feature_list = []
-    with open("route_guide_db.json") as route_guide_db_file:
+    with open(rel_to_abs("route_guide_db.json", return_str=True)) as route_guide_db_file:
         for item in json.load(route_guide_db_file):
             feature = pb2.Feature(
                 name=item["name"],
@@ -61,7 +60,7 @@ def get_distance(start, end):
     return R * c
 
 
-class SparrayServicer(pb2_grpc.SparrayServicer):
+class SparrayServicer(pb2_grpc.SparrayServiceServicer):
     """Provides methods that implement functionality of route guide server."""
 
     def __init__(self):
@@ -73,6 +72,15 @@ class SparrayServicer(pb2_grpc.SparrayServicer):
             return pb2.Feature(name="", location=request)
         else:
             return feature
+
+    def GetChat(self, request, context):
+        logger.info(request)
+        return pb2.ChatResponse(
+            message=request.message,
+            received=True)
+
+    def IdentityMapping(self, request, context):
+        return request
 
     def ListFeatures(self, request, context):
         left = min(request.lo.longitude, request.hi.longitude)
@@ -109,20 +117,42 @@ class SparrayServicer(pb2_grpc.SparrayServicer):
         prev_notes = []
         for new_note in request_iterator:
             for prev_note in prev_notes:
-                if prev_note.location == new_note.location:
+                if prev_note.location != new_note.location:
+                    time.sleep(1)
                     yield prev_note
             prev_notes.append(new_note)
 
+    def GetStreamToStream(self, request_iterator, context):
+        for cur_data in request_iterator:
+            yield cur_data
 
-def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    pb2_grpc.add_SparrayServicer_to_server(
+    def GetSingleToStream(self, request, context):
+        if request.dtype == 'string':
+            for cur_data in [1, 2, 3, 4, 5]:
+                yield pb2.StreamFile(
+                    idx=cur_data,
+                    total=5,
+                    chunk=b'emmm'
+                )
+        else:
+            for idx, cur_data in enumerate(request.buffer):
+                print(cur_data)
+                yield pb2.StreamFile(
+                    idx=idx,
+                    total=len(request.buffer),
+                    chunk=bytes(cur_data),
+                )
+
+
+def serve(hostname="[::]:50051"):
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=8))
+    pb2_grpc.add_SparrayServiceServicer_to_server(
         SparrayServicer(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(hostname)
     server.start()
     server.wait_for_termination()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig()
-    serve()
+    serve(hostname="[::]:50051")

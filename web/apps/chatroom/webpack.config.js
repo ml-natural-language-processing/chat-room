@@ -1,12 +1,13 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader')
+const fs = require("fs");
 module.exports = {
     entry: {
         "index": './src/index.ts',
         "chat": './src/chat/chat.ts',
         "chat_grpc": './src/chat_grpc/chat_grpc.ts',
-        "tests": './src/tests/tests.ts'
+        "tests": './src/tests/tests.ts',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -39,9 +40,9 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.json', '.vue'],
-        fallback: {
-            "fs": false,
+        extensions: ['.tsx', '.ts', '.js', '.json', '.vue', '.css', '.scss'],
+        // fallback: {
+            // "fs": false,
             // "os": false,
             // 'zlib': false,
             // 'stream': false,
@@ -51,7 +52,7 @@ module.exports = {
             // 'http': false,
             // 'http2': false,
             // 'dns': false,
-        },
+        // },
     },
 
     externals: {
@@ -64,8 +65,12 @@ module.exports = {
         static: path.join(__dirname, 'dist'),
         host: "0.0.0.0",
         allowedHosts: "all",
-        port: 9090,
-        open: true,
+        port: 80,
+        // open: true,
+        // https: {
+        //     key: fs.readFileSync(path.join(__dirname, "./ca/key.pem")),
+        //     cert: fs.readFileSync(path.join(__dirname, "./ca/cert.pem")),
+        // }
     },
     plugins: [
         new VueLoaderPlugin(),

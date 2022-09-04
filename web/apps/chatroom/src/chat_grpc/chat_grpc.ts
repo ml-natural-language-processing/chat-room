@@ -1,35 +1,43 @@
-// import * as zmq from '@types/zeromq';
-// import * as zmq from 'zeromq';
-// const zmq = require("zeromq")
-// import * as protobuf from 'protobufjs';
-import {SparrayClient} from '../proto/module/SparrayServiceClientPb'
+import {UserConfig} from '../config_gen'
+import {SparrayServiceClient} from '../proto/module/SparrayServiceClientPb'
 import * as pb2 from '../proto/module/sparray_pb'
-// import {CodeGeneratorResponse} from "google-protobuf/google/protobuf/compiler/plugin_pb";
-// import Feature = CodeGeneratorResponse.Feature;
-
 
 //tutorial https://github.com/grpc/grpc/blob/v1.46.3/examples/node/dynamic_codegen/route_guide/route_guide_client.js
 // grpc-web https://grpc.io/blog/grpc-web-ga/
-// grpc-web 才是可以运行在浏览器上的
 
-const client = new SparrayClient("http://0.0.0.0:50051");
-const request = new pb2.Feature()
+const hostname = 'http://' + UserConfig.grpcDir;
+console.log(hostname)
+const client = new SparrayServiceClient(hostname);
+const request = new pb2.ChatMessage()
+request.setMessage("hellow");
 
-console.log("emmmmmmmmmmmmmmmmmmmmmmm")
-request.setName("emmmm")
+const chat = new pb2.ChatProto();
+chat.setId(1);
+chat.setName('ky')
+chat.setMsg("你好鸭")
+let answers: any;
+client.identityMapping(chat, {},  (err, response)=>{
+    if (err){
+        console.log(err);
+    }else {
+        answers = response;
+        console.log(answers);
+    }
+})
 
-// const point2 = {
-//     latitude: 0,
-//     longitude: 0
-// };
+if (typeof(answers) == "undefined"){
+    console.log("bbb")
 
-const point2 = new pb2.Point()
-point2.setLatitude(20);
-point2.setLongitude(234);
-request.setLocation(point2)
+    console.log(answers);
+}
 
-console.log('aaaaaaaaaaaaaaaa')
-client.getFeature(point2, {}, function(err, response) {
+client.getChat(request, {}, function(err, response) {
+    if (err){
+        console.log(err);
+    }else {
+        console.log("aaaaaaaaaa")
+        console.log(response);
+    }
     // ...
 });
 
