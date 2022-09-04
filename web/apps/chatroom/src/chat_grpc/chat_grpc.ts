@@ -11,7 +11,7 @@ const client = new SparrayServiceClient(hostname);
 const request = new pb2.ChatMessage()
 request.setMessage("hellow");
 
-const chat = new pb2.ChatProto();
+let chat = new pb2.ChatProto();
 chat.setId(1);
 chat.setName('ky')
 chat.setMsg("你好鸭")
@@ -41,20 +41,3 @@ client.getChat(request, {}, function(err, response) {
     // ...
 });
 
-
-
-
-
-//////////////////////////////////////////////////////
-// async function run() {
-//         const sock = new zmq.Pull
-//
-//         console.log("Worker connected to port 3000")
-//         sock.connect("tcp://127.0.0.1:51221")
-//
-//         for await (const [msg] of sock) {
-//                 console.log("work: %s", msg.toString())
-//         }
-// }
-
-// run()

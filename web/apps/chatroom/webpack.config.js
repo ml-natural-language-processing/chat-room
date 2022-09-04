@@ -1,13 +1,18 @@
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 const fs = require("fs");
+
 module.exports = {
     entry: {
         "index": './src/index.ts',
         "chat": './src/chat/chat.ts',
         "chat_grpc": './src/chat_grpc/chat_grpc.ts',
         "tests": './src/tests/tests.ts',
+        "vue_chat": './src/vue_chat/vue_chat.ts'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -73,6 +78,12 @@ module.exports = {
         // }
     },
     plugins: [
+        AutoImport({
+            resolvers: [ElementPlusResolver()],
+        }),
+        Components({
+            resolvers: [ElementPlusResolver()],
+        }),
         new VueLoaderPlugin(),
         new CopyPlugin({
                 patterns: [
