@@ -1,7 +1,7 @@
 <script setup>
-import {Eleme} from '@element-plus/icons-vue'
 import {ref, reactive} from 'vue'
 import {
+  Eleme,
   Check,
   Delete,
   Edit,
@@ -11,18 +11,11 @@ import {
 } from '@element-plus/icons-vue'
 import {setChatAttr, getGrpcResponse} from './grpc_component'
 
-// export default {
-//   name: ""
-// }
-// const count = ref(0)
 const state = reactive({count: 0})
 function increment(){
   state.count++
   console.log(state.count)
 }
-
-// const textInputEl = document.getElementById("text_input_id")
-
 
 const awesome = ref(true)
 
@@ -39,19 +32,19 @@ setInterval(() => {
 
 let input = ref('')
 
-// const textarea1 = ref('')
 const textarea2 = ref('')
 async function sendMessage(){
-  // console.log(textarea2.value)
+  console.log(textarea2)
   setChatAttr(1, 'a', textarea2.value)
   const resp = await getGrpcResponse()
   console.log(resp)
+  textarea2.value = ''
 
 }
 const format = (percentage1) => (percentage1 === 100 ? 'Full' : `${percentage1}%`)
 </script>
 
-<!--============================================================&ndash;&gt;-->
+
 <template>
   <el-button @click="increment" type="primary"> {{state.count}} </el-button>
 
@@ -59,7 +52,7 @@ const format = (percentage1) => (percentage1 === 100 ? 'Full' : `${percentage1}%
 
 
   <h1 v-if="awesome">Vue is awesome!</h1>
-  <h1 v-else>Oh no 😢</h1>
+  <h1 v-else>Oh ha 😢</h1>
 
   <div class="demo-progress">
     <el-progress :percentage="percentage1" :format="format" />
@@ -84,6 +77,9 @@ const format = (percentage1) => (percentage1 === 100 ? 'Full' : `${percentage1}%
       placeholder="Please input"
   />
   <el-button id="aaaa" @click="sendMessage" type="success">send</el-button>
+
+  <div style="margin: 120px 0"/>
+  <div style="margin: 120px 0"/>
 
   <el-card class="box-card">
     <template #header>
