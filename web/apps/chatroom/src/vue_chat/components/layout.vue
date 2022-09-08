@@ -3,11 +3,11 @@
 import {ref} from "vue";
 import {getGrpcResponse, setChatAttr} from "../grpc_component";
 import {ElMessage, ElMessageBox} from 'element-plus'
+import ChatScrollbar from './chatScrollbar'
 
 const textarea = ref('')
 
 async function sendMessage() {
-  console.log(textarea)
   setChatAttr(1, 'a', textarea.value)
   const resp = await getGrpcResponse()
   console.log(resp)
@@ -67,13 +67,12 @@ const beforeRemove = (uploadFile, uploadFiles) => {
               </div>
             </template>
 
-            <el-scrollbar height="400px">
-              <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>
-              <div>emmm</div>
-              <div>emmm</div>
-              <div>emmm</div>
-              <div>emmm</div>
-            </el-scrollbar>
+<!--            <el-scrollbar height="400px">-->
+<!--              <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>-->
+              <component :is="ChatScrollbar" />
+
+
+<!--            </el-scrollbar>-->
 
           </el-card>
 
@@ -82,33 +81,34 @@ const beforeRemove = (uploadFile, uploadFiles) => {
         <el-footer>Footer
 
           <div class="common-layout2">
-                <el-input
-                    v-model="textarea"
-                    :autosize="{ minRows: 3, maxRows: 6 }"
-                    type="textarea"
-                    placeholder="Please input"
-                />
-              <el-container>
-                <el-aside width="50%">
-                  <br>
-                  <el-button @click="sendMessage" type="success">send</el-button>
-                </el-aside>
-                <el-main>
-                  <el-upload
-                      v-model:file-list="fileList"
-                      class="upload-demo"
-                      action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                      multiple
-                  >
-                    <el-button type="primary">Click to upload</el-button>
-                    <!--            <template #tip>-->
-                    <!--              <div class="el-upload__tip">-->
-                    <!--                jpg/png files with a size less than 500KB.-->
-                    <!--              </div>-->
-                    <!--            </template>-->
-                  </el-upload>
-                </el-main>
-              </el-container>
+            <el-input
+                v-model="textarea"
+                :autosize="{ minRows: 3, maxRows: 6 }"
+                type="textarea"
+                placeholder="Please input"
+                @keyup.ctrl.enter.native="sendMessage"
+            />
+            <el-container>
+              <el-aside width="50%">
+                <br>
+                <el-button @click="sendMessage" type="success">send</el-button>
+              </el-aside>
+              <el-main>
+                <el-upload
+                    v-model:file-list="fileList"
+                    class="upload-demo"
+                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                    multiple
+                >
+                  <el-button type="primary">Click to upload</el-button>
+                  <!--            <template #tip>-->
+                  <!--              <div class="el-upload__tip">-->
+                  <!--                jpg/png files with a size less than 500KB.-->
+                  <!--              </div>-->
+                  <!--            </template>-->
+                </el-upload>
+              </el-main>
+            </el-container>
           </div>
 
         </el-footer>
