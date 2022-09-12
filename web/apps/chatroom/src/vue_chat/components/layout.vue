@@ -1,18 +1,19 @@
 <script setup>
 
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {getGrpcResponse, setChatAttr} from "../grpc_component";
 import {ElMessage, ElMessageBox} from 'element-plus'
 import ChatScrollbar from './chatScrollbar'
 
 const textarea = ref('')
+const state = reactive(["官方广播： 欢迎yao进入聊天\n"])
 
 async function sendMessage() {
   setChatAttr(1, 'a', textarea.value)
   const resp = await getGrpcResponse()
   console.log(resp)
+  state.push(textarea.value)
   textarea.value = ''
-
 }
 
 const fileList = ref([
@@ -69,7 +70,7 @@ const beforeRemove = (uploadFile, uploadFiles) => {
 
 <!--            <el-scrollbar height="400px">-->
 <!--              <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>-->
-              <component :is="ChatScrollbar" />
+              <component :is="ChatScrollbar"  :state="state"  />
 
 
 <!--            </el-scrollbar>-->
@@ -87,6 +88,7 @@ const beforeRemove = (uploadFile, uploadFiles) => {
                 type="textarea"
                 placeholder="Please input"
                 @keyup.ctrl.enter.native="sendMessage"
+                @keyup.shift.enter.native="sendMessage"
             />
             <el-container>
               <el-aside width="50%">
