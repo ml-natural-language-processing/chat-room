@@ -16,9 +16,7 @@ const innerRef = ref()
 const chatScrollbar = ref()
 const props = defineProps(["state",])
 
-const classObj = computed(()=>{
 
-})
 watch(
     ()=>props.state,
     ()=>{

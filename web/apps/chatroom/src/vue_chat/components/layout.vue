@@ -4,6 +4,8 @@ import {reactive, ref} from "vue";
 import {getGrpcResponse, setChatAttr} from "../grpc_component";
 import {ElMessage, ElMessageBox} from 'element-plus'
 import ChatScrollbar from './chatScrollbar'
+import { genFileId } from 'element-plus'
+
 
 const textarea = ref('')
 const state = reactive(["官方广播： 欢迎yao进入聊天\n"])
@@ -14,18 +16,19 @@ async function sendMessage() {
   console.log(resp)
   state.push(textarea.value)
   textarea.value = ''
+  console.log(fileList.value[2])
 }
+const uploadRef = ref()
 
+// const submitUpload = () => {
+//   console.log(
+//       uploadRef.value
+//   )
+// }
 const fileList = ref([
-  {
-    name: 'element-plus-logo.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg',
-  },
-  {
-    name: 'element-plus-logo2.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg',
-  },
+
 ])
+
 const handleRemove = (file, uploadFiles) => {
   console.log(file, uploadFiles)
 }
@@ -34,12 +37,11 @@ const handlePreview = (uploadFile) => {
   console.log(uploadFile)
 }
 
-const handleExceed = (files, uploadFiles) => {
-  ElMessage.warning(
-      `The limit is 3, you selected ${files.length} files this time, add up to ${
-          files.length + uploadFiles.length
-      } totally`
-  )
+const handleExceed = (files) => {
+  uploadRef.value.clearFiles()
+  const file = files[0]
+  file.uid = genFileId()
+  uploadRef.value.handleStart(file)
 }
 
 const beforeRemove = (uploadFile, uploadFiles) => {
@@ -50,6 +52,7 @@ const beforeRemove = (uploadFile, uploadFiles) => {
       () => false
   )
 }
+
 
 </script>
 <template>
@@ -68,12 +71,7 @@ const beforeRemove = (uploadFile, uploadFiles) => {
               </div>
             </template>
 
-<!--            <el-scrollbar height="400px">-->
-<!--              <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>-->
               <component :is="ChatScrollbar"  :state="state"  />
-
-
-<!--            </el-scrollbar>-->
 
           </el-card>
 
@@ -87,8 +85,8 @@ const beforeRemove = (uploadFile, uploadFiles) => {
                 :autosize="{ minRows: 3, maxRows: 6 }"
                 type="textarea"
                 placeholder="Please input"
-                @keyup.ctrl.enter.native="sendMessage"
-                @keyup.shift.enter.native="sendMessage"
+                @keydown.shift.enter="sendMessage"
+                @keydown.ctrl.enter="sendMessage"
             />
             <el-container>
               <el-aside width="50%">
@@ -99,15 +97,21 @@ const beforeRemove = (uploadFile, uploadFiles) => {
                 <el-upload
                     v-model:file-list="fileList"
                     class="upload-demo"
-                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                    multiple
+                    ref="uploadRef"
+                    :auto-upload="false"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :on-exceed="handleExceed"
+                    :limit="1"
+                    :show-file_list="true"
                 >
                   <el-button type="primary">Click to upload</el-button>
-                  <!--            <template #tip>-->
-                  <!--              <div class="el-upload__tip">-->
-                  <!--                jpg/png files with a size less than 500KB.-->
-                  <!--              </div>-->
-                  <!--            </template>-->
+<!--                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />-->
+<!--                              <template #tip>-->
+<!--                                <div class="el-upload__tip">-->
+<!--                                  jpg/png files with a size less than 500KB.-->
+<!--                                </div>-->
+<!--                              </template>-->
                 </el-upload>
               </el-main>
             </el-container>
@@ -120,17 +124,6 @@ const beforeRemove = (uploadFile, uploadFiles) => {
 </template>
 
 <style scoped>
-.scrollbar-demo-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  margin: 10px;
-  text-align: center;
-  border-radius: 4px;
-  background: var(--el-color-primary-light-9);
-  color: var(--el-color-primary);
-}
 
 .card-header {
   display: flex;
