@@ -1,4 +1,12 @@
-declare module "*.vue" {
+// declare module "*.vue" {
+//     import Vue from "vue";
+//     export default Vue;
+// }
+
+declare module '*.vue' { // NOTE: ts-loader
+    import { defineComponent } from 'vue';
     import Vue from "vue";
-    export default Vue;
+
+    const component: ReturnType<typeof defineComponent>;
+    export default component;
 }
