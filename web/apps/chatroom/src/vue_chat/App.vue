@@ -1,11 +1,11 @@
 <script setup >
-import Chat from './chat'
+// import Chat from './chat'
 // import UploadImage from './components/upload/Image'
 // import UploadAvatar from './components/upload/Avatar'
 // import CustomThumb from './components/upload/CustomThumb.vue'
-// import ListControl from './components/upload/ListControl.vue'
 import DragUpload from './components/upload/DragUpload'
 import Layout from './components/layout.vue'
+
 
 </script>
 

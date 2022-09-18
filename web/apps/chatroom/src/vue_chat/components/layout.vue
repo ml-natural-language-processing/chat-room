@@ -1,56 +1,23 @@
 <script setup>
 
 import {reactive, ref} from "vue";
-import {getGrpcResponse, setChatAttr} from "../grpc_component";
 import {ElMessage, ElMessageBox} from 'element-plus'
 import ChatScrollbar from './chatScrollbar'
-import { genFileId } from 'element-plus'
+import UploadControl from './upload/UploadControl'
+import {ChatManager} from '../chat'
+const chatMananger = new ChatManager()
+chatMananger.addSocketEvent()
 
 
 const textarea = ref('')
-const state = reactive(["官方广播： 欢迎yao进入聊天\n"])
+
+const state = reactive(["Welcome to the Tensor Space.\n"])
+chatMananger.registerState(state)
 
 async function sendMessage() {
-  setChatAttr(1, 'a', textarea.value)
-  const resp = await getGrpcResponse()
-  console.log(resp)
-  state.push(textarea.value)
+  chatMananger.socketSendMsg(textarea.value)
+  await chatMananger.grpcSemdMsg(textarea.value)
   textarea.value = ''
-  console.log(fileList.value[2])
-}
-const uploadRef = ref()
-
-// const submitUpload = () => {
-//   console.log(
-//       uploadRef.value
-//   )
-// }
-const fileList = ref([
-
-])
-
-const handleRemove = (file, uploadFiles) => {
-  console.log(file, uploadFiles)
-}
-
-const handlePreview = (uploadFile) => {
-  console.log(uploadFile)
-}
-
-const handleExceed = (files) => {
-  uploadRef.value.clearFiles()
-  const file = files[0]
-  file.uid = genFileId()
-  uploadRef.value.handleStart(file)
-}
-
-const beforeRemove = (uploadFile, uploadFiles) => {
-  return ElMessageBox.confirm(
-      `Cancel the transfert of ${uploadFile.name} ?`
-  ).then(
-      () => true,
-      () => false
-  )
 }
 
 
@@ -94,25 +61,7 @@ const beforeRemove = (uploadFile, uploadFiles) => {
                 <el-button @click="sendMessage" type="success">send</el-button>
               </el-aside>
               <el-main>
-                <el-upload
-                    v-model:file-list="fileList"
-                    class="upload-demo"
-                    ref="uploadRef"
-                    :auto-upload="false"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :on-exceed="handleExceed"
-                    :limit="1"
-                    :show-file_list="true"
-                >
-                  <el-button type="primary">Click to upload</el-button>
-<!--                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />-->
-<!--                              <template #tip>-->
-<!--                                <div class="el-upload__tip">-->
-<!--                                  jpg/png files with a size less than 500KB.-->
-<!--                                </div>-->
-<!--                              </template>-->
-                </el-upload>
+                <component :is="UploadControl" />
               </el-main>
             </el-container>
           </div>
