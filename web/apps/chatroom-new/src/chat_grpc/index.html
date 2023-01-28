@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Let's chat </title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.bootcss.com/mathjax/3.0.5/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="../js/default.min.css">
+
+
+</head>
+
+<body>
+<h1 style="text-align: center;">聊天室 v0.212 </h1>
+
+<link rel="stylesheet" href="../js/bootstrap.min.css">
+<div class="chat-body card">
+
+<div class="chat-message card-body">
+    <div> 
+        <label for="context">输入消息：</label><textarea id="context"></textarea>
+        <button id="btn"> 点击发送消息</button>
+    </div>
+    <div>
+        <label for="sendFile">发送文件：</label> <input type="file" id="sendFile">
+    </div>
+</div>
+
+    <div id="chatRoom" style="float:left;">
+        Let's start
+    </div>
+</div>
+
+
+
+
+<script src="./chat_grpc.js"></script>
+
+<!--<div class="chat-body card">-->
+<!--    <div class="card-body">-->
+<!--        <strong id="profile"></strong><h4 class="card-title text-center"> Chat App </h4>-->
+<!--        <hr>-->
+<!--        <div id="messages">-->
+<!--        </div>-->
+<!--        <form class="form-inline" id="chat-form">-->
+<!--            <div>-->
+<!--                <label for="uName"> 昵称： </label><input type="text" id="uName" placeholder="Enter your name">-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="context">输入消息：</label><input type="text" id="context">-->
+<!--                <button id="btn"> 点击发送消息</button>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="sendFile">发送文件：</label> <input type="file" id="sendFile">-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+</body>
+
+</html>
