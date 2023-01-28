@@ -1,14 +1,21 @@
-from utils import expand_template, get_ip
-from sparrow.net import get_outer_ip, get_inner_ip
+from sparrow.utils.net import get_ip
+from sparrow.template import expand_template
+from sparrow import relp
 
-expand_template(
-    name='expand_ts_config',
-    template='./config.template.ts',
-    out="../web/apps/chatroom/src/config_gen.ts",
-    substitutions={
-        'websocket_ip': get_inner_ip(),
-        'grpc_ip': get_inner_ip(),
-        # 'websocket_ip': get_outer_ip(),
-        # 'grpc_ip': get_outer_ip(),
-    },
-)
+
+def build_template(template_file: str, ip_type='inner'):
+    expand_template(
+        name='config_gen.ts',
+        out=template_file,
+        substitutions={
+            'websocket_ip': get_ip(ip_type),
+            'grpc_ip': get_ip(ip_type),
+        },
+        template=relp('./config.template.ts'),
+    )
+
+
+ip_type = 'inner'
+# ip_type = 'outer'
+build_template(relp('../web/apps/chatroom/src'), ip_type)
+build_template(relp('../web/apps/chatroom-new/src'), ip_type)

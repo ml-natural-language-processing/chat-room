@@ -14,12 +14,8 @@ services:
 
   backend:
     image: beidongjiedeguang/chatroom-backend:ubunt2004
-    ports:
-      - "51221:51221"
     container_name: backend-container
-#    networks:
-#      back:
-#        ipv4_address: 172.16.238.10
+    network_mode: host
     depends_on:
       - grpc-proxy
     volumes:
@@ -30,20 +26,8 @@ services:
 
   grpc-proxy:
     image: envoyproxy/envoy:v1.22.0
-    ports:
-      - "50050:50050"
     container_name: grpc-envoy-container
     volumes:
       - ./backend/envoy.yaml:/etc/envoy/envoy.yaml:ro
-#    networks:
-#      back:
-#        ipv4_address: 172.16.238.11
+    network_mode: host
 
-#networks:
-#  back:
-#    name: network_for_chatroom
-#    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: "172.16.238.0/24"
