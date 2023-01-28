@@ -1,4 +1,4 @@
-from sparrow.net import get_outer_ip, get_inner_ip
+from sparrow.utils.net import get_outer_ip, get_inner_ip
 import shutil
 import os
 os.system(f"mkcert localhost {get_inner_ip()} {get_outer_ip()} localhost 127.0.0.1 ::1")

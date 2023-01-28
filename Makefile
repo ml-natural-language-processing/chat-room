@@ -1,3 +1,5 @@
+cur_dir := $(shell pwd)
+
 gitproxy = "https://ghproxy.com/"
 install-docker-compose:
 	# 已过时： 新版docker 可以直接使用docker compose 执行，无需安装docker-compose
@@ -14,6 +16,11 @@ start: # use docker compose
 
 stop:
 	@docker compose kill
+	@docker rm -f grpc-envoy-container
+	@docker rm -f backend-container
+	@docker rm -f frontend-container
+
+
 
 log:
 	docker compose logs -f
