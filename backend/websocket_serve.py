@@ -2,7 +2,7 @@ import uvicorn
 from sparrow import rel_to_abs, yaml_load
 
 host = "0.0.0.0"
-port = yaml_load("config.yaml", True)['websocket_port']
+port = yaml_load("config.yaml", True)['ws_port']
 reload = True
 use_https = False
 

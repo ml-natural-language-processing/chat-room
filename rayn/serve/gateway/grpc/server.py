@@ -74,12 +74,15 @@ class SparrayServicer(pb2_grpc.SparrayServiceServicer):
             return feature
 
     def GetChat(self, request, context):
-        logger.info(request)
+        logger.info(request.name)
+        logger.info(request.buffer)
         return pb2.ChatResponse(
             message=request.message,
             received=True)
 
     def IdentityMapping(self, request, context):
+        logger.info(request.name)
+        logger.info(request.buffer)
         return request
 
     def ListFeatures(self, request, context):
@@ -123,10 +126,12 @@ class SparrayServicer(pb2_grpc.SparrayServiceServicer):
             prev_notes.append(new_note)
 
     def GetStreamToStream(self, request_iterator, context):
+        logger.info('stream to stream')
         for cur_data in request_iterator:
             yield cur_data
 
     def GetSingleToStream(self, request, context):
+        logger.info("single to stream")
         if request.dtype == 'string':
             for cur_data in [1, 2, 3, 4, 5]:
                 yield pb2.StreamFile(

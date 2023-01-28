@@ -1,6 +1,6 @@
 // @ts-nocheck
 
 export const UserConfig = {
-    websocketDir : "{{websocket_ip}}:51221",
-    grpcDir : "{{grpc_ip}}:50050",
+    websocketDir : "{{ws_ip}}:{{ws_port}}",
+    grpcDir : "{{grpc_ip}}:{{grpc_port}}",
 }

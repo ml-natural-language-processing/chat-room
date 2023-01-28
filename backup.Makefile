@@ -7,7 +7,7 @@ backend_cuda_image_full = $(backend_cuda_image)$(cuda-tag)
 cpu-tag = ":ubunt2004"
 cuda-tag= ":cuda11.3-cudnn8-ubunt2004"
 
-backend_port = 51221# in: 8080
+backend_port = 50052# in: 8080
 frontend_port = 9090# in: 9090
 grpc_port = 50050 # this is out port.
 currentdir = $(shell pwd)

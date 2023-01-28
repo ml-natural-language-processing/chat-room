@@ -14,13 +14,11 @@ start: # use docker compose
 	@docker compose up -d
 	docker compose logs -f
 
-stop:
+stop: 
 	@docker compose kill
 	@docker rm -f grpc-envoy-container
 	@docker rm -f backend-container
 	@docker rm -f frontend-container
-
-
 
 log:
 	docker compose logs -f

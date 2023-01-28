@@ -15,7 +15,7 @@ services:
   backend:
     image: beidongjiedeguang/chatroom-backend:ubunt2004
     ports:
-      - "51221:51221"
+      - "50052:50052"
     container_name: backend-container
 #    networks:
 #      back:

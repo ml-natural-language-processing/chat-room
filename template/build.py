@@ -1,6 +1,8 @@
 from sparrow.utils.net import get_ip
 from sparrow.template import expand_template
-from sparrow import relp
+from sparrow import relp, yaml_load
+
+config = yaml_load('../backend/config.yaml', rel_path=True)
 
 
 def build_template(template_file: str, ip_type='inner'):
@@ -8,8 +10,10 @@ def build_template(template_file: str, ip_type='inner'):
         name='config_gen.ts',
         out=template_file,
         substitutions={
-            'websocket_ip': get_ip(ip_type),
+            'ws_ip': get_ip(ip_type),
             'grpc_ip': get_ip(ip_type),
+            'ws_port': config['ws_port'],
+            'grpc_port': config['grpc_port_out'],
         },
         template=relp('./config.template.ts'),
     )

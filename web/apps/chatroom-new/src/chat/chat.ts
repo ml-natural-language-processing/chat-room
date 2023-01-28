@@ -1,23 +1,20 @@
 import * as protobuf from 'protobufjs';
-import axios from "axios";
+// import axios from "axios";
 import {
     download, saveArrayBuffer, saveString,
     read_imgs, read_img_simgle, read_data, read_single_data,
     arraybuffer2base64, concatenate
 } from "./utils";
-import {getCookie} from "../utils";
 import {UserConfig} from "../config_gen";
 import {Status} from "./state";
-import {SparrayServiceClient} from '../proto/module/SparrayServiceClientPb'
-import * as pb2 from '../proto/module/sparray_pb'
+import {SparrayServiceClient} from '../proto/module/SparrayServiceClientPb';
+import * as pb2 from '../proto/module/sparray_pb';
+import {init, socket, media_event_send} from './components';
 
-
-const websocket_dir = UserConfig.websocketDir;
 const grpcHostname = 'http://' + UserConfig.grpcDir;
 const grpcClient = new SparrayServiceClient(grpcHostname);
 const grpcChat = new pb2.ChatProto();
 
-let socket: WebSocket;
 let showMessage = true;
 let percent_message_content = document.createElement('span');
 const sendButton = document.getElementById('btn') as HTMLElement
@@ -25,218 +22,165 @@ const uploadElement = document.getElementById('sendFile') as HTMLInputElement;
 const uploadSliceElement = document.getElementById('sendSliceFile') as HTMLInputElement;
 
 const context = document.getElementById('context') as any;
-let contextUserName: string;
 // = document.getElementById('uName') as any;
-let ChatProto: any;
-let chat_buffer: any;
-let imageWidth: number = 0;
-let imageHeight: number = 0;
 let new_message: any;
-let media_element: any;
+// let Status.media.element: any;
 
 start()
 
 
 function start() {
     protobuf.load('../proto/sparray.proto').then((root: any) => {
-            ChatProto = root.lookupType("sparray.ChatProto");
-            contextUserName = getCookie('username');
-            if (contextUserName == '') {
-                alert("身份已过期,请重新登录");
-                window.location.href = "/";
-            } else {
-                let payload = {
-                    "name": "官方广播",
-                    "msg": `欢迎 ${contextUserName} 加入聊天`
-                };
-                const errMsg = ChatProto.verify(payload);
-                if (errMsg) {
-                    throw Error(errMsg);
-                }
-                let message = ChatProto.create(payload);
-                chat_buffer = ChatProto.encode(message).finish();
-                // const user_id = userStatus.get("username");
-                // console.log(userStatus);
-                const user_id = "placeholder";
-                socket = new WebSocket(`ws://${websocket_dir}/chat/${user_id}/ws?token=${contextUserName}`);
-                socket.binaryType = 'arraybuffer'
+        init(root)
 
-                socket.onopen = (e: Event) => {
-                    socket.send(chat_buffer);
-                };
+        socket.onmessage = async (event: MessageEvent) => {
 
-                const media_event_send = (event: any) => {
+            let chatRoom = document.getElementById('chatRoom')
+            let message = document.createElement('li');
 
-                    const payload = {
-                        'msg': "MediaControl",
-                        'name': contextUserName,
-                        'dtype': "protoMediaControl",
-                        'imgInfo': {'width': imageWidth, 'height': imageHeight},
-                        'mediaControl': {
-                            'currentTime': media_element.currentTime,
-                            'paused': media_element.paused,
-                        },
-                    };
-                    const errMsg = ChatProto.verify(payload);
-                    if (errMsg) {
-                        throw Error(errMsg);
-                    }
-                    let mediaControlMessage = ChatProto.create(payload);
-                    const controlBuffer = ChatProto.encode(mediaControlMessage).finish();
-                    socket.send(controlBuffer);
-                }
-
-                socket.onmessage = async (event: MessageEvent) => {
-
-                    let chatRoom = document.getElementById('chatRoom')
-                    let message = document.createElement('li');
-
-                    const parseData = (data: any) => {
-                        let arraybuffer = new Uint8Array(data);
-                        return ChatProto.decode(arraybuffer);
-                    }
-                    new_message = parseData(event.data);
-
-                    if (new_message.bigFile !== null) {
-                        Status.file.bigFileMap[new_message.bigFile.idx] = new_message.bigFile.chunk;
-                        if (Status.file.chunkFileCounts == 0){
-                            chatRoom!.appendChild(percent_message_content);
-                        }
-                        Status.file.chunkFileCounts += 1;
-                        const percentNum = Status.file.chunkFileCounts/new_message.bigFile.total * 100;
-                        percent_message_content.innerHTML = `Downloading... ${percentNum.toFixed(2)} %`;
-                        showMessage = false;
-                        if (Status.file.chunkFileCounts == new_message.bigFile.total) {
-                            Status.file.chunkFileCounts = 0;
-                            let totalBuffer = new Uint8Array();
-                            for (let idx = 0; idx < new_message.bigFile.total; idx++) {
-                                totalBuffer = concatenate(Uint8Array, totalBuffer, Status.file.bigFileMap[idx]);
-                            }
-                            new_message.buffer = totalBuffer;
-                            Status.file.bigFileMap = {};
-                            showMessage = true;
-                        }
-                    }
-
-
-                    const add_media_element = (media_type: string) => {
-                        const blob = new Blob([new_message.buffer], {type: new_message.dtype})
-                        media_element = document.createElement(media_type);
-                        media_element.src = URL.createObjectURL(blob);
-                        // media_element = new Audio(URL.createObjectURL(blob))
-                        // media_element.setAttribute('type', new_message.dtype);
-                        console.log(new_message.dtype);
-                        // media_element.setAttribute('controls', 'true');
-                        media_element.controls = 'true'
-                        message.appendChild(media_element);
-                        chatRoom!.appendChild(message);
-                        chatRoom!.scrollTop = chatRoom!.scrollHeight;
-                        // media_element.ontimeupdate = media_ele_ontimeupdate;
-                        media_element.onplay = media_event_send;
-                        media_element.onpause = media_event_send;
-                        // media_element.play();
-                    }
-
-                    let message_content: any;
-
-                    // console.log("接收到protobuf：\n", new_message);
-                    // chatRoom!.innerHTML += `<div>${new_message.name}: ${new_message.msg} </div>`;
-                    if (new_message.dtype !== "protoMediaControl") {
-                        message_content = document.createElement('span');
-                        const name_text_node = document.createTextNode(new_message.name + ": ");
-                        const msg_text_node = document.createTextNode(new_message.msg);
-
-                        message_content.appendChild(name_text_node);
-                        message_content.appendChild(msg_text_node);
-                        message_content.setAttribute('class', 'comment');
-                    }
-
-
-                    if (new_message.buffer.length !== 0) {
-
-                        function addDownloadButton(message_content: any, new_message: any) {
-                            let downloadButton = document.createElement("button") as HTMLInputElement;
-                            const textNode = document.createTextNode("Download");
-                            downloadButton.appendChild(textNode);
-                            message_content.appendChild(downloadButton);
-                            downloadButton.onclick = () => {
-                                download(new_message.name, new_message.buffer, new_message.dtype);
-                            }
-                        }
-
-                        if (new_message.dtype.startsWith("image")) {
-                            const url = arraybuffer2base64(new_message.buffer);
-                            let image = new Image();
-                            image.src = 'data:image/png;base64,' + url;
-                            const imgInfo = new_message.imgInfo
-                            if (imgInfo.width / imgInfo.height > 1) {
-                                image.width = 300;
-                            } else {
-                                image.height = 300;
-                            }
-                            message_content = document.createElement('span');
-                            message_content.appendChild(image);
-                        } else if (new_message.dtype.startsWith("video")) {
-                            add_media_element('video')
-                        } else if (new_message.dtype.startsWith('audio')) {
-                            add_media_element('audio')
-                        }
-
-                        addDownloadButton(message_content, new_message)
-
-                    }
-                    if (new_message.name !== contextUserName &&
-                        new_message.dtype === "protoMediaControl"
-                    ) {
-                        // console.log(contextUserName);
-                        // console.log(new_message);
-                        // media_element.ontimeupdate = null;
-                        media_element.onplay = null;
-                        media_element.onpause = null;
-                        media_element.currentTime = new_message.mediaControl.currentTime;
-                        if (new_message.mediaControl.paused) {
-                            media_element.pause();
-                        } else {
-                            media_element.play();
-                        }
-                        // media_element.ontimeupdate = media_event_send;
-                        media_element.onplay = media_event_send;
-                        media_element.onpause = media_event_send;
-                    } else {
-                        if (showMessage && typeof message_content !== 'undefined') {
-                            message.appendChild(message_content);
-                            chatRoom!.appendChild(message);
-                            chatRoom!.scrollTop = chatRoom!.scrollHeight;
-                        }
-                    }
-                };
-
-                socket.onclose = function (event: CloseEvent) {
-                    if (event.wasClean) {
-                        alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-                    } else {
-                        alert('[close] Connection died');
-                    }
-                };
-
-                socket.onerror = function (error: any) {
-                    alert(`[error] ${error.message}`);
-                };
+            const parseData = (data: any) => {
+                let arraybuffer = new Uint8Array(data);
+                return Status.chat.proto.decode(arraybuffer);
             }
-        },
-        (err) => {
-            throw err;
-        }
+            new_message = parseData(event.data);
+
+            if (new_message.bigFile !== null) {
+                Status.file.bigFileMap[new_message.bigFile.idx] = new_message.bigFile.chunk;
+                if (Status.file.chunkFileCounts == 0){
+                    chatRoom!.appendChild(percent_message_content);
+                }
+                Status.file.chunkFileCounts += 1;
+                const percentNum = Status.file.chunkFileCounts/new_message.bigFile.total * 100;
+                percent_message_content.innerHTML = `Downloading... ${percentNum.toFixed(2)} %`;
+                showMessage = false;
+                if (Status.file.chunkFileCounts == new_message.bigFile.total) {
+                    Status.file.chunkFileCounts = 0;
+                    let totalBuffer = new Uint8Array();
+                    for (let idx = 0; idx < new_message.bigFile.total; idx++) {
+                        totalBuffer = concatenate(Uint8Array, totalBuffer, Status.file.bigFileMap[idx]);
+                    }
+                    new_message.buffer = totalBuffer;
+                    Status.file.bigFileMap = {};
+                    showMessage = true;
+                }
+            }
+
+
+            const add_media_element = (media_type: string) => {
+                const blob = new Blob([new_message.buffer], {type: new_message.dtype})
+                Status.media.element = document.createElement(media_type);
+                Status.media.element.src = URL.createObjectURL(blob);
+                // media_element = new Audio(URL.createObjectURL(blob))
+                // media_element.setAttribute('type', new_message.dtype);
+                console.log(new_message.dtype);
+                // media_element.setAttribute('controls', 'true');
+                Status.media.element.controls = 'true'
+                message.appendChild(Status.media.element);
+                chatRoom!.appendChild(message);
+                chatRoom!.scrollTop = chatRoom!.scrollHeight;
+                // media_element.ontimeupdate = media_ele_ontimeupdate;
+                Status.media.element.onplay  = media_event_send;
+                Status.media.element.onpause = media_event_send;
+                // media_element.play();
+            }
+
+            let message_content: any;
+
+            // console.log("接收到protobuf：\n", new_message);
+            // chatRoom!.innerHTML += `<div>${new_message.name}: ${new_message.msg} </div>`;
+            if (new_message.dtype !== "protoMediaControl") {
+                message_content = document.createElement('span');
+                const name_text_node = document.createTextNode(new_message.name + ": ");
+                const msg_text_node = document.createTextNode(new_message.msg);
+
+                message_content.appendChild(name_text_node);
+                message_content.appendChild(msg_text_node);
+                message_content.setAttribute('class', 'comment');
+            }
+
+
+            if (new_message.buffer.length !== 0) {
+
+                function addDownloadButton(message_content: any, new_message: any) {
+                    let downloadButton = document.createElement("button") as HTMLInputElement;
+                    const textNode = document.createTextNode("Download");
+                    downloadButton.appendChild(textNode);
+                    message_content.appendChild(downloadButton);
+                    downloadButton.onclick = () => {
+                        download(new_message.name, new_message.buffer, new_message.dtype);
+                    }
+                }
+
+                if (new_message.dtype.startsWith("image")) {
+                    const url = arraybuffer2base64(new_message.buffer);
+                    let image = new Image();
+                    image.src = 'data:image/png;base64,' + url;
+                    const imgInfo = new_message.imgInfo
+                    if (imgInfo.width / imgInfo.height > 1) {
+                        image.width = 300;
+                    } else {
+                        image.height = 300;
+                    }
+                    message_content = document.createElement('span');
+                    message_content.appendChild(image);
+                } else if (new_message.dtype.startsWith("video")) {
+                    add_media_element('video')
+                } else if (new_message.dtype.startsWith('audio')) {
+                    add_media_element('audio')
+                }
+
+                addDownloadButton(message_content, new_message)
+
+            }
+            if (new_message.name !== Status.user.contextName &&
+                new_message.dtype === "protoMediaControl"
+            ) {
+                // console.log(Status.user.contextName);
+                // console.log(new_message);
+                // media_element.ontimeupdate = null;
+                Status.media.element.onplay = null;
+                Status.media.element.onpause = null;
+                Status.media.element.currentTime = new_message.mediaControl.currentTime;
+                if (new_message.mediaControl.paused) {
+                    Status.media.element.pause();
+                } else {
+                    Status.media.element.play();
+                }
+                // media_element.ontimeupdate = media_event_send;
+                Status.media.element.onplay = media_event_send;
+                Status.media.element.onpause = media_event_send;
+            } else {
+                if (showMessage && typeof message_content !== 'undefined') {
+                    message.appendChild(message_content);
+                    chatRoom!.appendChild(message);
+                    chatRoom!.scrollTop = chatRoom!.scrollHeight;
+                }
+            }
+        };
+
+        socket.onclose = function (event: CloseEvent) {
+            if (event.wasClean) {
+                alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            } else {
+                alert('[close] Connection died');
+            }
+        };
+
+        socket.onerror = function (error: any) {
+            alert(`[error] ${error.message}`);
+        };
+    }, 
+    (err) => {throw err;}
     )
 }
 
 function sendMessage(payload: any) {
-    let errMsg = ChatProto.verify(payload);
+    let errMsg = Status.chat.proto.verify(payload);
     if (errMsg) {
         throw Error(errMsg);
     }
-    const message = ChatProto.create(payload);
-    const buffer = ChatProto.encode(message).finish();
+    const message = Status.chat.proto.create(payload);
+    const buffer = Status.chat.proto.encode(message).finish();
     socket.send(buffer);
 }
 
@@ -247,8 +191,8 @@ uploadElement.onchange = async () => {
     if (dataRes['dtype'].startsWith("image")) {
         const imgInfoList = await read_imgs(uploadElement.files!);
         const imgInfo: any = imgInfoList[0];
-        imageWidth = imgInfo['width'];
-        imageHeight = imgInfo['height'];
+        Status.image.width = imgInfo['width'];
+        Status.image.height = imgInfo['height'];
     }
     const payload = {
         'id': 0,
@@ -256,7 +200,7 @@ uploadElement.onchange = async () => {
         'buffer': new Uint8Array(dataRes['buffer']),
         'name': dataRes['name'],
         'dtype': dataRes['dtype'],
-        'imgInfo': {'width': imageWidth, 'height': imageHeight}
+        'imgInfo': {'width': Status.image.width, 'height': Status.image.height}
     };
     // imageHeight = 0;
     // imageWidth = 0;
@@ -266,7 +210,7 @@ uploadElement.onchange = async () => {
 
 uploadSliceElement.onchange = async () => {
     // const dataResList: any = await read_data(uploadSliceElement.files!);
-    // let bigFileSocket = new WebSocket(`ws://${websocket_dir}/tests/ws?token=${contextUserName}`);
+    // let bigFileSocket = new WebSocket(`ws://${websocket_dir}/tests/ws?token=${Status.user.contextName}`);
     // bigFileSocket.binaryType = 'arraybuffer'
     read_data(uploadSliceElement.files!).then(dataResList =>{
         // TODO
@@ -276,12 +220,12 @@ uploadSliceElement.onchange = async () => {
 }
 
 sendButton.onclick = function () {
-    const new_message = ChatProto.decode(chat_buffer);
-    new_message.msg = context.value;
-    new_message.name = contextUserName;
+    const new_msg = Status.chat.proto.decode(Status.chat.buffer);
+    new_msg.msg = context.value;
+    new_msg.name = Status.user.contextName;
     context.value = "";
-    chat_buffer = ChatProto.encode(new_message).finish();
-    socket.send(chat_buffer);
+    Status.chat.buffer = Status.chat.proto.encode(new_msg).finish();
+    socket.send(Status.chat.buffer);
 }
 
 
@@ -294,24 +238,29 @@ context.addEventListener("keydown", function (e: any) {
 
 
 function sendGrpcMessage(payload: any){
+    console.log("grpc send message...")
     grpcChat.setId(payload.id);
     grpcChat.setName(payload.name);
     grpcChat.setMsg(payload.msg);
     grpcChat.setDtype(payload.dtype);
     grpcChat.setBuffer(payload.buffer);
     const imageInfo =new pb2.Image();
-    imageInfo.setWidth(imageWidth);
-    imageInfo.setHeight(imageHeight);
+    imageInfo.setWidth(Status.image.width);
+    imageInfo.setHeight(Status.image.height);
     grpcChat.setImginfo(imageInfo);
     grpcClient.identityMapping(grpcChat, {}, (err, response)=>{
         if (err){
+            console.log("error: ...")
             console.log(err);
         }else{
             console.log("in grpc response");
             console.log(response);
         }
     })
+
+    console.log("grpc send message over")
 }
+
 // async function chunkedUpload(file: File, chunkSize: number, url: string) {
 //     for (let start = 0; start < file.size; start += chunkSize) {
 //         const chunk = file.slice(start, start + chunkSize + 1)
@@ -354,8 +303,8 @@ async function uploadBigFile(dataRes: any, socket: WebSocket) {
     if (dataRes['dtype'].startsWith("image")) {
         const imgInfoList = await read_imgs(uploadSliceElement.files!);
         const imgInfo: any = imgInfoList[0];
-        imageWidth = imgInfo['width'];
-        imageHeight = imgInfo['height'];
+        Status.image.width = imgInfo['width'];
+        Status.image.height = imgInfo['height'];
     }
 
     const buffer = new Uint8Array(dataRes['buffer'])
@@ -387,7 +336,7 @@ async function uploadBigFile(dataRes: any, socket: WebSocket) {
             'msg': dataRes['msg'],
             'name': dataRes['name'],
             'dtype': dataRes['dtype'],
-            'imgInfo': {'width': imageWidth, 'height': imageHeight},
+            'imgInfo': {'width': Status.image.width, 'height': Status.image.height},
             'bigFile': {
                 'idx': currentChunk,
                 'total': totalChunks,
@@ -395,11 +344,11 @@ async function uploadBigFile(dataRes: any, socket: WebSocket) {
             }
         }
 
-        const errMsg = ChatProto.verify(chunkPayload);
+        const errMsg = Status.chat.proto.verify(chunkPayload);
         if (errMsg) {
             throw Error(errMsg);
         }
-        const chunkmessage = ChatProto.create(chunkPayload);
-            socket.send(ChatProto.encode(chunkmessage).finish());
+        const chunkmessage = Status.chat.proto.create(chunkPayload);
+            socket.send(Status.chat.proto.encode(chunkmessage).finish());
     }
 }

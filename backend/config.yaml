@@ -1,2 +1,3 @@
-grpc_port: 50051
-websocket_port: 51221
+grpc_port_out: 50050
+grpc_port_in: 50051
+ws_port: 50052
